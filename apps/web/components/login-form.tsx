@@ -1,28 +1,77 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useTranslations } from "next-intl"
-import { Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-import { Button } from "@workspace/ui/components/button"
-import { Input } from "@workspace/ui/components/input"
-import { Label } from "@workspace/ui/components/label"
-import { cn } from "@workspace/ui/lib/utils"
-import { Link } from "@/i18n/navigation"
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import { cn } from "@workspace/ui/lib/utils";
+import { Link } from "@/i18n/navigation";
+import { createClient } from "@/lib/supabase/client";
+import {
+  getIdentifierType,
+  formatPhoneForAuth,
+} from "@/lib/validations";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-  const t = useTranslations("auth.login")
-  const [showPassword, setShowPassword] = useState(false)
-  const [identifier, setIdentifier] = useState("")
-  const [password, setPassword] = useState("")
+  const t = useTranslations("auth.login");
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Implement login logic with Supabase Auth
-  }
+  const supabase = createClient();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const type = getIdentifierType(identifier);
+
+      if (type === "email") {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: identifier.trim(),
+          password,
+        });
+
+        if (error) {
+          setError(t("errors.invalidCredentials"));
+          return;
+        }
+      } else if (type === "phone") {
+        const formattedPhone = formatPhoneForAuth(identifier);
+        const { error } = await supabase.auth.signInWithPassword({
+          phone: formattedPhone,
+          password,
+        });
+
+        if (error) {
+          setError(t("errors.invalidCredentials"));
+          return;
+        }
+      } else {
+        setError(t("errors.invalidIdentifier"));
+        return;
+      }
+
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError(t("errors.generic"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form
@@ -36,6 +85,13 @@ export function LoginForm({
           {t("subtitle")}
         </p>
       </div>
+
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-md">
+          {error}
+        </div>
+      )}
+
       <div className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="identifier">{t("identifier")}</Label>
@@ -84,8 +140,15 @@ export function LoginForm({
             </button>
           </div>
         </div>
-        <Button type="submit" className="w-full">
-          {t("submit")}
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t("submitting")}
+            </>
+          ) : (
+            t("submit")
+          )}
         </Button>
       </div>
       <div className="text-center text-sm">

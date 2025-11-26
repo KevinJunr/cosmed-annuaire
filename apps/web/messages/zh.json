@@ -28,16 +28,52 @@
       "passwordPlaceholder": "••••••••",
       "forgotPassword": "忘记密码？",
       "submit": "登录",
+      "submitting": "登录中...",
       "noAccount": "还没有帐户？",
       "createAccount": "创建帐户",
       "showPassword": "显示密码",
-      "hidePassword": "隐藏密码"
+      "hidePassword": "隐藏密码",
+      "errors": {
+        "invalidCredentials": "邮箱/电话或密码无效",
+        "invalidIdentifier": "邮箱或电话格式无效",
+        "generic": "发生错误，请重试。"
+      }
     },
     "register": {
       "title": "创建帐户",
       "subtitle": "加入化妆品专业人士目录",
+      "identifier": "邮箱或电话",
+      "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
+      "password": "密码",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "创建我的帐户",
+      "submitting": "正在创建帐户...",
       "alreadyHaveAccount": "已有帐户？",
-      "login": "登录"
+      "login": "登录",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "usingEmail": "使用邮箱注册",
+      "usingPhone": "使用电话注册",
+      "passwordRules": {
+        "minLength": "至少10个字符",
+        "uppercase": "1个大写字母",
+        "specialChar": "1个特殊字符",
+        "number": "1个数字"
+      },
+      "errors": {
+        "invalidIdentifier": "邮箱或电话格式无效",
+        "passwordMismatch": "密码不匹配",
+        "generic": "发生错误，请重试。"
+      }
+    },
+    "userMenu": {
+      "account": "我的帐户",
+      "user": "用户",
+      "profile": "个人资料",
+      "settings": "设置",
+      "logout": "退出登录"
     }
   },
   "home": {

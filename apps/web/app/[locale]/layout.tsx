@@ -4,7 +4,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { getMessages, setRequestLocale } from "next-intl/server"
 
 import "@workspace/ui/globals.css"
-import { Providers } from "@/components/providers"
+import { Providers } from "@/providers"
 import { routing } from "@/i18n/routing"
 import { isRtlLocale, Locale } from "@/i18n/config"
 

@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { Menu } from "lucide-react"
-import Image from "next/image"
-import { useTranslations } from "next-intl"
+import { Menu } from "lucide-react";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@workspace/ui/components/accordion"
-import { Button } from "@workspace/ui/components/button"
+} from "@workspace/ui/components/accordion";
+import { Button } from "@workspace/ui/components/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,16 +18,18 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@workspace/ui/components/navigation-menu"
+} from "@workspace/ui/components/navigation-menu";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@workspace/ui/components/sheet"
-import { Link } from "@/i18n/navigation"
-import { LanguageSwitcher } from "@/components/language-switcher"
+} from "@workspace/ui/components/sheet";
+import { Link } from "@/i18n/navigation";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { UserMenu } from "@/components/user-menu";
+import { useAuth } from "@/providers/auth-provider";
 
 interface MenuItem {
   titleKey: string
@@ -56,11 +58,12 @@ const defaultMobileExtraLinks = [
 ]
 
 export function Navbar() {
-  const t = useTranslations("nav")
+  const t = useTranslations("nav");
+  const { user, isLoading } = useAuth();
 
-  const logo = defaultLogo
-  const menu = defaultMenu
-  const mobileExtraLinks = defaultMobileExtraLinks
+  const logo = defaultLogo;
+  const menu = defaultMenu;
+  const mobileExtraLinks = defaultMobileExtraLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -90,11 +93,17 @@ export function Navbar() {
           </div>
 
           {/* Language switcher + Auth button */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <Button asChild size="sm">
-              <Link href="/login">{t("login")}</Link>
-            </Button>
+            {isLoading ? (
+              <div className="h-9 w-9 rounded-full bg-muted animate-pulse" />
+            ) : user ? (
+              <UserMenu />
+            ) : (
+              <Button asChild size="sm">
+                <Link href="/login">{t("login")}</Link>
+              </Button>
+            )}
           </div>
         </nav>
 
@@ -156,9 +165,17 @@ export function Navbar() {
                       ))}
                     </div>
                   </div>
-                  <Button asChild>
-                    <Link href="/login">{t("login")}</Link>
-                  </Button>
+                  {isLoading ? (
+                    <div className="h-10 w-full rounded-md bg-muted animate-pulse" />
+                  ) : user ? (
+                    <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
+                      <UserMenu />
+                    </div>
+                  ) : (
+                    <Button asChild>
+                      <Link href="/login">{t("login")}</Link>
+                    </Button>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -166,7 +183,7 @@ export function Navbar() {
         </div>
       </div>
     </header>
-  )
+  );
 }
 
 function NavMenuItem({

@@ -1,31 +1,31 @@
-import Image from "next/image"
-import { useTranslations } from "next-intl"
-import { setRequestLocale } from "next-intl/server"
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 
-import { LoginForm } from "@/components/login-form"
-import { Link } from "@/i18n/navigation"
+import { RegisterForm } from "@/components/register-form";
+import { Link } from "@/i18n/navigation";
 
-export default function LoginPage({
+export default function RegisterPage({
   params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }) {
-  return <LoginPageContent params={params} />
+  return <RegisterPageContent params={params} />;
 }
 
-async function LoginPageContent({
+async function RegisterPageContent({
   params,
 }: {
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params
-  setRequestLocale(locale)
+  const { locale } = await params;
+  setRequestLocale(locale);
 
-  return <LoginPageClient />
+  return <RegisterPageClient />;
 }
 
-function LoginPageClient() {
-  const t = useTranslations("auth.login")
+function RegisterPageClient() {
+  const t = useTranslations("auth.register");
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -48,7 +48,7 @@ function LoginPageClient() {
         {/* Form centered */}
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <RegisterForm />
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ function LoginPageClient() {
         {/* Content */}
         <div className="relative z-10 flex h-full items-center justify-center">
           <div className="text-center p-8">
-            <div className="text-6xl mb-4">🔍</div>
+            <div className="text-6xl mb-4">✨</div>
             <h2 className="text-2xl font-bold text-secondary mb-2">
               {t("title")}
             </h2>
@@ -79,5 +79,5 @@ function LoginPageClient() {
         </div>
       </div>
     </div>
-  )
+  );
 }

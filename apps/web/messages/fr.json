@@ -28,16 +28,52 @@
       "passwordPlaceholder": "••••••••",
       "forgotPassword": "Mot de passe oublié ?",
       "submit": "Se connecter",
+      "submitting": "Connexion...",
       "noAccount": "Pas encore de compte ?",
       "createAccount": "Créer un compte",
       "showPassword": "Afficher le mot de passe",
-      "hidePassword": "Masquer le mot de passe"
+      "hidePassword": "Masquer le mot de passe",
+      "errors": {
+        "invalidCredentials": "Email/téléphone ou mot de passe incorrect",
+        "invalidIdentifier": "Format d'email ou de téléphone invalide",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
     },
     "register": {
       "title": "Créer un compte",
       "subtitle": "Rejoignez l'annuaire des professionnels de la cosmétique",
+      "identifier": "Email ou téléphone",
+      "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Créer mon compte",
+      "submitting": "Création en cours...",
       "alreadyHaveAccount": "Déjà un compte ?",
-      "login": "Se connecter"
+      "login": "Se connecter",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "usingEmail": "Inscription par email",
+      "usingPhone": "Inscription par téléphone",
+      "passwordRules": {
+        "minLength": "10 caractères minimum",
+        "uppercase": "1 majuscule",
+        "specialChar": "1 caractère spécial",
+        "number": "1 chiffre"
+      },
+      "errors": {
+        "invalidIdentifier": "Format d'email ou de téléphone invalide",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+    "userMenu": {
+      "account": "Mon compte",
+      "user": "Utilisateur",
+      "profile": "Profil",
+      "settings": "Paramètres",
+      "logout": "Déconnexion"
     }
   },
   "home": {

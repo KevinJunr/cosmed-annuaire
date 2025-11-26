@@ -28,16 +28,52 @@
       "passwordPlaceholder": "••••••••",
       "forgotPassword": "نسيت كلمة المرور؟",
       "submit": "تسجيل الدخول",
+      "submitting": "جاري تسجيل الدخول...",
       "noAccount": "ليس لديك حساب؟",
       "createAccount": "إنشاء حساب",
       "showPassword": "إظهار كلمة المرور",
-      "hidePassword": "إخفاء كلمة المرور"
+      "hidePassword": "إخفاء كلمة المرور",
+      "errors": {
+        "invalidCredentials": "البريد الإلكتروني/الهاتف أو كلمة المرور غير صحيحة",
+        "invalidIdentifier": "تنسيق البريد الإلكتروني أو الهاتف غير صالح",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      }
     },
     "register": {
       "title": "إنشاء حساب",
       "subtitle": "انضم إلى دليل محترفي مستحضرات التجميل",
+      "identifier": "البريد الإلكتروني أو الهاتف",
+      "identifierPlaceholder": "example@email.com أو +966 12 345 6789",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "إنشاء حسابي",
+      "submitting": "جاري إنشاء الحساب...",
       "alreadyHaveAccount": "لديك حساب بالفعل؟",
-      "login": "تسجيل الدخول"
+      "login": "تسجيل الدخول",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "usingEmail": "التسجيل بالبريد الإلكتروني",
+      "usingPhone": "التسجيل بالهاتف",
+      "passwordRules": {
+        "minLength": "10 أحرف كحد أدنى",
+        "uppercase": "حرف كبير واحد",
+        "specialChar": "رمز خاص واحد",
+        "number": "رقم واحد"
+      },
+      "errors": {
+        "invalidIdentifier": "تنسيق البريد الإلكتروني أو الهاتف غير صالح",
+        "passwordMismatch": "كلمات المرور غير متطابقة",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      }
+    },
+    "userMenu": {
+      "account": "حسابي",
+      "user": "المستخدم",
+      "profile": "الملف الشخصي",
+      "settings": "الإعدادات",
+      "logout": "تسجيل الخروج"
     }
   },
   "home": {

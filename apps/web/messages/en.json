@@ -28,16 +28,52 @@
       "passwordPlaceholder": "••••••••",
       "forgotPassword": "Forgot password?",
       "submit": "Log in",
+      "submitting": "Logging in...",
       "noAccount": "Don't have an account?",
       "createAccount": "Create an account",
       "showPassword": "Show password",
-      "hidePassword": "Hide password"
+      "hidePassword": "Hide password",
+      "errors": {
+        "invalidCredentials": "Invalid email/phone or password",
+        "invalidIdentifier": "Invalid email or phone format",
+        "generic": "An error occurred. Please try again."
+      }
     },
     "register": {
       "title": "Create an account",
       "subtitle": "Join the cosmetics professionals directory",
+      "identifier": "Email or phone",
+      "identifierPlaceholder": "example@email.com or +1 234 567 890",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Create my account",
+      "submitting": "Creating account...",
       "alreadyHaveAccount": "Already have an account?",
-      "login": "Log in"
+      "login": "Log in",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "usingEmail": "Signing up with email",
+      "usingPhone": "Signing up with phone",
+      "passwordRules": {
+        "minLength": "10 characters minimum",
+        "uppercase": "1 uppercase letter",
+        "specialChar": "1 special character",
+        "number": "1 number"
+      },
+      "errors": {
+        "invalidIdentifier": "Invalid email or phone format",
+        "passwordMismatch": "Passwords do not match",
+        "generic": "An error occurred. Please try again."
+      }
+    },
+    "userMenu": {
+      "account": "My account",
+      "user": "User",
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Log out"
     }
   },
   "home": {
