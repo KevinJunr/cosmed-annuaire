@@ -2,11 +2,17 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Check, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Check, Loader2, ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator
+} from "@workspace/ui/components/input-otp";
 import { Label } from "@workspace/ui/components/label";
 import { cn } from "@workspace/ui/lib/utils";
 import { Link } from "@/i18n/navigation";
@@ -16,6 +22,8 @@ import {
   getIdentifierType,
   formatPhoneForAuth,
 } from "@/lib/validations";
+
+type Step = "form" | "otp" | "confirmation";
 
 interface PasswordRuleProps {
   isValid: boolean;
@@ -53,11 +61,14 @@ export function RegisterForm({
 }: React.ComponentProps<"form">) {
   const t = useTranslations("auth.register");
   const router = useRouter();
+  const [step, setStep] = useState<Step>("form");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [otpCode, setOtpCode] = useState("");
+  const [phoneForOtp, setPhoneForOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -87,29 +98,55 @@ export function RegisterForm({
       const type = getIdentifierType(identifier);
 
       if (type === "email") {
-        const { error } = await supabase.auth.signUp({
+        // Always show confirmation screen to prevent email enumeration
+        await supabase.auth.signUp({
           email: identifier.trim(),
           password,
         });
-
-        if (error) {
-          setError(error.message);
-          return;
-        }
+        // Don't check for errors - always show generic confirmation
+        setStep("confirmation");
       } else if (type === "phone") {
         const formattedPhone = formatPhoneForAuth(identifier);
-        const { error } = await supabase.auth.signUp({
+        // Always show OTP screen to prevent phone enumeration
+        await supabase.auth.signUp({
           phone: formattedPhone,
           password,
         });
+        // Don't check for errors - always show OTP step
+        setPhoneForOtp(formattedPhone);
+        setStep("otp");
+      }
+    } catch {
+      // Even on error, show generic message to prevent enumeration
+      const type = getIdentifierType(identifier);
+      if (type === "email") {
+        setStep("confirmation");
+      } else if (type === "phone") {
+        setPhoneForOtp(formatPhoneForAuth(identifier));
+        setStep("otp");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        if (error) {
-          setError(error.message);
-          return;
-        }
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        phone: phoneForOtp,
+        token: otpCode,
+        type: "sms",
+      });
+
+      if (error) {
+        setError(error.message);
+        return;
       }
 
-      // Redirect to home or dashboard on success
       router.push("/");
       router.refresh();
     } catch {
@@ -119,6 +156,146 @@ export function RegisterForm({
     }
   };
 
+  const handleResendOtp = async () => {
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resend({
+        phone: phoneForOtp,
+        type: "sms",
+      });
+
+      if (error) {
+        setError(error.message);
+      }
+    } catch {
+      setError(t("errors.generic"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBackToForm = () => {
+    setStep("form");
+    setOtpCode("");
+    setError(null);
+  };
+
+  // OTP Verification Step
+  if (step === "otp") {
+    return (
+      <form
+        className={cn("flex flex-col gap-6", className)}
+        onSubmit={handleVerifyOtp}
+        {...props}
+      >
+        <div className="flex flex-col items-center gap-2 text-center">
+          <h1 className="text-2xl font-bold">{t("otp.title")}</h1>
+          <p className="text-balance text-sm text-muted-foreground">
+            {t("otp.subtitle", { phone: phoneForOtp })}
+          </p>
+        </div>
+
+        {error && (
+          <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-md">
+            {error}
+          </div>
+        )}
+
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="otpCode">{t("otp.code")}</Label>
+            <div className="flex justify-center">
+              <InputOTP
+                maxLength={6}
+                value={otpCode}
+                onChange={(value) => setOtpCode(value)}
+                autoFocus
+              >
+                <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
+            </div>
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={otpCode.length < 6 || isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t("otp.verifying")}
+              </>
+            ) : (
+              t("otp.verify")
+            )}
+          </Button>
+        </div>
+
+        <div className="flex flex-col gap-2 text-center text-sm">
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            disabled={isLoading}
+            className="text-primary underline-offset-4 hover:underline font-medium disabled:opacity-50"
+          >
+            {t("otp.resend")}
+          </button>
+          <button
+            type="button"
+            onClick={handleBackToForm}
+            disabled={isLoading}
+            className="flex items-center justify-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t("otp.back")}
+          </button>
+        </div>
+      </form>
+    );
+  }
+
+  // Email Confirmation Step
+  if (step === "confirmation") {
+    return (
+      <div className={cn("flex flex-col gap-6", className)}>
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <Mail className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-2xl font-bold">{t("confirmation.title")}</h1>
+          <p className="text-balance text-sm text-muted-foreground">
+            {t("confirmation.subtitle")}
+          </p>
+        </div>
+
+        <div className="text-center text-sm">
+          <button
+            type="button"
+            onClick={handleBackToForm}
+            className="flex items-center justify-center gap-1 text-muted-foreground hover:text-foreground transition-colors mx-auto"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            {t("confirmation.back")}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Main Registration Form
   return (
     <form
       className={cn("flex flex-col gap-6", className)}

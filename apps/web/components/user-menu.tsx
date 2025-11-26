@@ -66,17 +66,17 @@ export function UserMenu() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer hover:bg-muted/50 focus:bg-muted/50">
           <UserIcon className="mr-2 h-4 w-4" />
           <span>{t("profile")}</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
+        <DropdownMenuItem className="cursor-pointer hover:bg-muted/50 focus:bg-muted/50">
           <Settings className="mr-2 h-4 w-4" />
           <span>{t("settings")}</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="cursor-pointer text-destructive focus:text-destructive"
+          className="cursor-pointer text-destructive hover:bg-muted/50 focus:bg-muted/50 focus:text-destructive"
           onClick={handleSignOut}
         >
           <LogOut className="mr-2 h-4 w-4" />

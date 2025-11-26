@@ -66,6 +66,21 @@
         "invalidIdentifier": "Format d'email ou de téléphone invalide",
         "passwordMismatch": "Les mots de passe ne correspondent pas",
         "generic": "Une erreur est survenue. Veuillez réessayer."
+      },
+      "otp": {
+        "title": "Vérification",
+        "subtitle": "Un code a été envoyé au {phone}",
+        "code": "Code de vérification",
+        "codePlaceholder": "000000",
+        "verify": "Vérifier",
+        "verifying": "Vérification...",
+        "resend": "Renvoyer le code",
+        "back": "Retour"
+      },
+      "confirmation": {
+        "title": "Vérifiez votre boîte mail",
+        "subtitle": "Si un compte n'existe pas déjà avec cette adresse, vous recevrez un email de confirmation. Veuillez cliquer sur le lien pour activer votre compte.",
+        "back": "Retour"
       }
     },
     "userMenu": {

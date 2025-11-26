@@ -66,6 +66,21 @@
         "invalidIdentifier": "Formato de email o teléfono inválido",
         "passwordMismatch": "Las contraseñas no coinciden",
         "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+      },
+      "otp": {
+        "title": "Verificación",
+        "subtitle": "Se ha enviado un código al {phone}",
+        "code": "Código de verificación",
+        "codePlaceholder": "000000",
+        "verify": "Verificar",
+        "verifying": "Verificando...",
+        "resend": "Reenviar código",
+        "back": "Volver"
+      },
+      "confirmation": {
+        "title": "Revisa tu bandeja de entrada",
+        "subtitle": "Si no existe una cuenta con este correo, recibirás un email de confirmación. Por favor, haz clic en el enlace para activar tu cuenta.",
+        "back": "Volver"
       }
     },
     "userMenu": {

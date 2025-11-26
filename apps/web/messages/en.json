@@ -66,6 +66,21 @@
         "invalidIdentifier": "Invalid email or phone format",
         "passwordMismatch": "Passwords do not match",
         "generic": "An error occurred. Please try again."
+      },
+      "otp": {
+        "title": "Verification",
+        "subtitle": "A code has been sent to {phone}",
+        "code": "Verification code",
+        "codePlaceholder": "000000",
+        "verify": "Verify",
+        "verifying": "Verifying...",
+        "resend": "Resend code",
+        "back": "Back"
+      },
+      "confirmation": {
+        "title": "Check your inbox",
+        "subtitle": "If an account doesn't already exist with this email, you will receive a confirmation email. Please click the link to activate your account.",
+        "back": "Back"
       }
     },
     "userMenu": {

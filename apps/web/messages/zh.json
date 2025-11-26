@@ -66,6 +66,21 @@
         "invalidIdentifier": "邮箱或电话格式无效",
         "passwordMismatch": "密码不匹配",
         "generic": "发生错误，请重试。"
+      },
+      "otp": {
+        "title": "验证",
+        "subtitle": "验证码已发送至 {phone}",
+        "code": "验证码",
+        "codePlaceholder": "000000",
+        "verify": "验证",
+        "verifying": "验证中...",
+        "resend": "重新发送验证码",
+        "back": "返回"
+      },
+      "confirmation": {
+        "title": "请查收邮件",
+        "subtitle": "如果该邮箱尚未注册，您将收到一封确认邮件。请点击链接激活您的帐户。",
+        "back": "返回"
       }
     },
     "userMenu": {
