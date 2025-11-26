@@ -1,0 +1,345 @@
+@startuml Cosmed_ERD
+
+' Configuration pour un rendu plus propre
+skinparam linetype ortho
+skinparam ranksep 80
+skinparam nodesep 80
+skinparam backgroundColor white
+skinparam classBorderColor Black
+skinparam arrowColor Black
+
+' ============= USERS & AUTH =============
+entity "users" as users {
+  * id : UUID <<PK>>
+  --
+  email : VARCHAR
+  phone : VARCHAR
+  password_hash : VARCHAR
+  first_name : VARCHAR
+  last_name : VARCHAR
+  * preferred_language_id : UUID <<FK>>
+  department_id : UUID <<FK>>
+  * company_id : UUID <<FK>>
+  is_verified : BOOLEAN
+  verification_method : ENUM
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  last_login : TIMESTAMP
+}
+
+entity "departments" as departments {
+  * id : UUID <<PK>>
+  --
+  name_key : VARCHAR
+  code : VARCHAR
+  is_active : BOOLEAN
+  created_at : TIMESTAMP
+}
+
+entity "roles" as roles {
+  * id : UUID <<PK>>
+  --
+  name : VARCHAR
+  code : ENUM
+  description : TEXT
+  created_at : TIMESTAMP
+}
+
+entity "permissions" as permissions {
+  * id : UUID <<PK>>
+  --
+  name : VARCHAR
+  code : VARCHAR
+  category : ENUM
+  description : TEXT
+  created_at : TIMESTAMP
+}
+
+entity "user_company_roles" as user_company_roles {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * company_id : UUID <<FK>>
+  * role_id : UUID <<FK>>
+  assigned_by : UUID <<FK>>
+  assigned_at : TIMESTAMP
+}
+
+entity "role_permissions" as role_permissions {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  * role_id : UUID <<FK>>
+  * permission_id : UUID <<FK>>
+  created_at : TIMESTAMP
+}
+
+entity "user_permissions" as user_permissions {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  * company_id : UUID <<FK>>
+  * permission_id : UUID <<FK>>
+  granted : BOOLEAN
+  granted_by : UUID <<FK>>
+  granted_at : TIMESTAMP
+  notes : TEXT
+}
+
+entity "onboarding_responses" as onboarding {
+  * id : UUID <<PK>>
+  --
+  * user_id : UUID <<FK>>
+  question_type : ENUM
+  company_selected_id : UUID <<FK>>
+  created_company_id : UUID <<FK>>
+  completed_at : TIMESTAMP
+  created_at : TIMESTAMP
+}
+
+entity "languages" as languages {
+  * id : UUID <<PK>>
+  --
+  code : VARCHAR
+  name : VARCHAR
+  is_active : BOOLEAN
+  created_at : TIMESTAMP
+}
+
+' ============= COMPANIES =============
+entity "companies" as companies {
+  * id : UUID <<PK>>
+  --
+  name : VARCHAR
+  country : VARCHAR
+  address : TEXT
+  rcs : VARCHAR
+  primary_phone : VARCHAR
+  primary_email : VARCHAR
+  linkedin_url : VARCHAR
+  * sector_id : UUID <<FK>>
+  is_premium : BOOLEAN
+  is_legacy : BOOLEAN
+  created_by : UUID <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "sectors" as sectors {
+  * id : UUID <<PK>>
+  --
+  code : VARCHAR
+  name_key : VARCHAR
+  created_at : TIMESTAMP
+}
+
+entity "company_profiles" as profiles {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  version_number : INT
+  status : ENUM
+  name : VARCHAR
+  description : TEXT
+  address : TEXT
+  contact_info : JSONB
+  additional_data : JSONB
+  is_complete : BOOLEAN
+  published_at : TIMESTAMP
+  last_verified_at : TIMESTAMP
+  created_by : UUID <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "profile_update_reminders" as reminders {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  * profile_id : UUID <<FK>>
+  reminder_type : ENUM
+  sent_at : TIMESTAMP
+  action_taken : BOOLEAN
+  created_at : TIMESTAMP
+}
+
+' ============= SUBSCRIPTIONS =============
+entity "subscriptions" as subscriptions {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  plan_type : ENUM
+  status : ENUM
+  start_date : DATE
+  end_date : DATE
+  auto_renew : BOOLEAN
+  payment_method : ENUM
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+' ============= ANALYTICS =============
+entity "analytics" as analytics {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  * profile_id : UUID <<FK>>
+  date : DATE
+  views_count : INT
+  unique_visitors : INT
+  created_at : TIMESTAMP
+}
+
+entity "search_history" as search_history {
+  * id : UUID <<PK>>
+  --
+  company_id : UUID <<FK>>
+  profile_id : UUID <<FK>>
+  search_query : TEXT
+  search_filters : JSONB
+  user_language : VARCHAR
+  resulted_in_click : BOOLEAN
+  searched_at : TIMESTAMP
+  session_id : VARCHAR
+}
+
+' ============= ADVERTISEMENTS =============
+entity "ad_credits" as ad_credits {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  amount : DECIMAL
+  payment_type : ENUM
+  payment_method : ENUM
+  purchased_at : TIMESTAMP
+  created_at : TIMESTAMP
+}
+
+entity "advertisements" as advertisements {
+  * id : UUID <<PK>>
+  --
+  * company_id : UUID <<FK>>
+  * profile_id : UUID <<FK>>
+  title : VARCHAR
+  description : TEXT
+  target_keywords : JSONB
+  target_sectors : JSONB
+  status : ENUM
+  admin_notes : TEXT
+  reviewed_by : UUID <<FK>>
+  reviewed_at : TIMESTAMP
+  cost_per_impression : DECIMAL
+  initial_budget : DECIMAL
+  remaining_budget : DECIMAL
+  start_date : DATE
+  end_date : DATE
+  created_by : UUID <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "ad_campaigns" as ad_campaigns {
+  * id : UUID <<PK>>
+  --
+  * ad_id : UUID <<FK>>
+  campaign_status : ENUM
+  total_impressions : INT
+  total_clicks : INT
+  total_cost : DECIMAL
+  average_ctr : DECIMAL
+  started_at : TIMESTAMP
+  ended_at : TIMESTAMP
+  created_at : TIMESTAMP
+}
+
+entity "ad_impressions" as ad_impressions {
+  * id : UUID <<PK>>
+  --
+  * ad_id : UUID <<FK>>
+  * campaign_id : UUID <<FK>>
+  search_query : TEXT
+  search_context : JSONB
+  cost_deducted : DECIMAL
+  clicked : BOOLEAN
+  impressed_at : TIMESTAMP
+  clicked_at : TIMESTAMP
+  session_id : VARCHAR
+}
+
+entity "banner_ads" as banner_ads {
+  * id : UUID <<PK>>
+  --
+  company_id : UUID <<FK>>
+  title : VARCHAR
+  image_url : VARCHAR
+  link_url : VARCHAR
+  position : ENUM
+  status : ENUM
+  admin_notes : TEXT
+  reviewed_by : UUID <<FK>>
+  reviewed_at : TIMESTAMP
+  rental_start_date : DATE
+  rental_end_date : DATE
+  price : DECIMAL
+  created_by : UUID <<FK>>
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+entity "banner_impressions" as banner_impressions {
+  * id : UUID <<PK>>
+  --
+  * banner_ad_id : UUID <<FK>>
+  clicked : BOOLEAN
+  impressed_at : TIMESTAMP
+  clicked_at : TIMESTAMP
+  session_id : VARCHAR
+  page_url : VARCHAR
+}
+
+' ============= RELATIONSHIPS =============
+
+' Users relationships
+users }o--|| languages
+users }o--o| departments
+users }o--o| companies
+
+users ||--o{ user_company_roles
+companies ||--o{ user_company_roles
+roles ||--o{ user_company_roles
+
+users ||--o{ user_permissions
+companies ||--o{ user_permissions
+permissions ||--o{ user_permissions
+
+companies ||--o{ role_permissions
+roles ||--o{ role_permissions
+permissions ||--o{ role_permissions
+
+users ||--o| onboarding
+onboarding }o--o| companies
+
+' Companies relationships
+companies }o--|| sectors
+companies ||--o{ profiles
+companies ||--o| subscriptions
+companies ||--o{ reminders
+profiles ||--o{ reminders
+
+' Analytics relationships
+companies ||--o{ analytics
+profiles ||--o{ analytics
+companies ||--o{ search_history
+profiles ||--o{ search_history
+
+' Advertisements relationships
+companies ||--o{ ad_credits
+companies ||--o{ advertisements
+profiles ||--o{ advertisements
+advertisements ||--o{ ad_campaigns
+ad_campaigns ||--o{ ad_impressions
+
+companies ||--o{ banner_ads
+banner_ads ||--o{ banner_impressions
+
+@enduml
