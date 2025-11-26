@@ -14,6 +14,8 @@
     "directory": "Directorio",
     "pricing": "Precios",
     "contact": "Contacto",
+    "dashboard": "Panel de control",
+    "company": "Empresa",
     "login": "Iniciar sesión",
     "legalNotice": "Aviso legal",
     "terms": "Términos"
@@ -89,11 +91,62 @@
       "profile": "Perfil",
       "settings": "Configuración",
       "logout": "Cerrar sesión"
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi contraseña",
+      "subtitle": "Ingresa tu email para recibir un enlace de restablecimiento",
+      "email": "Email",
+      "emailPlaceholder": "ejemplo@email.com",
+      "submit": "Enviar enlace",
+      "submitting": "Enviando...",
+      "backToLogin": "Volver al inicio de sesión",
+      "errors": {
+        "invalidEmail": "Email inválido",
+        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+      },
+      "sent": {
+        "title": "Email enviado",
+        "subtitle": "Si existe una cuenta con este email, recibirás un enlace para restablecer tu contraseña.",
+        "backToLogin": "Volver al inicio de sesión"
+      }
+    },
+    "resetPassword": {
+      "title": "Nueva contraseña",
+      "subtitle": "Crea tu nueva contraseña",
+      "password": "Nueva contraseña",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña",
+      "submit": "Restablecer contraseña",
+      "submitting": "Restableciendo...",
+      "passwordRules": {
+        "minLength": "10 caracteres mínimo",
+        "uppercase": "1 mayúscula",
+        "specialChar": "1 carácter especial",
+        "number": "1 número"
+      },
+      "errors": {
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+      },
+      "success": {
+        "title": "Contraseña cambiada",
+        "subtitle": "Tu contraseña ha sido restablecida con éxito. Serás redirigido..."
+      },
+      "error": {
+        "title": "Enlace inválido",
+        "subtitle": "Este enlace de restablecimiento es inválido o ha expirado.",
+        "tryAgain": "Solicitar un nuevo enlace"
+      }
     }
   },
   "home": {
     "title": "Directorio COSMED",
-    "subtitle": "El directorio de profesionales de la cosmética"
+    "subtitle": "El directorio de profesionales de la cosmética",
+    "welcome": "Bienvenido {identifier}",
+    "welcomeSubtitle": "Bienvenido de nuevo"
   },
   "language": {
     "select": "Idioma",
@@ -102,5 +155,216 @@
     "zh": "中文",
     "ar": "العربية",
     "es": "Español"
+  },
+  "onboarding": {
+    "stepper": {
+      "step1": "Identificación",
+      "step2": "Objetivo",
+      "step3": "Información personal",
+      "step4": "Contraseña",
+      "step5": "Empresa"
+    },
+    "common": {
+      "continue": "Continuar",
+      "back": "Volver",
+      "finish": "Finalizar",
+      "finishing": "Finalizando..."
+    },
+    "step1": {
+      "title": "Bienvenido",
+      "subtitle": "Ingresa tu email o número de teléfono para comenzar",
+      "identifier": "Email o teléfono",
+      "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
+      "usingEmail": "Registro con email",
+      "usingPhone": "Registro con teléfono",
+      "alreadyHaveAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión",
+      "errors": {
+        "required": "Este campo es obligatorio",
+        "invalidFormat": "Formato de email o teléfono inválido"
+      }
+    },
+    "step2": {
+      "title": "¿Cuál es tu objetivo?",
+      "subtitle": "Esto nos ayuda a personalizar tu experiencia",
+      "options": {
+        "SEARCH": {
+          "title": "Buscar información",
+          "description": "Quiero encontrar empresas o profesionales"
+        },
+        "REGISTER": {
+          "title": "Registrar mi empresa",
+          "description": "Quiero listar mi empresa en el directorio"
+        },
+        "BOTH": {
+          "title": "Ambos",
+          "description": "Quiero buscar y registrar mi empresa"
+        }
+      }
+    },
+    "step3": {
+      "title": "Tu información",
+      "subtitle": "Cuéntanos un poco sobre ti",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Juan",
+      "lastName": "Apellido",
+      "lastNamePlaceholder": "García",
+      "email": "Email",
+      "emailPlaceholder": "juan.garcia@example.com",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+34 612 345 678",
+      "department": "Departamento",
+      "departmentPlaceholder": "Selecciona tu departamento",
+      "position": "Puesto",
+      "positionPlaceholder": "Selecciona tu puesto",
+      "optional": "opcional",
+      "errors": {
+        "required": "Este campo es obligatorio",
+        "tooShort": "Demasiado corto",
+        "tooLong": "Demasiado largo",
+        "invalidEmail": "Email inválido",
+        "invalidPhone": "Teléfono inválido"
+      }
+    },
+    "step4": {
+      "title": "Protege tu cuenta",
+      "subtitle": "Crea una contraseña segura",
+      "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña",
+      "creating": "Creando...",
+      "passwordRules": {
+        "minLength": "10 caracteres mínimo",
+        "uppercase": "1 mayúscula",
+        "specialChar": "1 carácter especial",
+        "number": "1 número"
+      },
+      "otp": {
+        "title": "Verificación",
+        "subtitle": "Se ha enviado un código al {phone}",
+        "code": "Código de verificación",
+        "verify": "Verificar",
+        "verifying": "Verificando...",
+        "resend": "Reenviar código"
+      },
+      "emailSent": {
+        "title": "Revisa tu bandeja de entrada",
+        "subtitle": "Si no existe una cuenta con este email, recibirás un correo de confirmación."
+      },
+      "errors": {
+        "required": "Este campo es obligatorio",
+        "tooShort": "La contraseña debe tener al menos 10 caracteres",
+        "needsUppercase": "La contraseña debe contener una mayúscula",
+        "needsSpecialChar": "La contraseña debe contener un carácter especial",
+        "needsNumber": "La contraseña debe contener un número",
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+      }
+    },
+    "step5": {
+      "pathA": {
+        "title": "Tu empresa",
+        "subtitle": "Únete a una empresa existente o crea la tuya",
+        "searchPlaceholder": "Buscar una empresa...",
+        "noResults": "No se encontraron empresas",
+        "options": {
+          "existing": {
+            "title": "Unirse a una empresa existente",
+            "description": "Busca y únete a una empresa ya registrada"
+          },
+          "new": {
+            "title": "Crear una nueva empresa"
+          },
+          "none": {
+            "title": "Sin empresa por ahora"
+          }
+        }
+      },
+      "pathB": {
+        "title": "Crea tu empresa",
+        "subtitle": "Completa la información de tu empresa",
+        "companyName": "Nombre de la empresa",
+        "companyNamePlaceholder": "Mi Empresa",
+        "sector": "Sector",
+        "sectorPlaceholder": "Selecciona un sector",
+        "country": "País",
+        "countryPlaceholder": "Selecciona un país",
+        "address": "Dirección",
+        "addressPlaceholder": "Calle Belleza 123, 28001 Madrid",
+        "rcs": "Número de registro",
+        "rcsPlaceholder": "B-12345678",
+        "primaryPhone": "Teléfono",
+        "primaryPhonePlaceholder": "+34 91 234 56 78",
+        "primaryEmail": "Email",
+        "primaryEmailPlaceholder": "contacto@miempresa.es",
+        "linkedinUrl": "LinkedIn",
+        "linkedinUrlPlaceholder": "https://linkedin.com/company/miempresa",
+        "optional": "opcional",
+        "errors": {
+          "required": "Este campo es obligatorio",
+          "tooShort": "Demasiado corto",
+          "tooLong": "Demasiado largo",
+          "invalidPhone": "Teléfono inválido",
+          "invalidEmail": "Email inválido",
+          "invalidLinkedin": "URL de LinkedIn inválida"
+        }
+      }
+    }
+  },
+  "departments": {
+    "rd": "I+D",
+    "quality": "Calidad",
+    "production": "Producción",
+    "marketing": "Marketing",
+    "sales": "Ventas",
+    "purchasing": "Compras",
+    "logistics": "Logística",
+    "regulatory": "Asuntos Regulatorios",
+    "hr": "Recursos Humanos",
+    "finance": "Finanzas",
+    "it": "Informática",
+    "management": "Dirección",
+    "other": "Otro"
+  },
+  "positions": {
+    "ceo": "CEO / Ejecutivo",
+    "director": "Director",
+    "manager": "Gerente",
+    "teamLead": "Jefe de Equipo",
+    "engineer": "Ingeniero",
+    "technician": "Técnico",
+    "scientist": "Científico",
+    "analyst": "Analista",
+    "coordinator": "Coordinador",
+    "assistant": "Asistente",
+    "intern": "Becario",
+    "consultant": "Consultor",
+    "other": "Otro"
+  },
+  "sectors": {
+    "brand": "Marcas",
+    "formulationSubcontractor": "Subcontratistas de Formulación",
+    "manufacturingSubcontractor": "Subcontratistas de Fabricación",
+    "packagingSubcontractor": "Subcontratistas de Envasado",
+    "ingredientSupplier": "Proveedores de Ingredientes",
+    "soapMaker": "Jaboneros",
+    "consultant": "Consultores",
+    "laboratory": "Laboratorios",
+    "trainingOrganization": "Organizaciones de Formación"
+  },
+  "countries": {
+    "france": "Francia",
+    "germany": "Alemania",
+    "spain": "España",
+    "italy": "Italia",
+    "unitedKingdom": "Reino Unido",
+    "unitedStates": "Estados Unidos",
+    "china": "China",
+    "japan": "Japón",
+    "southKorea": "Corea del Sur",
+    "other": "Otro"
   }
 }

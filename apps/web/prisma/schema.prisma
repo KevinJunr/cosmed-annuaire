@@ -1,0 +1,278 @@
+// Prisma Schema for Cosmed Annuaire
+// Note: Schema only - migration will be done manually later
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============= ENUMS =============
+
+enum VerificationMethod {
+  EMAIL
+  PHONE
+}
+
+enum OnboardingPurpose {
+  SEARCH
+  REGISTER
+  BOTH
+}
+
+enum OnboardingStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+enum ProfileStatus {
+  DRAFT
+  PUBLISHED
+  TO_VERIFY
+}
+
+enum RoleCode {
+  SUPERADMIN
+  COMPANY_ADMIN
+  PROFILE_MANAGER
+  PAYMENT_MANAGER
+  USER
+}
+
+// ============= LANGUAGES =============
+
+model Language {
+  id        String   @id @default(uuid())
+  code      String   @unique // fr, en, es, zh, ar
+  name      String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  users User[]
+
+  @@map("languages")
+}
+
+// ============= DEPARTMENTS =============
+
+model Department {
+  id        String   @id @default(uuid())
+  nameKey   String   @map("name_key") // i18n key
+  code      String   @unique
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  users User[]
+
+  @@map("departments")
+}
+
+// ============= SECTORS =============
+
+model Sector {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  nameKey   String   @map("name_key") // i18n key
+  createdAt DateTime @default(now()) @map("created_at")
+
+  companies Company[]
+
+  @@map("sectors")
+}
+
+// ============= COMPANIES =============
+
+model Company {
+  id           String   @id @default(uuid())
+  name         String
+  country      String?
+  address      String?
+  rcs          String? // Company registration number
+  primaryPhone String?  @map("primary_phone")
+  primaryEmail String?  @map("primary_email")
+  linkedinUrl  String?  @map("linkedin_url")
+  sectorId     String   @map("sector_id")
+  sector       Sector   @relation(fields: [sectorId], references: [id])
+  isPremium    Boolean  @default(false) @map("is_premium")
+  isLegacy     Boolean  @default(false) @map("is_legacy") // Imported from old system
+  latitude     Float?
+  longitude    Float?
+  createdById  String?  @map("created_by")
+  createdBy    User?    @relation("CompanyCreator", fields: [createdById], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  users              User[]               @relation("CompanyUsers")
+  profiles           CompanyProfile[]
+  userCompanyRoles   UserCompanyRole[]
+  userPermissions    UserPermission[]
+  rolePermissions    RolePermission[]
+  onboardingCreated  OnboardingResponse[] @relation("CreatedCompany")
+  onboardingSelected OnboardingResponse[] @relation("SelectedCompany")
+
+  @@map("companies")
+}
+
+// ============= USERS =============
+
+model User {
+  id                  String              @id @default(uuid())
+  supabaseId          String?             @unique @map("supabase_id")
+  email               String?             @unique
+  phone               String?             @unique
+  firstName           String?             @map("first_name")
+  lastName            String?             @map("last_name")
+  position            String? // Job title/position
+  preferredLanguageId String?             @map("preferred_language_id")
+  preferredLanguage   Language?           @relation(fields: [preferredLanguageId], references: [id])
+  departmentId        String?             @map("department_id")
+  department          Department?         @relation(fields: [departmentId], references: [id])
+  companyId           String?             @map("company_id")
+  company             Company?            @relation("CompanyUsers", fields: [companyId], references: [id])
+  isVerified          Boolean             @default(false) @map("is_verified")
+  verificationMethod  VerificationMethod? @map("verification_method")
+  createdAt           DateTime            @default(now()) @map("created_at")
+  updatedAt           DateTime            @updatedAt @map("updated_at")
+  lastLogin           DateTime?           @map("last_login")
+
+  companiesCreated    Company[]            @relation("CompanyCreator")
+  userCompanyRoles    UserCompanyRole[]
+  userPermissions     UserPermission[]
+  onboardingResponses OnboardingResponse?
+  onboardingProgress  OnboardingProgress?
+
+  @@map("users")
+}
+
+// ============= ROLES & PERMISSIONS =============
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String
+  code        RoleCode @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  userCompanyRoles UserCompanyRole[]
+  rolePermissions  RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  category    String // profiles, payments, users, etc.
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  rolePermissions RolePermission[]
+  userPermissions UserPermission[]
+
+  @@map("permissions")
+}
+
+model UserCompanyRole {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId  String   @map("company_id")
+  company    Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  roleId     String   @map("role_id")
+  role       Role     @relation(fields: [roleId], references: [id])
+  assignedBy String?  @map("assigned_by")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  @@unique([userId, companyId, roleId])
+  @@map("user_company_roles")
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  companyId    String     @map("company_id")
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  roleId       String     @map("role_id")
+  role         Role       @relation(fields: [roleId], references: [id])
+  permissionId String     @map("permission_id")
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@unique([companyId, roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model UserPermission {
+  id           String     @id @default(uuid())
+  userId       String     @map("user_id")
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyId    String     @map("company_id")
+  company      Company    @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  permissionId String     @map("permission_id")
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  granted      Boolean    @default(true)
+  grantedBy    String?    @map("granted_by")
+  grantedAt    DateTime   @default(now()) @map("granted_at")
+  notes        String?
+
+  @@unique([userId, companyId, permissionId])
+  @@map("user_permissions")
+}
+
+// ============= ONBOARDING =============
+
+model OnboardingResponse {
+  id                String            @id @default(uuid())
+  userId            String            @unique @map("user_id")
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose           OnboardingPurpose
+  companySelectedId String?           @map("company_selected_id")
+  companySelected   Company?          @relation("SelectedCompany", fields: [companySelectedId], references: [id])
+  createdCompanyId  String?           @map("created_company_id")
+  createdCompany    Company?          @relation("CreatedCompany", fields: [createdCompanyId], references: [id])
+  completedAt       DateTime?         @map("completed_at")
+  createdAt         DateTime          @default(now()) @map("created_at")
+
+  @@map("onboarding_responses")
+}
+
+model OnboardingProgress {
+  id            String           @id @default(uuid())
+  userId        String           @unique @map("user_id")
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currentStep   Int              @default(1) @map("current_step")
+  status        OnboardingStatus @default(IN_PROGRESS)
+  stateSnapshot Json?            @map("state_snapshot") // Stores full state for resumption
+  lastUpdatedAt DateTime         @updatedAt @map("last_updated_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  @@map("onboarding_progress")
+}
+
+// ============= COMPANY PROFILES =============
+
+model CompanyProfile {
+  id             String        @id @default(uuid())
+  companyId      String        @map("company_id")
+  company        Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  versionNumber  Int           @default(1) @map("version_number")
+  status         ProfileStatus @default(DRAFT)
+  name           String?
+  description    String?
+  address        String?
+  contactInfo    Json?         @map("contact_info")
+  additionalData Json?         @map("additional_data")
+  isComplete     Boolean       @default(false) @map("is_complete")
+  publishedAt    DateTime?     @map("published_at")
+  lastVerifiedAt DateTime?     @map("last_verified_at")
+  createdById    String?       @map("created_by")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@map("company_profiles")
+}

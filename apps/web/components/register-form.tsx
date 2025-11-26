@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Check, Loader2, ArrowLeft, Mail } from "lucide-react";
+import { Loader2, ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@workspace/ui/components/button";
@@ -11,7 +11,7 @@ import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-  InputOTPSeparator
+  InputOTPSeparator,
 } from "@workspace/ui/components/input-otp";
 import { Label } from "@workspace/ui/components/label";
 import { cn } from "@workspace/ui/lib/utils";
@@ -22,38 +22,9 @@ import {
   getIdentifierType,
   formatPhoneForAuth,
 } from "@/lib/validations";
+import { PasswordInput, PasswordRulesDisplay } from "@/components/ui";
 
 type Step = "form" | "otp" | "confirmation";
-
-interface PasswordRuleProps {
-  isValid: boolean;
-  label: string;
-}
-
-function PasswordRule({ isValid, label }: PasswordRuleProps) {
-  return (
-    <div className="flex items-center gap-2">
-      <div
-        className={cn(
-          "h-4 w-4 rounded border flex items-center justify-center transition-colors",
-          isValid
-            ? "bg-green-500 border-green-500"
-            : "bg-muted border-muted-foreground/30"
-        )}
-      >
-        {isValid && <Check className="h-3 w-3 text-white" />}
-      </div>
-      <span
-        className={cn(
-          "text-xs transition-colors",
-          isValid ? "text-green-600" : "text-muted-foreground"
-        )}
-      >
-        {label}
-      </span>
-    </div>
-  );
-}
 
 export function RegisterForm({
   className,
@@ -62,8 +33,6 @@ export function RegisterForm({
   const t = useTranslations("auth.register");
   const router = useRouter();
   const [step, setStep] = useState<Step>("form");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -334,7 +303,9 @@ export function RegisterForm({
             )}
           />
           {identifier && identifierType === "invalid" && (
-            <p className="text-xs text-destructive">{t("errors.invalidIdentifier")}</p>
+            <p className="text-xs text-destructive">
+              {t("errors.invalidIdentifier")}
+            </p>
           )}
           {identifier && identifierType !== "invalid" && (
             <p className="text-xs text-muted-foreground">
@@ -346,88 +317,50 @@ export function RegisterForm({
         {/* Password */}
         <div className="grid gap-2">
           <Label htmlFor="password">{t("password")}</Label>
-          <div className="relative">
-            <Input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder={t("passwordPlaceholder")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-              className="pr-10"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label={showPassword ? t("hidePassword") : t("showPassword")}
-            >
-              {showPassword ? (
-                <EyeOff className="h-4 w-4" />
-              ) : (
-                <Eye className="h-4 w-4" />
-              )}
-            </button>
-          </div>
-
-          {/* Password Rules */}
-          <div className="grid grid-cols-2 gap-2 mt-1">
-            <PasswordRule
-              isValid={passwordValidation.rules.minLength}
-              label={t("passwordRules.minLength")}
-            />
-            <PasswordRule
-              isValid={passwordValidation.rules.hasUppercase}
-              label={t("passwordRules.uppercase")}
-            />
-            <PasswordRule
-              isValid={passwordValidation.rules.hasSpecialChar}
-              label={t("passwordRules.specialChar")}
-            />
-            <PasswordRule
-              isValid={passwordValidation.rules.hasNumber}
-              label={t("passwordRules.number")}
-            />
-          </div>
+          <PasswordInput
+            id="password"
+            placeholder={t("passwordPlaceholder")}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            autoComplete="new-password"
+            showLabel={t("showPassword")}
+            hideLabel={t("hidePassword")}
+          />
+          <PasswordRulesDisplay
+            rules={passwordValidation.rules}
+            labels={{
+              minLength: t("passwordRules.minLength"),
+              uppercase: t("passwordRules.uppercase"),
+              specialChar: t("passwordRules.specialChar"),
+              number: t("passwordRules.number"),
+            }}
+            className="mt-1"
+          />
         </div>
 
         {/* Confirm Password */}
         <div className="grid gap-2">
           <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
-          <div className="relative">
-            <Input
-              id="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
-              placeholder={t("confirmPasswordPlaceholder")}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              autoComplete="new-password"
-              className={cn(
-                "pr-10",
-                confirmPassword &&
-                  !passwordsMatch &&
-                  "border-destructive focus-visible:ring-destructive"
-              )}
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label={
-                showConfirmPassword ? t("hidePassword") : t("showPassword")
-              }
-            >
-              {showConfirmPassword ? (
-                <EyeOff className="h-4 w-4" />
-              ) : (
-                <Eye className="h-4 w-4" />
-              )}
-            </button>
-          </div>
+          <PasswordInput
+            id="confirmPassword"
+            placeholder={t("confirmPasswordPlaceholder")}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            autoComplete="new-password"
+            showLabel={t("showPassword")}
+            hideLabel={t("hidePassword")}
+            className={cn(
+              confirmPassword &&
+                !passwordsMatch &&
+                "border-destructive focus-visible:ring-destructive"
+            )}
+          />
           {confirmPassword && !passwordsMatch && (
-            <p className="text-xs text-destructive">{t("errors.passwordMismatch")}</p>
+            <p className="text-xs text-destructive">
+              {t("errors.passwordMismatch")}
+            </p>
           )}
         </div>
 

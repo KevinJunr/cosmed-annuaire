@@ -39,17 +39,20 @@ interface MenuItem {
   items?: MenuItem[]
 }
 
-const defaultLogo = {
-  url: "/",
-  src: "/logo/logo_full.svg",
-  alt: "Cosmed Annuaire",
-}
+const logoSrc = "/logo/logo.svg"
+const logoAlt = "Cosmed Annuaire"
 
-const defaultMenu: MenuItem[] = [
+const publicMenu: MenuItem[] = [
   { titleKey: "home", url: "/" },
   { titleKey: "directory", url: "/annuaire" },
   { titleKey: "pricing", url: "/tarifs" },
   { titleKey: "contact", url: "/contact" },
+]
+
+const authenticatedMenu: MenuItem[] = [
+  { titleKey: "home", url: "/home" },
+  { titleKey: "dashboard", url: "/dashboard" },
+  { titleKey: "company", url: "/entreprise" },
 ]
 
 const defaultMobileExtraLinks = [
@@ -61,8 +64,8 @@ export function Navbar() {
   const t = useTranslations("nav");
   const { user, isLoading } = useAuth();
 
-  const logo = defaultLogo;
-  const menu = defaultMenu;
+  const logoUrl = user ? "/home" : "/";
+  const menu = user ? authenticatedMenu : publicMenu;
   const mobileExtraLinks = defaultMobileExtraLinks;
 
   return (
@@ -71,10 +74,10 @@ export function Navbar() {
         <nav className="hidden h-14 items-center justify-between lg:flex">
           {/* Logo + Navigation */}
           <div className="flex items-center gap-6">
-            <Link href={logo.url} className="flex items-center">
+            <Link href={logoUrl} className="flex items-center">
               <Image
-                src={logo.src}
-                alt={logo.alt}
+                src={logoSrc}
+                alt={logoAlt}
                 width={140}
                 height={32}
                 className="h-8 w-auto"
@@ -109,10 +112,10 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         <div className="flex h-14 items-center justify-between lg:hidden">
-          <Link href={logo.url} className="flex items-center">
+          <Link href={logoUrl} className="flex items-center">
             <Image
-              src={logo.src}
-              alt={logo.alt}
+              src={logoSrc}
+              alt={logoAlt}
               width={120}
               height={28}
               className="h-7 w-auto"
@@ -131,10 +134,10 @@ export function Navbar() {
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <Link href={logo.url} className="flex items-center">
+                    <Link href={logoUrl} className="flex items-center">
                       <Image
-                        src={logo.src}
-                        alt={logo.alt}
+                        src={logoSrc}
+                        alt={logoAlt}
                         width={120}
                         height={28}
                         className="h-7 w-auto"

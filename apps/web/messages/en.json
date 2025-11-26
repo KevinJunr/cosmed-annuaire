@@ -14,6 +14,8 @@
     "directory": "Directory",
     "pricing": "Pricing",
     "contact": "Contact",
+    "dashboard": "Dashboard",
+    "company": "Company",
     "login": "Log in",
     "legalNotice": "Legal Notice",
     "terms": "Terms"
@@ -89,11 +91,62 @@
       "profile": "Profile",
       "settings": "Settings",
       "logout": "Log out"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email to receive a reset link",
+      "email": "Email",
+      "emailPlaceholder": "example@email.com",
+      "submit": "Send reset link",
+      "submitting": "Sending...",
+      "backToLogin": "Back to login",
+      "errors": {
+        "invalidEmail": "Invalid email",
+        "generic": "An error occurred. Please try again."
+      },
+      "sent": {
+        "title": "Email sent",
+        "subtitle": "If an account exists with this email address, you will receive a link to reset your password.",
+        "backToLogin": "Back to login"
+      }
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Create your new password",
+      "password": "New password",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "submit": "Reset password",
+      "submitting": "Resetting...",
+      "passwordRules": {
+        "minLength": "10 characters minimum",
+        "uppercase": "1 uppercase letter",
+        "specialChar": "1 special character",
+        "number": "1 number"
+      },
+      "errors": {
+        "passwordMismatch": "Passwords do not match",
+        "generic": "An error occurred. Please try again."
+      },
+      "success": {
+        "title": "Password changed",
+        "subtitle": "Your password has been reset successfully. You will be redirected..."
+      },
+      "error": {
+        "title": "Invalid link",
+        "subtitle": "This reset link is invalid or has expired.",
+        "tryAgain": "Request a new link"
+      }
     }
   },
   "home": {
     "title": "COSMED Directory",
-    "subtitle": "The cosmetics professionals directory"
+    "subtitle": "The cosmetics professionals directory",
+    "welcome": "Welcome {identifier}",
+    "welcomeSubtitle": "Welcome back"
   },
   "language": {
     "select": "Language",
@@ -102,5 +155,216 @@
     "zh": "中文",
     "ar": "العربية",
     "es": "Español"
+  },
+  "onboarding": {
+    "stepper": {
+      "step1": "Identification",
+      "step2": "Purpose",
+      "step3": "Personal information",
+      "step4": "Password",
+      "step5": "Company"
+    },
+    "common": {
+      "continue": "Continue",
+      "back": "Back",
+      "finish": "Finish",
+      "finishing": "Finishing..."
+    },
+    "step1": {
+      "title": "Welcome",
+      "subtitle": "Enter your email or phone number to get started",
+      "identifier": "Email or phone",
+      "identifierPlaceholder": "example@email.com or +1 234 567 890",
+      "usingEmail": "Signing up with email",
+      "usingPhone": "Signing up with phone",
+      "alreadyHaveAccount": "Already have an account?",
+      "login": "Log in",
+      "errors": {
+        "required": "This field is required",
+        "invalidFormat": "Invalid email or phone format"
+      }
+    },
+    "step2": {
+      "title": "What is your goal?",
+      "subtitle": "This helps us personalize your experience",
+      "options": {
+        "SEARCH": {
+          "title": "Search for information",
+          "description": "I want to find companies or professionals"
+        },
+        "REGISTER": {
+          "title": "Register my company",
+          "description": "I want to list my company in the directory"
+        },
+        "BOTH": {
+          "title": "Both",
+          "description": "I want to search and register my company"
+        }
+      }
+    },
+    "step3": {
+      "title": "Your information",
+      "subtitle": "Tell us a bit about yourself",
+      "firstName": "First name",
+      "firstNamePlaceholder": "John",
+      "lastName": "Last name",
+      "lastNamePlaceholder": "Doe",
+      "email": "Email",
+      "emailPlaceholder": "john.doe@example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+1 234 567 890",
+      "department": "Department",
+      "departmentPlaceholder": "Select your department",
+      "position": "Position",
+      "positionPlaceholder": "Select your position",
+      "optional": "optional",
+      "errors": {
+        "required": "This field is required",
+        "tooShort": "Too short",
+        "tooLong": "Too long",
+        "invalidEmail": "Invalid email",
+        "invalidPhone": "Invalid phone"
+      }
+    },
+    "step4": {
+      "title": "Secure your account",
+      "subtitle": "Create a strong password",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "creating": "Creating...",
+      "passwordRules": {
+        "minLength": "10 characters minimum",
+        "uppercase": "1 uppercase letter",
+        "specialChar": "1 special character",
+        "number": "1 number"
+      },
+      "otp": {
+        "title": "Verification",
+        "subtitle": "A code has been sent to {phone}",
+        "code": "Verification code",
+        "verify": "Verify",
+        "verifying": "Verifying...",
+        "resend": "Resend code"
+      },
+      "emailSent": {
+        "title": "Check your inbox",
+        "subtitle": "If an account doesn't already exist with this email, you will receive a confirmation email."
+      },
+      "errors": {
+        "required": "This field is required",
+        "tooShort": "Password must be at least 10 characters",
+        "needsUppercase": "Password must contain an uppercase letter",
+        "needsSpecialChar": "Password must contain a special character",
+        "needsNumber": "Password must contain a number",
+        "passwordMismatch": "Passwords do not match",
+        "generic": "An error occurred. Please try again."
+      }
+    },
+    "step5": {
+      "pathA": {
+        "title": "Your company",
+        "subtitle": "Join an existing company or create your own",
+        "searchPlaceholder": "Search for a company...",
+        "noResults": "No companies found",
+        "options": {
+          "existing": {
+            "title": "Join an existing company",
+            "description": "Search and join a company already listed"
+          },
+          "new": {
+            "title": "Create a new company"
+          },
+          "none": {
+            "title": "No company for now"
+          }
+        }
+      },
+      "pathB": {
+        "title": "Create your company",
+        "subtitle": "Fill in your company information",
+        "companyName": "Company name",
+        "companyNamePlaceholder": "My Company",
+        "sector": "Industry sector",
+        "sectorPlaceholder": "Select a sector",
+        "country": "Country",
+        "countryPlaceholder": "Select a country",
+        "address": "Address",
+        "addressPlaceholder": "123 Beauty Street, New York, NY 10001",
+        "rcs": "Registration number",
+        "rcsPlaceholder": "12-3456789",
+        "primaryPhone": "Phone",
+        "primaryPhonePlaceholder": "+1 234 567 890",
+        "primaryEmail": "Email",
+        "primaryEmailPlaceholder": "contact@mycompany.com",
+        "linkedinUrl": "LinkedIn",
+        "linkedinUrlPlaceholder": "https://linkedin.com/company/mycompany",
+        "optional": "optional",
+        "errors": {
+          "required": "This field is required",
+          "tooShort": "Too short",
+          "tooLong": "Too long",
+          "invalidPhone": "Invalid phone",
+          "invalidEmail": "Invalid email",
+          "invalidLinkedin": "Invalid LinkedIn URL"
+        }
+      }
+    }
+  },
+  "departments": {
+    "rd": "R&D",
+    "quality": "Quality",
+    "production": "Production",
+    "marketing": "Marketing",
+    "sales": "Sales",
+    "purchasing": "Purchasing",
+    "logistics": "Logistics",
+    "regulatory": "Regulatory Affairs",
+    "hr": "Human Resources",
+    "finance": "Finance",
+    "it": "IT",
+    "management": "Management",
+    "other": "Other"
+  },
+  "positions": {
+    "ceo": "CEO / Executive",
+    "director": "Director",
+    "manager": "Manager",
+    "teamLead": "Team Lead",
+    "engineer": "Engineer",
+    "technician": "Technician",
+    "scientist": "Scientist",
+    "analyst": "Analyst",
+    "coordinator": "Coordinator",
+    "assistant": "Assistant",
+    "intern": "Intern",
+    "consultant": "Consultant",
+    "other": "Other"
+  },
+  "sectors": {
+    "brand": "Brands",
+    "formulationSubcontractor": "Formulation Subcontractors",
+    "manufacturingSubcontractor": "Manufacturing Subcontractors",
+    "packagingSubcontractor": "Packaging Subcontractors",
+    "ingredientSupplier": "Ingredient Suppliers",
+    "soapMaker": "Soap Makers",
+    "consultant": "Consultants",
+    "laboratory": "Laboratories",
+    "trainingOrganization": "Training Organizations"
+  },
+  "countries": {
+    "france": "France",
+    "germany": "Germany",
+    "spain": "Spain",
+    "italy": "Italy",
+    "unitedKingdom": "United Kingdom",
+    "unitedStates": "United States",
+    "china": "China",
+    "japan": "Japan",
+    "southKorea": "South Korea",
+    "other": "Other"
   }
 }

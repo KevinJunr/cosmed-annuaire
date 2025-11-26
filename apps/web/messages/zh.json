@@ -14,6 +14,8 @@
     "directory": "目录",
     "pricing": "价格",
     "contact": "联系我们",
+    "dashboard": "控制台",
+    "company": "企业",
     "login": "登录",
     "legalNotice": "法律声明",
     "terms": "使用条款"
@@ -89,11 +91,62 @@
       "profile": "个人资料",
       "settings": "设置",
       "logout": "退出登录"
+    },
+    "forgotPassword": {
+      "title": "忘记密码",
+      "subtitle": "输入您的邮箱以接收重置链接",
+      "email": "邮箱",
+      "emailPlaceholder": "example@email.com",
+      "submit": "发送重置链接",
+      "submitting": "发送中...",
+      "backToLogin": "返回登录",
+      "errors": {
+        "invalidEmail": "邮箱无效",
+        "generic": "发生错误，请重试。"
+      },
+      "sent": {
+        "title": "邮件已发送",
+        "subtitle": "如果该邮箱存在账户，您将收到一封重置密码的邮件。",
+        "backToLogin": "返回登录"
+      }
+    },
+    "resetPassword": {
+      "title": "新密码",
+      "subtitle": "创建您的新密码",
+      "password": "新密码",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "submit": "重置密码",
+      "submitting": "重置中...",
+      "passwordRules": {
+        "minLength": "至少10个字符",
+        "uppercase": "1个大写字母",
+        "specialChar": "1个特殊字符",
+        "number": "1个数字"
+      },
+      "errors": {
+        "passwordMismatch": "密码不匹配",
+        "generic": "发生错误，请重试。"
+      },
+      "success": {
+        "title": "密码已更改",
+        "subtitle": "您的密码已成功重置。您将被重定向..."
+      },
+      "error": {
+        "title": "链接无效",
+        "subtitle": "此重置链接无效或已过期。",
+        "tryAgain": "请求新链接"
+      }
     }
   },
   "home": {
     "title": "COSMED 目录",
-    "subtitle": "化妆品专业人士目录"
+    "subtitle": "化妆品专业人士目录",
+    "welcome": "欢迎 {identifier}",
+    "welcomeSubtitle": "欢迎回来"
   },
   "language": {
     "select": "语言",
@@ -102,5 +155,216 @@
     "zh": "中文",
     "ar": "العربية",
     "es": "Español"
+  },
+  "onboarding": {
+    "stepper": {
+      "step1": "身份验证",
+      "step2": "目的",
+      "step3": "个人信息",
+      "step4": "密码",
+      "step5": "公司"
+    },
+    "common": {
+      "continue": "继续",
+      "back": "返回",
+      "finish": "完成",
+      "finishing": "正在完成..."
+    },
+    "step1": {
+      "title": "欢迎",
+      "subtitle": "输入您的邮箱或电话号码开始",
+      "identifier": "邮箱或电话",
+      "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
+      "usingEmail": "使用邮箱注册",
+      "usingPhone": "使用电话注册",
+      "alreadyHaveAccount": "已有帐户？",
+      "login": "登录",
+      "errors": {
+        "required": "此字段必填",
+        "invalidFormat": "邮箱或电话格式无效"
+      }
+    },
+    "step2": {
+      "title": "您的目标是什么？",
+      "subtitle": "这有助于我们个性化您的体验",
+      "options": {
+        "SEARCH": {
+          "title": "搜索信息",
+          "description": "我想查找公司或专业人士"
+        },
+        "REGISTER": {
+          "title": "注册我的公司",
+          "description": "我想将我的公司列入目录"
+        },
+        "BOTH": {
+          "title": "两者都要",
+          "description": "我想搜索并注册我的公司"
+        }
+      }
+    },
+    "step3": {
+      "title": "您的信息",
+      "subtitle": "请告诉我们一些关于您的信息",
+      "firstName": "名字",
+      "firstNamePlaceholder": "明",
+      "lastName": "姓氏",
+      "lastNamePlaceholder": "王",
+      "email": "邮箱",
+      "emailPlaceholder": "wang.ming@example.com",
+      "phone": "电话",
+      "phonePlaceholder": "+86 123 4567 8901",
+      "department": "部门",
+      "departmentPlaceholder": "选择您的部门",
+      "position": "职位",
+      "positionPlaceholder": "选择您的职位",
+      "optional": "可选",
+      "errors": {
+        "required": "此字段必填",
+        "tooShort": "太短",
+        "tooLong": "太长",
+        "invalidEmail": "邮箱无效",
+        "invalidPhone": "电话无效"
+      }
+    },
+    "step4": {
+      "title": "保护您的帐户",
+      "subtitle": "创建一个强密码",
+      "password": "密码",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "creating": "创建中...",
+      "passwordRules": {
+        "minLength": "至少10个字符",
+        "uppercase": "1个大写字母",
+        "specialChar": "1个特殊字符",
+        "number": "1个数字"
+      },
+      "otp": {
+        "title": "验证",
+        "subtitle": "验证码已发送至 {phone}",
+        "code": "验证码",
+        "verify": "验证",
+        "verifying": "验证中...",
+        "resend": "重新发送验证码"
+      },
+      "emailSent": {
+        "title": "请查收邮件",
+        "subtitle": "如果该邮箱尚未注册，您将收到一封确认邮件。"
+      },
+      "errors": {
+        "required": "此字段必填",
+        "tooShort": "密码必须至少10个字符",
+        "needsUppercase": "密码必须包含一个大写字母",
+        "needsSpecialChar": "密码必须包含一个特殊字符",
+        "needsNumber": "密码必须包含一个数字",
+        "passwordMismatch": "密码不匹配",
+        "generic": "发生错误，请重试。"
+      }
+    },
+    "step5": {
+      "pathA": {
+        "title": "您的公司",
+        "subtitle": "加入现有公司或创建自己的公司",
+        "searchPlaceholder": "搜索公司...",
+        "noResults": "未找到公司",
+        "options": {
+          "existing": {
+            "title": "加入现有公司",
+            "description": "搜索并加入已列出的公司"
+          },
+          "new": {
+            "title": "创建新公司"
+          },
+          "none": {
+            "title": "暂时没有公司"
+          }
+        }
+      },
+      "pathB": {
+        "title": "创建您的公司",
+        "subtitle": "填写您的公司信息",
+        "companyName": "公司名称",
+        "companyNamePlaceholder": "我的公司",
+        "sector": "行业",
+        "sectorPlaceholder": "选择行业",
+        "country": "国家",
+        "countryPlaceholder": "选择国家",
+        "address": "地址",
+        "addressPlaceholder": "北京市朝阳区美丽街123号",
+        "rcs": "注册号",
+        "rcsPlaceholder": "91110000XXXXXXXXXX",
+        "primaryPhone": "电话",
+        "primaryPhonePlaceholder": "+86 10 1234 5678",
+        "primaryEmail": "邮箱",
+        "primaryEmailPlaceholder": "contact@mycompany.cn",
+        "linkedinUrl": "LinkedIn",
+        "linkedinUrlPlaceholder": "https://linkedin.com/company/mycompany",
+        "optional": "可选",
+        "errors": {
+          "required": "此字段必填",
+          "tooShort": "太短",
+          "tooLong": "太长",
+          "invalidPhone": "电话无效",
+          "invalidEmail": "邮箱无效",
+          "invalidLinkedin": "LinkedIn网址无效"
+        }
+      }
+    }
+  },
+  "departments": {
+    "rd": "研发",
+    "quality": "质量",
+    "production": "生产",
+    "marketing": "市场营销",
+    "sales": "销售",
+    "purchasing": "采购",
+    "logistics": "物流",
+    "regulatory": "法规事务",
+    "hr": "人力资源",
+    "finance": "财务",
+    "it": "信息技术",
+    "management": "管理层",
+    "other": "其他"
+  },
+  "positions": {
+    "ceo": "首席执行官",
+    "director": "总监",
+    "manager": "经理",
+    "teamLead": "团队负责人",
+    "engineer": "工程师",
+    "technician": "技术员",
+    "scientist": "科学家",
+    "analyst": "分析师",
+    "coordinator": "协调员",
+    "assistant": "助理",
+    "intern": "实习生",
+    "consultant": "顾问",
+    "other": "其他"
+  },
+  "sectors": {
+    "brand": "品牌",
+    "formulationSubcontractor": "配方代工商",
+    "manufacturingSubcontractor": "生产代工商",
+    "packagingSubcontractor": "包装代工商",
+    "ingredientSupplier": "原料供应商",
+    "soapMaker": "肥皂制造商",
+    "consultant": "顾问",
+    "laboratory": "实验室",
+    "trainingOrganization": "培训机构"
+  },
+  "countries": {
+    "france": "法国",
+    "germany": "德国",
+    "spain": "西班牙",
+    "italy": "意大利",
+    "unitedKingdom": "英国",
+    "unitedStates": "美国",
+    "china": "中国",
+    "japan": "日本",
+    "southKorea": "韩国",
+    "other": "其他"
   }
 }

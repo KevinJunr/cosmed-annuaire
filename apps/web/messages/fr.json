@@ -14,6 +14,8 @@
     "directory": "Annuaire",
     "pricing": "Tarifs",
     "contact": "Contact",
+    "dashboard": "Tableau de bord",
+    "company": "Entreprise",
     "login": "Se connecter",
     "legalNotice": "Mentions légales",
     "terms": "CGU"
@@ -89,11 +91,62 @@
       "profile": "Profil",
       "settings": "Paramètres",
       "logout": "Déconnexion"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre email pour recevoir un lien de réinitialisation",
+      "email": "Email",
+      "emailPlaceholder": "exemple@email.com",
+      "submit": "Envoyer le lien",
+      "submitting": "Envoi...",
+      "backToLogin": "Retour à la connexion",
+      "errors": {
+        "invalidEmail": "Email invalide",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      },
+      "sent": {
+        "title": "Email envoyé",
+        "subtitle": "Si un compte existe avec cette adresse email, vous recevrez un lien pour réinitialiser votre mot de passe.",
+        "backToLogin": "Retour à la connexion"
+      }
+    },
+    "resetPassword": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Créez votre nouveau mot de passe",
+      "password": "Nouveau mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "submitting": "Réinitialisation...",
+      "passwordRules": {
+        "minLength": "10 caractères minimum",
+        "uppercase": "1 majuscule",
+        "specialChar": "1 caractère spécial",
+        "number": "1 chiffre"
+      },
+      "errors": {
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      },
+      "success": {
+        "title": "Mot de passe modifié",
+        "subtitle": "Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé..."
+      },
+      "error": {
+        "title": "Lien invalide",
+        "subtitle": "Ce lien de réinitialisation est invalide ou a expiré.",
+        "tryAgain": "Demander un nouveau lien"
+      }
     }
   },
   "home": {
     "title": "COSMED Annuaire",
-    "subtitle": "L'annuaire des professionnels de la cosmétique"
+    "subtitle": "L'annuaire des professionnels de la cosmétique",
+    "welcome": "Bienvenue {identifier}",
+    "welcomeSubtitle": "Bon retour parmi nous"
   },
   "language": {
     "select": "Langue",
@@ -102,5 +155,216 @@
     "zh": "中文",
     "ar": "العربية",
     "es": "Español"
+  },
+  "onboarding": {
+    "stepper": {
+      "step1": "Identification",
+      "step2": "Objectif",
+      "step3": "Informations personnelles",
+      "step4": "Mot de passe",
+      "step5": "Entreprise"
+    },
+    "common": {
+      "continue": "Continuer",
+      "back": "Retour",
+      "finish": "Terminer",
+      "finishing": "Finalisation..."
+    },
+    "step1": {
+      "title": "Bienvenue",
+      "subtitle": "Entrez votre email ou numéro de téléphone pour commencer",
+      "identifier": "Email ou téléphone",
+      "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
+      "usingEmail": "Inscription par email",
+      "usingPhone": "Inscription par téléphone",
+      "alreadyHaveAccount": "Déjà un compte ?",
+      "login": "Se connecter",
+      "errors": {
+        "required": "Ce champ est requis",
+        "invalidFormat": "Format d'email ou de téléphone invalide"
+      }
+    },
+    "step2": {
+      "title": "Quel est votre objectif ?",
+      "subtitle": "Cela nous aide à personnaliser votre expérience",
+      "options": {
+        "SEARCH": {
+          "title": "Rechercher des informations",
+          "description": "Je souhaite trouver des entreprises ou des professionnels"
+        },
+        "REGISTER": {
+          "title": "Inscrire mon entreprise",
+          "description": "Je souhaite référencer mon entreprise dans l'annuaire"
+        },
+        "BOTH": {
+          "title": "Les deux",
+          "description": "Je veux rechercher et inscrire mon entreprise"
+        }
+      }
+    },
+    "step3": {
+      "title": "Vos informations",
+      "subtitle": "Parlez-nous un peu de vous",
+      "firstName": "Prénom",
+      "firstNamePlaceholder": "Jean",
+      "lastName": "Nom",
+      "lastNamePlaceholder": "Dupont",
+      "email": "Email",
+      "emailPlaceholder": "jean.dupont@example.com",
+      "phone": "Téléphone",
+      "phonePlaceholder": "+33 6 12 34 56 78",
+      "department": "Service",
+      "departmentPlaceholder": "Sélectionnez votre service",
+      "position": "Poste",
+      "positionPlaceholder": "Sélectionnez votre poste",
+      "optional": "optionnel",
+      "errors": {
+        "required": "Ce champ est requis",
+        "tooShort": "Trop court",
+        "tooLong": "Trop long",
+        "invalidEmail": "Email invalide",
+        "invalidPhone": "Téléphone invalide"
+      }
+    },
+    "step4": {
+      "title": "Sécurisez votre compte",
+      "subtitle": "Créez un mot de passe fort",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "creating": "Création...",
+      "passwordRules": {
+        "minLength": "10 caractères minimum",
+        "uppercase": "1 majuscule",
+        "specialChar": "1 caractère spécial",
+        "number": "1 chiffre"
+      },
+      "otp": {
+        "title": "Vérification",
+        "subtitle": "Un code a été envoyé au {phone}",
+        "code": "Code de vérification",
+        "verify": "Vérifier",
+        "verifying": "Vérification...",
+        "resend": "Renvoyer le code"
+      },
+      "emailSent": {
+        "title": "Vérifiez votre boîte mail",
+        "subtitle": "Si un compte n'existe pas déjà avec cette adresse, vous recevrez un email de confirmation."
+      },
+      "errors": {
+        "required": "Ce champ est requis",
+        "tooShort": "Le mot de passe doit contenir au moins 10 caractères",
+        "needsUppercase": "Le mot de passe doit contenir une majuscule",
+        "needsSpecialChar": "Le mot de passe doit contenir un caractère spécial",
+        "needsNumber": "Le mot de passe doit contenir un chiffre",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "generic": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+    "step5": {
+      "pathA": {
+        "title": "Votre entreprise",
+        "subtitle": "Associez-vous à une entreprise existante ou créez la vôtre",
+        "searchPlaceholder": "Rechercher une entreprise...",
+        "noResults": "Aucune entreprise trouvée",
+        "options": {
+          "existing": {
+            "title": "Rejoindre une entreprise existante",
+            "description": "Recherchez et rejoignez une entreprise déjà référencée"
+          },
+          "new": {
+            "title": "Créer une nouvelle entreprise"
+          },
+          "none": {
+            "title": "Pas d'entreprise pour le moment"
+          }
+        }
+      },
+      "pathB": {
+        "title": "Créer votre entreprise",
+        "subtitle": "Renseignez les informations de votre entreprise",
+        "companyName": "Nom de l'entreprise",
+        "companyNamePlaceholder": "Ma Société",
+        "sector": "Secteur d'activité",
+        "sectorPlaceholder": "Sélectionnez un secteur",
+        "country": "Pays",
+        "countryPlaceholder": "Sélectionnez un pays",
+        "address": "Adresse",
+        "addressPlaceholder": "123 Rue de la Beauté, 75008 Paris",
+        "rcs": "Numéro RCS",
+        "rcsPlaceholder": "Paris B 123 456 789",
+        "primaryPhone": "Téléphone",
+        "primaryPhonePlaceholder": "+33 1 23 45 67 89",
+        "primaryEmail": "Email",
+        "primaryEmailPlaceholder": "contact@masociete.fr",
+        "linkedinUrl": "LinkedIn",
+        "linkedinUrlPlaceholder": "https://linkedin.com/company/masociete",
+        "optional": "optionnel",
+        "errors": {
+          "required": "Ce champ est requis",
+          "tooShort": "Trop court",
+          "tooLong": "Trop long",
+          "invalidPhone": "Téléphone invalide",
+          "invalidEmail": "Email invalide",
+          "invalidLinkedin": "URL LinkedIn invalide"
+        }
+      }
+    }
+  },
+  "departments": {
+    "rd": "R&D",
+    "quality": "Qualité",
+    "production": "Production",
+    "marketing": "Marketing",
+    "sales": "Commercial",
+    "purchasing": "Achats",
+    "logistics": "Logistique",
+    "regulatory": "Affaires réglementaires",
+    "hr": "Ressources humaines",
+    "finance": "Finance",
+    "it": "Informatique",
+    "management": "Direction",
+    "other": "Autre"
+  },
+  "positions": {
+    "ceo": "PDG / Dirigeant",
+    "director": "Directeur",
+    "manager": "Responsable",
+    "teamLead": "Chef d'équipe",
+    "engineer": "Ingénieur",
+    "technician": "Technicien",
+    "scientist": "Scientifique",
+    "analyst": "Analyste",
+    "coordinator": "Coordinateur",
+    "assistant": "Assistant",
+    "intern": "Stagiaire",
+    "consultant": "Consultant",
+    "other": "Autre"
+  },
+  "sectors": {
+    "brand": "Marques propres",
+    "formulationSubcontractor": "Sous-traitants de formulation",
+    "manufacturingSubcontractor": "Sous-traitants de fabrication",
+    "packagingSubcontractor": "Sous-traitants de conditionnement",
+    "ingredientSupplier": "Fournisseurs d'ingrédients",
+    "soapMaker": "Savonniers",
+    "consultant": "Consultants",
+    "laboratory": "Laboratoires",
+    "trainingOrganization": "Organismes de formation"
+  },
+  "countries": {
+    "france": "France",
+    "germany": "Allemagne",
+    "spain": "Espagne",
+    "italy": "Italie",
+    "unitedKingdom": "Royaume-Uni",
+    "unitedStates": "États-Unis",
+    "china": "Chine",
+    "japan": "Japon",
+    "southKorea": "Corée du Sud",
+    "other": "Autre"
   }
 }

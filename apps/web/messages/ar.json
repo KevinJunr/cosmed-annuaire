@@ -14,6 +14,8 @@
     "directory": "الدليل",
     "pricing": "الأسعار",
     "contact": "اتصل بنا",
+    "dashboard": "لوحة التحكم",
+    "company": "الشركة",
     "login": "تسجيل الدخول",
     "legalNotice": "الإشعار القانوني",
     "terms": "الشروط"
@@ -89,11 +91,62 @@
       "profile": "الملف الشخصي",
       "settings": "الإعدادات",
       "logout": "تسجيل الخروج"
+    },
+    "forgotPassword": {
+      "title": "نسيت كلمة المرور",
+      "subtitle": "أدخل بريدك الإلكتروني لاستلام رابط إعادة التعيين",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "example@email.com",
+      "submit": "إرسال الرابط",
+      "submitting": "جاري الإرسال...",
+      "backToLogin": "العودة لتسجيل الدخول",
+      "errors": {
+        "invalidEmail": "البريد الإلكتروني غير صالح",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      },
+      "sent": {
+        "title": "تم إرسال البريد",
+        "subtitle": "إذا كان هناك حساب مرتبط بهذا البريد الإلكتروني، ستتلقى رابط إعادة تعيين كلمة المرور.",
+        "backToLogin": "العودة لتسجيل الدخول"
+      }
+    },
+    "resetPassword": {
+      "title": "كلمة مرور جديدة",
+      "subtitle": "قم بإنشاء كلمة المرور الجديدة",
+      "password": "كلمة المرور الجديدة",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "submit": "إعادة تعيين كلمة المرور",
+      "submitting": "جاري إعادة التعيين...",
+      "passwordRules": {
+        "minLength": "10 أحرف كحد أدنى",
+        "uppercase": "1 حرف كبير",
+        "specialChar": "1 رمز خاص",
+        "number": "1 رقم"
+      },
+      "errors": {
+        "passwordMismatch": "كلمات المرور غير متطابقة",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      },
+      "success": {
+        "title": "تم تغيير كلمة المرور",
+        "subtitle": "تم إعادة تعيين كلمة المرور بنجاح. سيتم إعادة توجيهك..."
+      },
+      "error": {
+        "title": "رابط غير صالح",
+        "subtitle": "رابط إعادة التعيين هذا غير صالح أو منتهي الصلاحية.",
+        "tryAgain": "طلب رابط جديد"
+      }
     }
   },
   "home": {
     "title": "دليل COSMED",
-    "subtitle": "دليل محترفي مستحضرات التجميل"
+    "subtitle": "دليل محترفي مستحضرات التجميل",
+    "welcome": "مرحباً {identifier}",
+    "welcomeSubtitle": "أهلاً بعودتك"
   },
   "language": {
     "select": "اللغة",
@@ -102,5 +155,216 @@
     "zh": "中文",
     "ar": "العربية",
     "es": "Español"
+  },
+  "onboarding": {
+    "stepper": {
+      "step1": "التعريف",
+      "step2": "الهدف",
+      "step3": "المعلومات الشخصية",
+      "step4": "كلمة المرور",
+      "step5": "الشركة"
+    },
+    "common": {
+      "continue": "متابعة",
+      "back": "رجوع",
+      "finish": "إنهاء",
+      "finishing": "جارٍ الإنهاء..."
+    },
+    "step1": {
+      "title": "مرحباً",
+      "subtitle": "أدخل بريدك الإلكتروني أو رقم هاتفك للبدء",
+      "identifier": "البريد الإلكتروني أو الهاتف",
+      "identifierPlaceholder": "example@email.com أو +966 12 345 6789",
+      "usingEmail": "التسجيل بالبريد الإلكتروني",
+      "usingPhone": "التسجيل بالهاتف",
+      "alreadyHaveAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "invalidFormat": "تنسيق البريد الإلكتروني أو الهاتف غير صالح"
+      }
+    },
+    "step2": {
+      "title": "ما هو هدفك؟",
+      "subtitle": "هذا يساعدنا في تخصيص تجربتك",
+      "options": {
+        "SEARCH": {
+          "title": "البحث عن معلومات",
+          "description": "أريد العثور على شركات أو محترفين"
+        },
+        "REGISTER": {
+          "title": "تسجيل شركتي",
+          "description": "أريد إدراج شركتي في الدليل"
+        },
+        "BOTH": {
+          "title": "كلاهما",
+          "description": "أريد البحث وتسجيل شركتي"
+        }
+      }
+    },
+    "step3": {
+      "title": "معلوماتك",
+      "subtitle": "أخبرنا قليلاً عن نفسك",
+      "firstName": "الاسم الأول",
+      "firstNamePlaceholder": "أحمد",
+      "lastName": "اسم العائلة",
+      "lastNamePlaceholder": "محمد",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "ahmed.mohamed@example.com",
+      "phone": "الهاتف",
+      "phonePlaceholder": "+966 12 345 6789",
+      "department": "القسم",
+      "departmentPlaceholder": "اختر قسمك",
+      "position": "المنصب",
+      "positionPlaceholder": "اختر منصبك",
+      "optional": "اختياري",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "tooShort": "قصير جداً",
+        "tooLong": "طويل جداً",
+        "invalidEmail": "بريد إلكتروني غير صالح",
+        "invalidPhone": "هاتف غير صالح"
+      }
+    },
+    "step4": {
+      "title": "أمّن حسابك",
+      "subtitle": "أنشئ كلمة مرور قوية",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "creating": "جارٍ الإنشاء...",
+      "passwordRules": {
+        "minLength": "10 أحرف كحد أدنى",
+        "uppercase": "حرف كبير واحد",
+        "specialChar": "رمز خاص واحد",
+        "number": "رقم واحد"
+      },
+      "otp": {
+        "title": "التحقق",
+        "subtitle": "تم إرسال رمز إلى {phone}",
+        "code": "رمز التحقق",
+        "verify": "تحقق",
+        "verifying": "جارٍ التحقق...",
+        "resend": "إعادة إرسال الرمز"
+      },
+      "emailSent": {
+        "title": "تحقق من بريدك الإلكتروني",
+        "subtitle": "إذا لم يكن هناك حساب بهذا البريد الإلكتروني، ستتلقى رسالة تأكيد."
+      },
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "tooShort": "يجب أن تحتوي كلمة المرور على 10 أحرف على الأقل",
+        "needsUppercase": "يجب أن تحتوي كلمة المرور على حرف كبير",
+        "needsSpecialChar": "يجب أن تحتوي كلمة المرور على رمز خاص",
+        "needsNumber": "يجب أن تحتوي كلمة المرور على رقم",
+        "passwordMismatch": "كلمات المرور غير متطابقة",
+        "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
+      }
+    },
+    "step5": {
+      "pathA": {
+        "title": "شركتك",
+        "subtitle": "انضم إلى شركة موجودة أو أنشئ شركتك الخاصة",
+        "searchPlaceholder": "البحث عن شركة...",
+        "noResults": "لم يتم العثور على شركات",
+        "options": {
+          "existing": {
+            "title": "الانضمام إلى شركة موجودة",
+            "description": "ابحث وانضم إلى شركة مسجلة بالفعل"
+          },
+          "new": {
+            "title": "إنشاء شركة جديدة"
+          },
+          "none": {
+            "title": "لا توجد شركة حالياً"
+          }
+        }
+      },
+      "pathB": {
+        "title": "أنشئ شركتك",
+        "subtitle": "أدخل معلومات شركتك",
+        "companyName": "اسم الشركة",
+        "companyNamePlaceholder": "شركتي",
+        "sector": "القطاع",
+        "sectorPlaceholder": "اختر قطاعاً",
+        "country": "البلد",
+        "countryPlaceholder": "اختر بلداً",
+        "address": "العنوان",
+        "addressPlaceholder": "شارع الجمال 123، الرياض",
+        "rcs": "رقم التسجيل",
+        "rcsPlaceholder": "1010123456",
+        "primaryPhone": "الهاتف",
+        "primaryPhonePlaceholder": "+966 11 234 5678",
+        "primaryEmail": "البريد الإلكتروني",
+        "primaryEmailPlaceholder": "contact@mycompany.sa",
+        "linkedinUrl": "لينكد إن",
+        "linkedinUrlPlaceholder": "https://linkedin.com/company/mycompany",
+        "optional": "اختياري",
+        "errors": {
+          "required": "هذا الحقل مطلوب",
+          "tooShort": "قصير جداً",
+          "tooLong": "طويل جداً",
+          "invalidPhone": "هاتف غير صالح",
+          "invalidEmail": "بريد إلكتروني غير صالح",
+          "invalidLinkedin": "رابط لينكد إن غير صالح"
+        }
+      }
+    }
+  },
+  "departments": {
+    "rd": "البحث والتطوير",
+    "quality": "الجودة",
+    "production": "الإنتاج",
+    "marketing": "التسويق",
+    "sales": "المبيعات",
+    "purchasing": "المشتريات",
+    "logistics": "اللوجستيات",
+    "regulatory": "الشؤون التنظيمية",
+    "hr": "الموارد البشرية",
+    "finance": "المالية",
+    "it": "تقنية المعلومات",
+    "management": "الإدارة",
+    "other": "أخرى"
+  },
+  "positions": {
+    "ceo": "الرئيس التنفيذي",
+    "director": "مدير",
+    "manager": "مدير قسم",
+    "teamLead": "قائد فريق",
+    "engineer": "مهندس",
+    "technician": "فني",
+    "scientist": "عالم",
+    "analyst": "محلل",
+    "coordinator": "منسق",
+    "assistant": "مساعد",
+    "intern": "متدرب",
+    "consultant": "مستشار",
+    "other": "أخرى"
+  },
+  "sectors": {
+    "brand": "العلامات التجارية",
+    "formulationSubcontractor": "مقاولو التركيب",
+    "manufacturingSubcontractor": "مقاولو التصنيع",
+    "packagingSubcontractor": "مقاولو التعبئة",
+    "ingredientSupplier": "موردو المكونات",
+    "soapMaker": "صانعو الصابون",
+    "consultant": "المستشارون",
+    "laboratory": "المختبرات",
+    "trainingOrganization": "منظمات التدريب"
+  },
+  "countries": {
+    "france": "فرنسا",
+    "germany": "ألمانيا",
+    "spain": "إسبانيا",
+    "italy": "إيطاليا",
+    "unitedKingdom": "المملكة المتحدة",
+    "unitedStates": "الولايات المتحدة",
+    "china": "الصين",
+    "japan": "اليابان",
+    "southKorea": "كوريا الجنوبية",
+    "other": "أخرى"
   }
 }
