@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "back": "Retour"
+  },
+  "nav": {
+    "home": "Accueil",
+    "directory": "Annuaire",
+    "pricing": "Tarifs",
+    "contact": "Contact",
+    "login": "Se connecter",
+    "legalNotice": "Mentions légales",
+    "terms": "CGU"
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Entrez vos identifiants pour accéder à votre compte",
+      "identifier": "Email ou téléphone",
+      "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "noAccount": "Pas encore de compte ?",
+      "createAccount": "Créer un compte",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Rejoignez l'annuaire des professionnels de la cosmétique",
+      "alreadyHaveAccount": "Déjà un compte ?",
+      "login": "Se connecter"
+    }
+  },
+  "home": {
+    "title": "COSMED Annuaire",
+    "subtitle": "L'annuaire des professionnels de la cosmétique"
+  },
+  "language": {
+    "select": "Langue",
+    "fr": "Français",
+    "en": "English",
+    "zh": "中文",
+    "ar": "العربية",
+    "es": "Español"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "search": "搜索",
+    "back": "返回"
+  },
+  "nav": {
+    "home": "首页",
+    "directory": "目录",
+    "pricing": "价格",
+    "contact": "联系我们",
+    "login": "登录",
+    "legalNotice": "法律声明",
+    "terms": "使用条款"
+  },
+  "auth": {
+    "login": {
+      "title": "登录",
+      "subtitle": "输入您的凭据以访问您的帐户",
+      "identifier": "邮箱或电话",
+      "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
+      "password": "密码",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "忘记密码？",
+      "submit": "登录",
+      "noAccount": "还没有帐户？",
+      "createAccount": "创建帐户",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码"
+    },
+    "register": {
+      "title": "创建帐户",
+      "subtitle": "加入化妆品专业人士目录",
+      "alreadyHaveAccount": "已有帐户？",
+      "login": "登录"
+    }
+  },
+  "home": {
+    "title": "COSMED 目录",
+    "subtitle": "化妆品专业人士目录"
+  },
+  "language": {
+    "select": "语言",
+    "fr": "Français",
+    "en": "English",
+    "zh": "中文",
+    "ar": "العربية",
+    "es": "Español"
+  }
+}

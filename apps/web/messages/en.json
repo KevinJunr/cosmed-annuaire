@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "back": "Back"
+  },
+  "nav": {
+    "home": "Home",
+    "directory": "Directory",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "login": "Log in",
+    "legalNotice": "Legal Notice",
+    "terms": "Terms"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Enter your credentials to access your account",
+      "identifier": "Email or phone",
+      "identifierPlaceholder": "example@email.com or +1 234 567 890",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Join the cosmetics professionals directory",
+      "alreadyHaveAccount": "Already have an account?",
+      "login": "Log in"
+    }
+  },
+  "home": {
+    "title": "COSMED Directory",
+    "subtitle": "The cosmetics professionals directory"
+  },
+  "language": {
+    "select": "Language",
+    "fr": "Français",
+    "en": "English",
+    "zh": "中文",
+    "ar": "العربية",
+    "es": "Español"
+  }
+}

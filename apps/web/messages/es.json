@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "search": "Buscar",
+    "back": "Volver"
+  },
+  "nav": {
+    "home": "Inicio",
+    "directory": "Directorio",
+    "pricing": "Precios",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "legalNotice": "Aviso legal",
+    "terms": "Términos"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "Ingrese sus credenciales para acceder a su cuenta",
+      "identifier": "Email o teléfono",
+      "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
+      "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "createAccount": "Crear una cuenta",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña"
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Únete al directorio de profesionales de la cosmética",
+      "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "login": "Iniciar sesión"
+    }
+  },
+  "home": {
+    "title": "Directorio COSMED",
+    "subtitle": "El directorio de profesionales de la cosmética"
+  },
+  "language": {
+    "select": "Idioma",
+    "fr": "Français",
+    "en": "English",
+    "zh": "中文",
+    "ar": "العربية",
+    "es": "Español"
+  }
+}

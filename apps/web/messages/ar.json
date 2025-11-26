@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "search": "بحث",
+    "back": "رجوع"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "directory": "الدليل",
+    "pricing": "الأسعار",
+    "contact": "اتصل بنا",
+    "login": "تسجيل الدخول",
+    "legalNotice": "الإشعار القانوني",
+    "terms": "الشروط"
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بيانات الاعتماد الخاصة بك للوصول إلى حسابك",
+      "identifier": "البريد الإلكتروني أو الهاتف",
+      "identifierPlaceholder": "example@email.com أو +966 12 345 6789",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "submit": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "createAccount": "إنشاء حساب",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور"
+    },
+    "register": {
+      "title": "إنشاء حساب",
+      "subtitle": "انضم إلى دليل محترفي مستحضرات التجميل",
+      "alreadyHaveAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول"
+    }
+  },
+  "home": {
+    "title": "دليل COSMED",
+    "subtitle": "دليل محترفي مستحضرات التجميل"
+  },
+  "language": {
+    "select": "اللغة",
+    "fr": "Français",
+    "en": "English",
+    "zh": "中文",
+    "ar": "العربية",
+    "es": "Español"
+  }
+}
