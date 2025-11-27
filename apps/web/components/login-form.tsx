@@ -64,7 +64,7 @@ export function LoginForm({
         return;
       }
 
-      router.push("/");
+      router.push("/home");
       router.refresh();
     } catch {
       setError(t("errors.generic"));
@@ -153,7 +153,7 @@ export function LoginForm({
       </div>
       <div className="text-center text-sm">
         {t("noAccount")}{" "}
-        <Link href="/onboarding" className="text-primary underline-offset-4 hover:underline font-medium">
+        <Link href="/register" className="text-primary underline-offset-4 hover:underline font-medium">
           {t("createAccount")}
         </Link>
       </div>

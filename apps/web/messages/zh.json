@@ -158,12 +158,9 @@
   },
   "onboarding": {
     "stepper": {
-      "step1": "身份验证",
-      "step2": "密码",
-      "step3": "目的",
-      "step4": "个人信息",
-      "step5": "公司",
-      "step6": "验证"
+      "step1": "目的",
+      "step2": "信息",
+      "step3": "公司"
     },
     "common": {
       "continue": "继续",
@@ -172,45 +169,6 @@
       "finishing": "正在完成..."
     },
     "step1": {
-      "title": "欢迎",
-      "subtitle": "输入您的邮箱或电话号码开始",
-      "identifier": "邮箱或电话",
-      "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
-      "usingEmail": "使用邮箱注册",
-      "usingPhone": "使用电话注册",
-      "alreadyHaveAccount": "已有帐户？",
-      "login": "登录",
-      "errors": {
-        "required": "此字段必填",
-        "invalidFormat": "邮箱或电话格式无效"
-      }
-    },
-    "step2": {
-      "title": "保护您的帐户",
-      "subtitle": "创建一个强密码",
-      "password": "密码",
-      "passwordPlaceholder": "••••••••",
-      "confirmPassword": "确认密码",
-      "confirmPasswordPlaceholder": "••••••••",
-      "showPassword": "显示密码",
-      "hidePassword": "隐藏密码",
-      "passwordRules": {
-        "minLength": "至少10个字符",
-        "uppercase": "1个大写字母",
-        "specialChar": "1个特殊字符",
-        "number": "1个数字"
-      },
-      "errors": {
-        "required": "此字段必填",
-        "tooShort": "密码必须至少10个字符",
-        "needsUppercase": "密码必须包含一个大写字母",
-        "needsSpecialChar": "密码必须包含一个特殊字符",
-        "needsNumber": "密码必须包含一个数字",
-        "passwordMismatch": "密码不匹配",
-        "generic": "发生错误，请重试。"
-      }
-    },
-    "step3": {
       "title": "您的目标是什么？",
       "subtitle": "这有助于我们个性化您的体验",
       "options": {
@@ -228,31 +186,24 @@
         }
       }
     },
-    "step4": {
+    "step2": {
       "title": "您的信息",
       "subtitle": "请告诉我们一些关于您的信息",
       "firstName": "名字",
       "firstNamePlaceholder": "明",
       "lastName": "姓氏",
       "lastNamePlaceholder": "王",
-      "email": "邮箱",
-      "emailPlaceholder": "wang.ming@example.com",
-      "phone": "电话",
-      "phonePlaceholder": "+86 123 4567 8901",
       "department": "部门",
       "departmentPlaceholder": "选择您的部门",
       "position": "职位",
       "positionPlaceholder": "选择您的职位",
-      "optional": "可选",
       "errors": {
         "required": "此字段必填",
         "tooShort": "太短",
-        "tooLong": "太长",
-        "invalidEmail": "邮箱无效",
-        "invalidPhone": "电话无效"
+        "tooLong": "太长"
       }
     },
-    "step5": {
+    "step3": {
       "pathA": {
         "title": "您的公司",
         "subtitle": "加入现有公司或创建自己的公司",
@@ -299,31 +250,6 @@
           "invalidEmail": "邮箱无效",
           "invalidLinkedin": "LinkedIn网址无效"
         }
-      }
-    },
-    "step6": {
-      "title": "完成注册",
-      "subtitle": "查看您的信息并验证您的帐户",
-      "summary": {
-        "identifier": "标识符",
-        "name": "姓名"
-      },
-      "finalize": "完成注册",
-      "finalizing": "正在完成...",
-      "otp": {
-        "title": "验证",
-        "subtitle": "验证码已发送至 {phone}",
-        "code": "验证码",
-        "verify": "验证",
-        "verifying": "验证中...",
-        "resend": "重新发送验证码"
-      },
-      "emailSent": {
-        "title": "请查收邮件",
-        "subtitle": "如果该邮箱尚未注册，您将收到一封确认邮件。"
-      },
-      "errors": {
-        "generic": "发生错误，请重试。"
       }
     }
   },

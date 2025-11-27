@@ -39,7 +39,6 @@ interface MenuItem {
   items?: MenuItem[]
 }
 
-const logoSrc = "/logo/logo.svg"
 const logoAlt = "Cosmed Annuaire"
 
 const publicMenu: MenuItem[] = [
@@ -65,6 +64,7 @@ export function Navbar() {
   const { user, isLoading } = useAuth();
 
   const logoUrl = user ? "/home" : "/";
+  const logoSrc = "/logo/logo.svg";
   const menu = user ? authenticatedMenu : publicMenu;
   const mobileExtraLinks = defaultMobileExtraLinks;
 

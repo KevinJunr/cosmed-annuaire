@@ -9,9 +9,9 @@ export function OnboardingNavbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <nav className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center">
+          <Link href="/onboarding" className="flex items-center">
             <Image
-              src="/logo/logo_full.svg"
+              src="/logo/logo.svg"
               alt="Cosmed Annuaire"
               width={140}
               height={32}

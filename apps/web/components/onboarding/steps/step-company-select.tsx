@@ -28,11 +28,11 @@ import type { MockCompany } from "@/types";
 type CompanyChoice = "existing" | "new" | "none";
 
 export function StepCompanySelect() {
-  const t = useTranslations("onboarding.step5.pathA");
+  const t = useTranslations("onboarding.step3.pathA");
   const tCommon = useTranslations("onboarding.common");
   const tSectors = useTranslations("sectors");
   const router = useRouter();
-  const { state, updateData, prevStep, setPath, reset } = useOnboarding();
+  const { state, updateData, prevStep, setPath, complete } = useOnboarding();
 
   const [choice, setChoice] = useState<CompanyChoice | null>(
     state.data.companyChoice
@@ -87,10 +87,10 @@ export function StepCompanySelect() {
       return;
     }
 
-    // Simulate saving and redirect to dashboard
+    // Mark onboarding as completed and redirect to home
     await new Promise((resolve) => setTimeout(resolve, 500));
-    reset();
-    router.push("/");
+    complete();
+    router.push("/home");
   };
 
   const canSubmit =

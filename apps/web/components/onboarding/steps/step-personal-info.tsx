@@ -18,6 +18,7 @@ import { cn } from "@workspace/ui/lib/utils";
 
 import { StepContainer } from "../step-container";
 import { useOnboarding } from "@/providers/onboarding-provider";
+import { useAuth } from "@/providers/auth-provider";
 import {
   personalInfoSchema,
   type PersonalInfoFormData,
@@ -27,11 +28,12 @@ import { POSITIONS } from "@/lib/constants/positions";
 import { RequiredLabel } from "@/components/ui";
 
 export function StepPersonalInfo() {
-  const t = useTranslations("onboarding.step4");
+  const t = useTranslations("onboarding.step2");
   const tCommon = useTranslations("onboarding.common");
   const tDepartments = useTranslations("departments");
   const tPositions = useTranslations("positions");
   const { state, updateData, nextStep, prevStep } = useOnboarding();
+  const { user } = useAuth();
 
   const {
     register,
@@ -44,24 +46,25 @@ export function StepPersonalInfo() {
     defaultValues: {
       firstName: state.data.firstName,
       lastName: state.data.lastName,
-      email: state.data.email,
-      phone: state.data.phone,
       departmentId: state.data.departmentId,
       position: state.data.position,
     },
     mode: "onChange",
   });
 
-  const identifierType = state.data.identifierType;
   const watchDepartment = watch("departmentId");
   const watchPosition = watch("position");
+
+  // Get user identifier from Supabase Auth
+  const userEmail = user?.email;
+  const userPhone = user?.phone;
+  const identifierType = userEmail ? "email" : "phone";
+  const identifier = userEmail || userPhone || "";
 
   const onSubmit = (data: PersonalInfoFormData) => {
     updateData({
       firstName: data.firstName,
       lastName: data.lastName,
-      email: data.email || "",
-      phone: data.phone || "",
       departmentId: data.departmentId,
       position: data.position,
     });
@@ -79,15 +82,17 @@ export function StepPersonalInfo() {
         </div>
 
         <div className="grid gap-4">
-          {/* Display identifier from step 1 */}
-          <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md">
-            {identifierType === "email" ? (
-              <Mail className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Phone className="h-4 w-4 text-muted-foreground" />
-            )}
-            <span className="text-sm font-medium">{state.data.identifier}</span>
-          </div>
+          {/* Display user identifier from Supabase Auth */}
+          {identifier && (
+            <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md">
+              {identifierType === "email" ? (
+                <Mail className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Phone className="h-4 w-4 text-muted-foreground" />
+              )}
+              <span className="text-sm font-medium">{identifier}</span>
+            </div>
+          )}
 
           {/* Name fields */}
           <div className="grid grid-cols-2 gap-3">
@@ -132,56 +137,6 @@ export function StepPersonalInfo() {
               )}
             </div>
           </div>
-
-          {/* Email (if identifier was phone) */}
-          {identifierType === "phone" && (
-            <div className="grid gap-2">
-              <RequiredLabel htmlFor="email" optional optionalText={t("optional")}>
-                {t("email")}
-              </RequiredLabel>
-              <Input
-                id="email"
-                type="email"
-                placeholder={t("emailPlaceholder")}
-                autoComplete="email"
-                {...register("email")}
-                className={cn(
-                  errors.email &&
-                    "border-destructive focus-visible:ring-destructive"
-                )}
-              />
-              {errors.email && (
-                <p className="text-xs text-destructive">
-                  {t(`errors.${errors.email.message}`)}
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Phone (if identifier was email) */}
-          {identifierType === "email" && (
-            <div className="grid gap-2">
-              <RequiredLabel htmlFor="phone" optional optionalText={t("optional")}>
-                {t("phone")}
-              </RequiredLabel>
-              <Input
-                id="phone"
-                type="tel"
-                placeholder={t("phonePlaceholder")}
-                autoComplete="tel"
-                {...register("phone")}
-                className={cn(
-                  errors.phone &&
-                    "border-destructive focus-visible:ring-destructive"
-                )}
-              />
-              {errors.phone && (
-                <p className="text-xs text-destructive">
-                  {t(`errors.${errors.phone.message}`)}
-                </p>
-              )}
-            </div>
-          )}
 
           {/* Department */}
           <div className="grid gap-2">

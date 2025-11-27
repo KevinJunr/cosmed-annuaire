@@ -78,6 +78,12 @@ function onboardingReducer(
         isLoading: action.payload,
       };
 
+    case "COMPLETE":
+      return {
+        ...state,
+        isCompleted: true,
+      };
+
     case "RESET":
       return INITIAL_ONBOARDING_STATE;
 
@@ -102,6 +108,7 @@ interface OnboardingContextValue {
   setCompanyData: (data: CompanyFormData) => void;
   // Utils
   setLoading: (loading: boolean) => void;
+  complete: () => void;
   reset: () => void;
   // Computed
   isFirstStep: boolean;
@@ -180,6 +187,10 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     dispatch({ type: "SET_LOADING", payload: loading });
   }, []);
 
+  const complete = useCallback(() => {
+    dispatch({ type: "COMPLETE" });
+  }, []);
+
   const reset = useCallback(() => {
     dispatch({ type: "RESET" });
     try {
@@ -204,6 +215,7 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     setPath,
     setCompanyData,
     setLoading,
+    complete,
     reset,
     isFirstStep,
     isLastStep,

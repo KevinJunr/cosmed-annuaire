@@ -6,13 +6,12 @@ import { updateSession } from "./lib/supabase/middleware";
 const intlMiddleware = createMiddleware(routing);
 
 // Routes that require authentication
-const protectedRoutes = ["/home", "/dashboard", "/entreprise"];
+const protectedRoutes = ["/home", "/dashboard", "/entreprise", "/onboarding"];
 
 // Routes only for non-authenticated users
-const authRoutes = ["/login", "/register", "/onboarding", "/forgot-password", "/reset-password"];
+const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password"];
 
 function getPathWithoutLocale(pathname: string): string {
-  // Remove locale prefix (e.g., /fr/home -> /home)
   const localePattern = /^\/(fr|en|es|zh|ar)/;
   return pathname.replace(localePattern, "") || "/";
 }
@@ -24,27 +23,30 @@ export async function middleware(request: NextRequest) {
   // Update Supabase session (refresh tokens if needed)
   const { supabaseResponse, user } = await updateSession(request);
 
-  // Check if trying to access protected route without auth
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathWithoutLocale.startsWith(route)
   );
-
-  // Check if trying to access auth route while authenticated
   const isAuthRoute = authRoutes.some((route) =>
     pathWithoutLocale.startsWith(route)
   );
 
+  const locale = pathname.match(/^\/(fr|en|es|zh|ar)/)?.[1] || "fr";
+
   // Redirect unauthenticated users from protected routes to login
   if (isProtectedRoute && !user) {
-    const locale = pathname.match(/^\/(fr|en|es|zh|ar)/)?.[1] || "fr";
     const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Redirect authenticated users from auth routes to home
+  // Redirect authenticated users from auth routes
+  // The destination (home or onboarding) is handled client-side based on localStorage
   if (isAuthRoute && user) {
-    const locale = pathname.match(/^\/(fr|en|es|zh|ar)/)?.[1] || "fr";
+    return NextResponse.redirect(new URL(`/${locale}/home`, request.url));
+  }
+
+  // Redirect authenticated users from root to home
+  if (pathWithoutLocale === "/" && user) {
     return NextResponse.redirect(new URL(`/${locale}/home`, request.url));
   }
 
@@ -65,7 +67,8 @@ export async function middleware(request: NextRequest) {
 export const config = {
   // Match all pathnames except for
   // - API routes
+  // - Auth callback (Supabase email confirmation)
   // - Static files (images, etc.)
   // - Next.js internals
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api|auth|_next|_vercel|.*\\..*).*)"],
 };

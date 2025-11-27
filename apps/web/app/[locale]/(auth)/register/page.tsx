@@ -35,7 +35,7 @@ function RegisterPageClient() {
         <div className="flex justify-center lg:justify-start">
           <Link href="/" className="flex items-center">
             <Image
-              src="/logo/logo_full.svg"
+              src="/logo/logo_full.webp"
               alt="Cosmed Annuaire"
               width={140}
               height={32}

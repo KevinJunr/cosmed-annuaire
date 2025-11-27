@@ -158,12 +158,9 @@
   },
   "onboarding": {
     "stepper": {
-      "step1": "Identificación",
-      "step2": "Contraseña",
-      "step3": "Objetivo",
-      "step4": "Información personal",
-      "step5": "Empresa",
-      "step6": "Verificación"
+      "step1": "Objetivo",
+      "step2": "Información",
+      "step3": "Empresa"
     },
     "common": {
       "continue": "Continuar",
@@ -172,45 +169,6 @@
       "finishing": "Finalizando..."
     },
     "step1": {
-      "title": "Bienvenido",
-      "subtitle": "Ingresa tu email o número de teléfono para comenzar",
-      "identifier": "Email o teléfono",
-      "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
-      "usingEmail": "Registro con email",
-      "usingPhone": "Registro con teléfono",
-      "alreadyHaveAccount": "¿Ya tienes cuenta?",
-      "login": "Iniciar sesión",
-      "errors": {
-        "required": "Este campo es obligatorio",
-        "invalidFormat": "Formato de email o teléfono inválido"
-      }
-    },
-    "step2": {
-      "title": "Protege tu cuenta",
-      "subtitle": "Crea una contraseña segura",
-      "password": "Contraseña",
-      "passwordPlaceholder": "••••••••",
-      "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "••••••••",
-      "showPassword": "Mostrar contraseña",
-      "hidePassword": "Ocultar contraseña",
-      "passwordRules": {
-        "minLength": "10 caracteres mínimo",
-        "uppercase": "1 mayúscula",
-        "specialChar": "1 carácter especial",
-        "number": "1 número"
-      },
-      "errors": {
-        "required": "Este campo es obligatorio",
-        "tooShort": "La contraseña debe tener al menos 10 caracteres",
-        "needsUppercase": "La contraseña debe contener una mayúscula",
-        "needsSpecialChar": "La contraseña debe contener un carácter especial",
-        "needsNumber": "La contraseña debe contener un número",
-        "passwordMismatch": "Las contraseñas no coinciden",
-        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
-      }
-    },
-    "step3": {
       "title": "¿Cuál es tu objetivo?",
       "subtitle": "Esto nos ayuda a personalizar tu experiencia",
       "options": {
@@ -228,31 +186,24 @@
         }
       }
     },
-    "step4": {
+    "step2": {
       "title": "Tu información",
       "subtitle": "Cuéntanos un poco sobre ti",
       "firstName": "Nombre",
       "firstNamePlaceholder": "Juan",
       "lastName": "Apellido",
       "lastNamePlaceholder": "García",
-      "email": "Email",
-      "emailPlaceholder": "juan.garcia@example.com",
-      "phone": "Teléfono",
-      "phonePlaceholder": "+34 612 345 678",
       "department": "Departamento",
       "departmentPlaceholder": "Selecciona tu departamento",
       "position": "Puesto",
       "positionPlaceholder": "Selecciona tu puesto",
-      "optional": "opcional",
       "errors": {
         "required": "Este campo es obligatorio",
         "tooShort": "Demasiado corto",
-        "tooLong": "Demasiado largo",
-        "invalidEmail": "Email inválido",
-        "invalidPhone": "Teléfono inválido"
+        "tooLong": "Demasiado largo"
       }
     },
-    "step5": {
+    "step3": {
       "pathA": {
         "title": "Tu empresa",
         "subtitle": "Únete a una empresa existente o crea la tuya",
@@ -299,31 +250,6 @@
           "invalidEmail": "Email inválido",
           "invalidLinkedin": "URL de LinkedIn inválida"
         }
-      }
-    },
-    "step6": {
-      "title": "Finaliza tu registro",
-      "subtitle": "Revisa tu información y valida tu cuenta",
-      "summary": {
-        "identifier": "Identificador",
-        "name": "Nombre"
-      },
-      "finalize": "Finalizar mi registro",
-      "finalizing": "Finalizando...",
-      "otp": {
-        "title": "Verificación",
-        "subtitle": "Se ha enviado un código al {phone}",
-        "code": "Código de verificación",
-        "verify": "Verificar",
-        "verifying": "Verificando...",
-        "resend": "Reenviar código"
-      },
-      "emailSent": {
-        "title": "Revisa tu bandeja de entrada",
-        "subtitle": "Si no existe una cuenta con este email, recibirás un correo de confirmación."
-      },
-      "errors": {
-        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       }
     }
   },

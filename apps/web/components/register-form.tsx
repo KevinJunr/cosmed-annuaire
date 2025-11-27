@@ -11,7 +11,6 @@ import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-  InputOTPSeparator,
 } from "@workspace/ui/components/input-otp";
 import { Label } from "@workspace/ui/components/label";
 import { cn } from "@workspace/ui/lib/utils";
@@ -68,9 +67,13 @@ export function RegisterForm({
 
       if (type === "email") {
         // Always show confirmation screen to prevent email enumeration
+        const redirectUrl = `${window.location.origin}/auth/callback`;
         await supabase.auth.signUp({
           email: identifier.trim(),
           password,
+          options: {
+            emailRedirectTo: redirectUrl,
+          },
         });
         // Don't check for errors - always show generic confirmation
         setStep("confirmation");
@@ -116,7 +119,7 @@ export function RegisterForm({
         return;
       }
 
-      router.push("/");
+      router.push("/onboarding");
       router.refresh();
     } catch {
       setError(t("errors.generic"));

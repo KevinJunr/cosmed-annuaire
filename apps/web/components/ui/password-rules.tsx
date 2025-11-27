@@ -14,7 +14,7 @@ function PasswordRule({ isValid, label }: PasswordRuleProps) {
     <div className="flex items-center gap-2">
       <div
         className={cn(
-          "h-4 w-4 rounded border flex items-center justify-center transition-colors",
+          "h-4 w-4 rounded-full border flex items-center justify-center transition-colors",
           isValid
             ? "bg-green-500 border-green-500"
             : "bg-muted border-muted-foreground/30"

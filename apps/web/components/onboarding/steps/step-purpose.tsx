@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ArrowRight, Search, Building2, Users, Check } from "lucide-react";
+import { ArrowRight, Search, Building2, Users, Check } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
@@ -21,9 +21,9 @@ const PURPOSE_OPTIONS = [
 ] as const;
 
 export function StepPurpose() {
-  const t = useTranslations("onboarding.step3");
+  const t = useTranslations("onboarding.step1");
   const tCommon = useTranslations("onboarding.common");
-  const { state, updateData, setPath, nextStep, prevStep } = useOnboarding();
+  const { state, updateData, setPath, nextStep } = useOnboarding();
 
   const {
     setValue,
@@ -108,21 +108,10 @@ export function StepPurpose() {
           ))}
         </RadioGroup>
 
-        <div className="flex gap-3">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={prevStep}
-            className="flex-1"
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {tCommon("back")}
-          </Button>
-          <Button type="submit" className="flex-1" disabled={!isValid}>
-            {tCommon("continue")}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+        <Button type="submit" className="w-full" disabled={!isValid}>
+          {tCommon("continue")}
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
       </form>
     </StepContainer>
   );

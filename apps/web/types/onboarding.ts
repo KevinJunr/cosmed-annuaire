@@ -2,7 +2,6 @@
 
 export type OnboardingPurpose = "SEARCH" | "REGISTER" | "BOTH";
 export type OnboardingPath = "search" | "register" | "both" | null;
-export type IdentifierType = "email" | "phone" | null;
 export type CompanyChoice = "existing" | "new" | "none" | null;
 
 export interface CompanyFormData {
@@ -17,26 +16,17 @@ export interface CompanyFormData {
 }
 
 export interface OnboardingData {
-  // Step 1: Identifier
-  identifier: string;
-  identifierType: IdentifierType;
-  // Step 2: Password (no verification yet)
-  password: string;
-  // Step 3: Purpose
+  // Step 1: Purpose
   purpose: OnboardingPurpose | null;
-  // Step 4: Personal Info
+  // Step 2: Personal Info
   firstName: string;
   lastName: string;
-  email: string;
-  phone: string;
   departmentId: string;
   position: string;
-  // Step 5: Company
+  // Step 3: Company
   companyChoice: CompanyChoice;
   selectedCompanyId: string | null;
   newCompanyData: CompanyFormData | null;
-  // Step 6: Verification (OTP/email at the end)
-  isVerified: boolean;
 }
 
 export interface OnboardingState {
@@ -45,6 +35,7 @@ export interface OnboardingState {
   path: OnboardingPath;
   data: OnboardingData;
   isLoading: boolean;
+  isCompleted: boolean;
 }
 
 export type OnboardingAction =
@@ -55,21 +46,16 @@ export type OnboardingAction =
   | { type: "UPDATE_DATA"; payload: Partial<OnboardingData> }
   | { type: "SET_COMPANY_DATA"; payload: CompanyFormData }
   | { type: "SET_LOADING"; payload: boolean }
+  | { type: "COMPLETE" }
   | { type: "RESET" }
   | { type: "RESTORE_STATE"; payload: OnboardingState };
 
 export const INITIAL_ONBOARDING_DATA: OnboardingData = {
-  identifier: "",
-  identifierType: null,
   purpose: null,
   firstName: "",
   lastName: "",
-  email: "",
-  phone: "",
   departmentId: "",
   position: "",
-  password: "",
-  isVerified: false,
   companyChoice: null,
   selectedCompanyId: null,
   newCompanyData: null,
@@ -81,7 +67,8 @@ export const INITIAL_ONBOARDING_STATE: OnboardingState = {
   path: null,
   data: INITIAL_ONBOARDING_DATA,
   isLoading: false,
+  isCompleted: false,
 };
 
-export const TOTAL_STEPS = 6;
+export const TOTAL_STEPS = 3;
 export const STORAGE_KEY = "cosmed_onboarding_state";

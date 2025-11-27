@@ -28,12 +28,12 @@ import { SECTORS } from "@/lib/constants/sectors";
 import { COUNTRIES } from "@/lib/constants/countries";
 
 export function StepCompanyCreate() {
-  const t = useTranslations("onboarding.step5.pathB");
+  const t = useTranslations("onboarding.step3.pathB");
   const tCommon = useTranslations("onboarding.common");
   const tSectors = useTranslations("sectors");
   const tCountries = useTranslations("countries");
   const router = useRouter();
-  const { state, setCompanyData, prevStep, setLoading, reset } = useOnboarding();
+  const { state, setCompanyData, prevStep, setLoading, complete } = useOnboarding();
 
   const {
     register,
@@ -67,8 +67,8 @@ export function StepCompanyCreate() {
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     setLoading(false);
-    reset();
-    router.push("/");
+    complete();
+    router.push("/home");
   };
 
   return (
