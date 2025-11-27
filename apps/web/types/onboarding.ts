@@ -6,13 +6,9 @@ export type CompanyChoice = "existing" | "new" | "none" | null;
 
 export interface CompanyFormData {
   companyName: string;
-  sectorId: string;
+  rcs?: string;
   country: string;
   address?: string;
-  rcs?: string;
-  primaryPhone?: string;
-  primaryEmail?: string;
-  linkedinUrl?: string;
 }
 
 export interface OnboardingData {

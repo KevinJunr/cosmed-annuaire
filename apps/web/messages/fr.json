@@ -227,28 +227,17 @@
         "subtitle": "Renseignez les informations de votre entreprise",
         "companyName": "Nom de l'entreprise",
         "companyNamePlaceholder": "Ma Société",
-        "sector": "Secteur d'activité",
-        "sectorPlaceholder": "Sélectionnez un secteur",
+        "rcs": "Numéro RCS",
+        "rcsPlaceholder": "Paris B 123 456 789",
         "country": "Pays",
         "countryPlaceholder": "Sélectionnez un pays",
         "address": "Adresse",
         "addressPlaceholder": "123 Rue de la Beauté, 75008 Paris",
-        "rcs": "Numéro RCS",
-        "rcsPlaceholder": "Paris B 123 456 789",
-        "primaryPhone": "Téléphone",
-        "primaryPhonePlaceholder": "+33 1 23 45 67 89",
-        "primaryEmail": "Email",
-        "primaryEmailPlaceholder": "contact@masociete.fr",
-        "linkedinUrl": "LinkedIn",
-        "linkedinUrlPlaceholder": "https://linkedin.com/company/masociete",
         "optional": "optionnel",
         "errors": {
           "required": "Ce champ est requis",
           "tooShort": "Trop court",
-          "tooLong": "Trop long",
-          "invalidPhone": "Téléphone invalide",
-          "invalidEmail": "Email invalide",
-          "invalidLinkedin": "URL LinkedIn invalide"
+          "tooLong": "Trop long"
         }
       }
     }

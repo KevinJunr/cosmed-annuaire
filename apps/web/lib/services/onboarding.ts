@@ -76,13 +76,10 @@ export async function completeOnboarding(
     // Create new company
     const companyInsert: CompanyInsert = {
       name: data.newCompanyData.companyName,
-      sector_id: data.newCompanyData.sectorId,
-      country: data.newCompanyData.country,
-      address: data.newCompanyData.address || null,
       rcs: data.newCompanyData.rcs || null,
-      primary_phone: data.newCompanyData.primaryPhone || null,
-      primary_email: data.newCompanyData.primaryEmail || null,
-      linkedin_url: data.newCompanyData.linkedinUrl || null,
+      country_id: data.newCompanyData.country || null, // country code for now, will be FK later
+      address: data.newCompanyData.address || null,
+      created_by: userId,
     };
 
     const createResult = await companiesRepository.createCompany(companyInsert);

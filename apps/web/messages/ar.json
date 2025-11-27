@@ -227,28 +227,17 @@
         "subtitle": "أدخل معلومات شركتك",
         "companyName": "اسم الشركة",
         "companyNamePlaceholder": "شركتي",
-        "sector": "القطاع",
-        "sectorPlaceholder": "اختر قطاعاً",
+        "rcs": "رقم التسجيل",
+        "rcsPlaceholder": "1010123456",
         "country": "البلد",
         "countryPlaceholder": "اختر بلداً",
         "address": "العنوان",
         "addressPlaceholder": "شارع الجمال 123، الرياض",
-        "rcs": "رقم التسجيل",
-        "rcsPlaceholder": "1010123456",
-        "primaryPhone": "الهاتف",
-        "primaryPhonePlaceholder": "+966 11 234 5678",
-        "primaryEmail": "البريد الإلكتروني",
-        "primaryEmailPlaceholder": "contact@mycompany.sa",
-        "linkedinUrl": "لينكد إن",
-        "linkedinUrlPlaceholder": "https://linkedin.com/company/mycompany",
         "optional": "اختياري",
         "errors": {
           "required": "هذا الحقل مطلوب",
           "tooShort": "قصير جداً",
-          "tooLong": "طويل جداً",
-          "invalidPhone": "هاتف غير صالح",
-          "invalidEmail": "بريد إلكتروني غير صالح",
-          "invalidLinkedin": "رابط لينكد إن غير صالح"
+          "tooLong": "طويل جداً"
         }
       }
     }

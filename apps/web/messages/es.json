@@ -227,28 +227,17 @@
         "subtitle": "Completa la información de tu empresa",
         "companyName": "Nombre de la empresa",
         "companyNamePlaceholder": "Mi Empresa",
-        "sector": "Sector",
-        "sectorPlaceholder": "Selecciona un sector",
+        "rcs": "Número de registro",
+        "rcsPlaceholder": "B-12345678",
         "country": "País",
         "countryPlaceholder": "Selecciona un país",
         "address": "Dirección",
         "addressPlaceholder": "Calle Belleza 123, 28001 Madrid",
-        "rcs": "Número de registro",
-        "rcsPlaceholder": "B-12345678",
-        "primaryPhone": "Teléfono",
-        "primaryPhonePlaceholder": "+34 91 234 56 78",
-        "primaryEmail": "Email",
-        "primaryEmailPlaceholder": "contacto@miempresa.es",
-        "linkedinUrl": "LinkedIn",
-        "linkedinUrlPlaceholder": "https://linkedin.com/company/miempresa",
         "optional": "opcional",
         "errors": {
           "required": "Este campo es obligatorio",
           "tooShort": "Demasiado corto",
-          "tooLong": "Demasiado largo",
-          "invalidPhone": "Teléfono inválido",
-          "invalidEmail": "Email inválido",
-          "invalidLinkedin": "URL de LinkedIn inválida"
+          "tooLong": "Demasiado largo"
         }
       }
     }

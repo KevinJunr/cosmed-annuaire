@@ -227,28 +227,17 @@
         "subtitle": "Fill in your company information",
         "companyName": "Company name",
         "companyNamePlaceholder": "My Company",
-        "sector": "Industry sector",
-        "sectorPlaceholder": "Select a sector",
+        "rcs": "Registration number",
+        "rcsPlaceholder": "12-3456789",
         "country": "Country",
         "countryPlaceholder": "Select a country",
         "address": "Address",
         "addressPlaceholder": "123 Beauty Street, New York, NY 10001",
-        "rcs": "Registration number",
-        "rcsPlaceholder": "12-3456789",
-        "primaryPhone": "Phone",
-        "primaryPhonePlaceholder": "+1 234 567 890",
-        "primaryEmail": "Email",
-        "primaryEmailPlaceholder": "contact@mycompany.com",
-        "linkedinUrl": "LinkedIn",
-        "linkedinUrlPlaceholder": "https://linkedin.com/company/mycompany",
         "optional": "optional",
         "errors": {
           "required": "This field is required",
           "tooShort": "Too short",
-          "tooLong": "Too long",
-          "invalidPhone": "Invalid phone",
-          "invalidEmail": "Invalid email",
-          "invalidLinkedin": "Invalid LinkedIn URL"
+          "tooLong": "Too long"
         }
       }
     }

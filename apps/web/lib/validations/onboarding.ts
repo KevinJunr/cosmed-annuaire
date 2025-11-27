@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { isValidEmail, isValidPhone } from "@/lib/validations";
 
 // Step 1: Purpose
 export const purposeSchema = z.object({
@@ -42,31 +41,16 @@ export const companySelectSchema = z
     { message: "selectCompany", path: ["selectedCompanyId"] }
   );
 
-// Step 5 Path B: Company Creation
+// Step 3 Path B: Company Creation (simplified for onboarding)
 export const companyCreateSchema = z.object({
   companyName: z
     .string()
     .min(1, { message: "required" })
     .min(2, { message: "tooShort" })
     .max(100, { message: "tooLong" }),
-  sectorId: z.string().min(1, { message: "required" }),
+  rcs: z.string().optional(),
   country: z.string().min(1, { message: "required" }),
   address: z.string().optional(),
-  rcs: z.string().optional(),
-  primaryPhone: z
-    .string()
-    .optional()
-    .refine((val) => !val || isValidPhone(val), { message: "invalidPhone" }),
-  primaryEmail: z
-    .string()
-    .optional()
-    .refine((val) => !val || isValidEmail(val), { message: "invalidEmail" }),
-  linkedinUrl: z
-    .string()
-    .optional()
-    .refine((val) => !val || val.includes("linkedin.com"), {
-      message: "invalidLinkedin",
-    }),
 });
 
 // Inferred types from schemas
