@@ -4,8 +4,7 @@ import { useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useOnboarding } from "@/providers/onboarding-provider";
-
-const TOTAL_STEPS = 5;
+import { TOTAL_STEPS } from "@/types";
 
 export function OnboardingStepper() {
   const t = useTranslations("onboarding.stepper");

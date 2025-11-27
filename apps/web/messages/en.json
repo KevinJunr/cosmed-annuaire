@@ -159,10 +159,11 @@
   "onboarding": {
     "stepper": {
       "step1": "Identification",
-      "step2": "Purpose",
-      "step3": "Personal information",
-      "step4": "Password",
-      "step5": "Company"
+      "step2": "Password",
+      "step3": "Purpose",
+      "step4": "Personal information",
+      "step5": "Company",
+      "step6": "Verification"
     },
     "common": {
       "continue": "Continue",
@@ -185,6 +186,31 @@
       }
     },
     "step2": {
+      "title": "Secure your account",
+      "subtitle": "Create a strong password",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "passwordRules": {
+        "minLength": "10 characters minimum",
+        "uppercase": "1 uppercase letter",
+        "specialChar": "1 special character",
+        "number": "1 number"
+      },
+      "errors": {
+        "required": "This field is required",
+        "tooShort": "Password must be at least 10 characters",
+        "needsUppercase": "Password must contain an uppercase letter",
+        "needsSpecialChar": "Password must contain a special character",
+        "needsNumber": "Password must contain a number",
+        "passwordMismatch": "Passwords do not match",
+        "generic": "An error occurred. Please try again."
+      }
+    },
+    "step3": {
       "title": "What is your goal?",
       "subtitle": "This helps us personalize your experience",
       "options": {
@@ -202,7 +228,7 @@
         }
       }
     },
-    "step3": {
+    "step4": {
       "title": "Your information",
       "subtitle": "Tell us a bit about yourself",
       "firstName": "First name",
@@ -224,44 +250,6 @@
         "tooLong": "Too long",
         "invalidEmail": "Invalid email",
         "invalidPhone": "Invalid phone"
-      }
-    },
-    "step4": {
-      "title": "Secure your account",
-      "subtitle": "Create a strong password",
-      "password": "Password",
-      "passwordPlaceholder": "••••••••",
-      "confirmPassword": "Confirm password",
-      "confirmPasswordPlaceholder": "••••••••",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "creating": "Creating...",
-      "passwordRules": {
-        "minLength": "10 characters minimum",
-        "uppercase": "1 uppercase letter",
-        "specialChar": "1 special character",
-        "number": "1 number"
-      },
-      "otp": {
-        "title": "Verification",
-        "subtitle": "A code has been sent to {phone}",
-        "code": "Verification code",
-        "verify": "Verify",
-        "verifying": "Verifying...",
-        "resend": "Resend code"
-      },
-      "emailSent": {
-        "title": "Check your inbox",
-        "subtitle": "If an account doesn't already exist with this email, you will receive a confirmation email."
-      },
-      "errors": {
-        "required": "This field is required",
-        "tooShort": "Password must be at least 10 characters",
-        "needsUppercase": "Password must contain an uppercase letter",
-        "needsSpecialChar": "Password must contain a special character",
-        "needsNumber": "Password must contain a number",
-        "passwordMismatch": "Passwords do not match",
-        "generic": "An error occurred. Please try again."
       }
     },
     "step5": {
@@ -311,6 +299,31 @@
           "invalidEmail": "Invalid email",
           "invalidLinkedin": "Invalid LinkedIn URL"
         }
+      }
+    },
+    "step6": {
+      "title": "Finalize your registration",
+      "subtitle": "Review your information and validate your account",
+      "summary": {
+        "identifier": "Identifier",
+        "name": "Name"
+      },
+      "finalize": "Finalize my registration",
+      "finalizing": "Finalizing...",
+      "otp": {
+        "title": "Verification",
+        "subtitle": "A code has been sent to {phone}",
+        "code": "Verification code",
+        "verify": "Verify",
+        "verifying": "Verifying...",
+        "resend": "Resend code"
+      },
+      "emailSent": {
+        "title": "Check your inbox",
+        "subtitle": "If an account doesn't already exist with this email, you will receive a confirmation email."
+      },
+      "errors": {
+        "generic": "An error occurred. Please try again."
       }
     }
   },

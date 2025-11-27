@@ -159,10 +159,11 @@
   "onboarding": {
     "stepper": {
       "step1": "Identificación",
-      "step2": "Objetivo",
-      "step3": "Información personal",
-      "step4": "Contraseña",
-      "step5": "Empresa"
+      "step2": "Contraseña",
+      "step3": "Objetivo",
+      "step4": "Información personal",
+      "step5": "Empresa",
+      "step6": "Verificación"
     },
     "common": {
       "continue": "Continuar",
@@ -185,6 +186,31 @@
       }
     },
     "step2": {
+      "title": "Protege tu cuenta",
+      "subtitle": "Crea una contraseña segura",
+      "password": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "Confirmar contraseña",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña",
+      "passwordRules": {
+        "minLength": "10 caracteres mínimo",
+        "uppercase": "1 mayúscula",
+        "specialChar": "1 carácter especial",
+        "number": "1 número"
+      },
+      "errors": {
+        "required": "Este campo es obligatorio",
+        "tooShort": "La contraseña debe tener al menos 10 caracteres",
+        "needsUppercase": "La contraseña debe contener una mayúscula",
+        "needsSpecialChar": "La contraseña debe contener un carácter especial",
+        "needsNumber": "La contraseña debe contener un número",
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
+      }
+    },
+    "step3": {
       "title": "¿Cuál es tu objetivo?",
       "subtitle": "Esto nos ayuda a personalizar tu experiencia",
       "options": {
@@ -202,7 +228,7 @@
         }
       }
     },
-    "step3": {
+    "step4": {
       "title": "Tu información",
       "subtitle": "Cuéntanos un poco sobre ti",
       "firstName": "Nombre",
@@ -224,44 +250,6 @@
         "tooLong": "Demasiado largo",
         "invalidEmail": "Email inválido",
         "invalidPhone": "Teléfono inválido"
-      }
-    },
-    "step4": {
-      "title": "Protege tu cuenta",
-      "subtitle": "Crea una contraseña segura",
-      "password": "Contraseña",
-      "passwordPlaceholder": "••••••••",
-      "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "••••••••",
-      "showPassword": "Mostrar contraseña",
-      "hidePassword": "Ocultar contraseña",
-      "creating": "Creando...",
-      "passwordRules": {
-        "minLength": "10 caracteres mínimo",
-        "uppercase": "1 mayúscula",
-        "specialChar": "1 carácter especial",
-        "number": "1 número"
-      },
-      "otp": {
-        "title": "Verificación",
-        "subtitle": "Se ha enviado un código al {phone}",
-        "code": "Código de verificación",
-        "verify": "Verificar",
-        "verifying": "Verificando...",
-        "resend": "Reenviar código"
-      },
-      "emailSent": {
-        "title": "Revisa tu bandeja de entrada",
-        "subtitle": "Si no existe una cuenta con este email, recibirás un correo de confirmación."
-      },
-      "errors": {
-        "required": "Este campo es obligatorio",
-        "tooShort": "La contraseña debe tener al menos 10 caracteres",
-        "needsUppercase": "La contraseña debe contener una mayúscula",
-        "needsSpecialChar": "La contraseña debe contener un carácter especial",
-        "needsNumber": "La contraseña debe contener un número",
-        "passwordMismatch": "Las contraseñas no coinciden",
-        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       }
     },
     "step5": {
@@ -311,6 +299,31 @@
           "invalidEmail": "Email inválido",
           "invalidLinkedin": "URL de LinkedIn inválida"
         }
+      }
+    },
+    "step6": {
+      "title": "Finaliza tu registro",
+      "subtitle": "Revisa tu información y valida tu cuenta",
+      "summary": {
+        "identifier": "Identificador",
+        "name": "Nombre"
+      },
+      "finalize": "Finalizar mi registro",
+      "finalizing": "Finalizando...",
+      "otp": {
+        "title": "Verificación",
+        "subtitle": "Se ha enviado un código al {phone}",
+        "code": "Código de verificación",
+        "verify": "Verificar",
+        "verifying": "Verificando...",
+        "resend": "Reenviar código"
+      },
+      "emailSent": {
+        "title": "Revisa tu bandeja de entrada",
+        "subtitle": "Si no existe una cuenta con este email, recibirás un correo de confirmación."
+      },
+      "errors": {
+        "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       }
     }
   },

@@ -17,25 +17,26 @@ export interface CompanyFormData {
 }
 
 export interface OnboardingData {
-  // Step 1
+  // Step 1: Identifier
   identifier: string;
   identifierType: IdentifierType;
-  // Step 2
+  // Step 2: Password (no verification yet)
+  password: string;
+  // Step 3: Purpose
   purpose: OnboardingPurpose | null;
-  // Step 3
+  // Step 4: Personal Info
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   departmentId: string;
   position: string;
-  // Step 4
-  password: string;
-  isVerified: boolean;
-  // Step 5
+  // Step 5: Company
   companyChoice: CompanyChoice;
   selectedCompanyId: string | null;
   newCompanyData: CompanyFormData | null;
+  // Step 6: Verification (OTP/email at the end)
+  isVerified: boolean;
 }
 
 export interface OnboardingState {
@@ -82,5 +83,5 @@ export const INITIAL_ONBOARDING_STATE: OnboardingState = {
   isLoading: false,
 };
 
-export const TOTAL_STEPS = 5;
+export const TOTAL_STEPS = 6;
 export const STORAGE_KEY = "cosmed_onboarding_state";

@@ -21,7 +21,7 @@ const PURPOSE_OPTIONS = [
 ] as const;
 
 export function StepPurpose() {
-  const t = useTranslations("onboarding.step2");
+  const t = useTranslations("onboarding.step3");
   const tCommon = useTranslations("onboarding.common");
   const { state, updateData, setPath, nextStep, prevStep } = useOnboarding();
 

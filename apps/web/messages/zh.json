@@ -159,10 +159,11 @@
   "onboarding": {
     "stepper": {
       "step1": "身份验证",
-      "step2": "目的",
-      "step3": "个人信息",
-      "step4": "密码",
-      "step5": "公司"
+      "step2": "密码",
+      "step3": "目的",
+      "step4": "个人信息",
+      "step5": "公司",
+      "step6": "验证"
     },
     "common": {
       "continue": "继续",
@@ -185,6 +186,31 @@
       }
     },
     "step2": {
+      "title": "保护您的帐户",
+      "subtitle": "创建一个强密码",
+      "password": "密码",
+      "passwordPlaceholder": "••••••••",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "••••••••",
+      "showPassword": "显示密码",
+      "hidePassword": "隐藏密码",
+      "passwordRules": {
+        "minLength": "至少10个字符",
+        "uppercase": "1个大写字母",
+        "specialChar": "1个特殊字符",
+        "number": "1个数字"
+      },
+      "errors": {
+        "required": "此字段必填",
+        "tooShort": "密码必须至少10个字符",
+        "needsUppercase": "密码必须包含一个大写字母",
+        "needsSpecialChar": "密码必须包含一个特殊字符",
+        "needsNumber": "密码必须包含一个数字",
+        "passwordMismatch": "密码不匹配",
+        "generic": "发生错误，请重试。"
+      }
+    },
+    "step3": {
       "title": "您的目标是什么？",
       "subtitle": "这有助于我们个性化您的体验",
       "options": {
@@ -202,7 +228,7 @@
         }
       }
     },
-    "step3": {
+    "step4": {
       "title": "您的信息",
       "subtitle": "请告诉我们一些关于您的信息",
       "firstName": "名字",
@@ -224,44 +250,6 @@
         "tooLong": "太长",
         "invalidEmail": "邮箱无效",
         "invalidPhone": "电话无效"
-      }
-    },
-    "step4": {
-      "title": "保护您的帐户",
-      "subtitle": "创建一个强密码",
-      "password": "密码",
-      "passwordPlaceholder": "••••••••",
-      "confirmPassword": "确认密码",
-      "confirmPasswordPlaceholder": "••••••••",
-      "showPassword": "显示密码",
-      "hidePassword": "隐藏密码",
-      "creating": "创建中...",
-      "passwordRules": {
-        "minLength": "至少10个字符",
-        "uppercase": "1个大写字母",
-        "specialChar": "1个特殊字符",
-        "number": "1个数字"
-      },
-      "otp": {
-        "title": "验证",
-        "subtitle": "验证码已发送至 {phone}",
-        "code": "验证码",
-        "verify": "验证",
-        "verifying": "验证中...",
-        "resend": "重新发送验证码"
-      },
-      "emailSent": {
-        "title": "请查收邮件",
-        "subtitle": "如果该邮箱尚未注册，您将收到一封确认邮件。"
-      },
-      "errors": {
-        "required": "此字段必填",
-        "tooShort": "密码必须至少10个字符",
-        "needsUppercase": "密码必须包含一个大写字母",
-        "needsSpecialChar": "密码必须包含一个特殊字符",
-        "needsNumber": "密码必须包含一个数字",
-        "passwordMismatch": "密码不匹配",
-        "generic": "发生错误，请重试。"
       }
     },
     "step5": {
@@ -311,6 +299,31 @@
           "invalidEmail": "邮箱无效",
           "invalidLinkedin": "LinkedIn网址无效"
         }
+      }
+    },
+    "step6": {
+      "title": "完成注册",
+      "subtitle": "查看您的信息并验证您的帐户",
+      "summary": {
+        "identifier": "标识符",
+        "name": "姓名"
+      },
+      "finalize": "完成注册",
+      "finalizing": "正在完成...",
+      "otp": {
+        "title": "验证",
+        "subtitle": "验证码已发送至 {phone}",
+        "code": "验证码",
+        "verify": "验证",
+        "verifying": "验证中...",
+        "resend": "重新发送验证码"
+      },
+      "emailSent": {
+        "title": "请查收邮件",
+        "subtitle": "如果该邮箱尚未注册，您将收到一封确认邮件。"
+      },
+      "errors": {
+        "generic": "发生错误，请重试。"
       }
     }
   },

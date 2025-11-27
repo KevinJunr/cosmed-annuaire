@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ArrowRight, Loader2, Mail } from "lucide-react";
+import { ArrowLeft, Loader2, Mail, CheckCircle2, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
@@ -14,73 +13,52 @@ import {
   InputOTPSlot,
   InputOTPSeparator,
 } from "@workspace/ui/components/input-otp";
-import { cn } from "@workspace/ui/lib/utils";
 
 import { StepContainer } from "../step-container";
 import { useOnboarding } from "@/providers/onboarding-provider";
-import { PasswordInput, PasswordRulesDisplay } from "@/components/ui";
-import { passwordSchema, type PasswordFormData } from "@/lib/validations/onboarding";
-import { validatePassword, formatPhoneForAuth } from "@/lib/validations";
+import { formatPhoneForAuth } from "@/lib/validations";
 import { createClient } from "@/lib/supabase/client";
 
-type SubStep = "password" | "otp" | "email-sent";
+type SubStep = "confirm" | "otp" | "email-sent";
 
-export function StepPasswordOtp() {
-  const t = useTranslations("onboarding.step4");
+export function StepVerification() {
+  const t = useTranslations("onboarding.step6");
   const tCommon = useTranslations("onboarding.common");
-  const { state, updateData, nextStep, prevStep, setLoading } = useOnboarding();
+  const router = useRouter();
+  const { state, updateData, prevStep, setLoading, reset } = useOnboarding();
 
-  const [subStep, setSubStep] = useState<SubStep>("password");
+  const [subStep, setSubStep] = useState<SubStep>("confirm");
   const [otpCode, setOtpCode] = useState("");
   const [phoneForOtp, setPhoneForOtp] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const supabase = createClient();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isValid },
-  } = useForm<PasswordFormData>({
-    resolver: zodResolver(passwordSchema),
-    defaultValues: {
-      password: state.data.password,
-      confirmPassword: "",
-    },
-    mode: "onChange",
-  });
-
-  const password = watch("password");
-  const passwordValidation = validatePassword(password || "");
-
-  const onSubmitPassword = async (data: PasswordFormData) => {
+  const handleFinalize = async () => {
     setError(null);
     setLoading(true);
 
     try {
       const identifierType = state.data.identifierType;
       const identifier = state.data.identifier;
+      const password = state.data.password;
 
       if (identifierType === "email") {
         await supabase.auth.signUp({
           email: identifier.trim(),
-          password: data.password,
+          password: password,
         });
-        updateData({ password: data.password });
         setSubStep("email-sent");
       } else if (identifierType === "phone") {
         const formattedPhone = formatPhoneForAuth(identifier);
         await supabase.auth.signUp({
           phone: formattedPhone,
-          password: data.password,
+          password: password,
         });
-        updateData({ password: data.password });
         setPhoneForOtp(formattedPhone);
         setSubStep("otp");
       }
     } catch {
-      // Always show generic success to prevent enumeration
       const identifierType = state.data.identifierType;
       if (identifierType === "email") {
         setSubStep("email-sent");
@@ -111,7 +89,9 @@ export function StepPasswordOtp() {
       }
 
       updateData({ isVerified: true });
-      nextStep();
+      reset();
+      router.push("/");
+      router.refresh();
     } catch {
       setError(t("errors.generic"));
     } finally {
@@ -158,7 +138,7 @@ export function StepPasswordOtp() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setSubStep("password")}
+              onClick={() => setSubStep("confirm")}
               className="flex-1"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -203,6 +183,9 @@ export function StepPasswordOtp() {
                   <InputOTPSlot index={0} />
                   <InputOTPSlot index={1} />
                   <InputOTPSlot index={2} />
+                </InputOTPGroup>
+                <InputOTPSeparator />
+                <InputOTPGroup>
                   <InputOTPSlot index={3} />
                   <InputOTPSlot index={4} />
                   <InputOTPSlot index={5} />
@@ -237,7 +220,7 @@ export function StepPasswordOtp() {
             </button>
             <button
               type="button"
-              onClick={() => setSubStep("password")}
+              onClick={() => setSubStep("confirm")}
               disabled={state.isLoading}
               className="flex items-center justify-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -250,18 +233,34 @@ export function StepPasswordOtp() {
     );
   }
 
-  // Password form
+  // Confirmation screen with CTA
   return (
     <StepContainer>
-      <form
-        onSubmit={handleSubmit(onSubmitPassword)}
-        className="flex flex-col gap-6"
-      >
-        <div className="flex flex-col items-center gap-2 text-center">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <Sparkles className="h-8 w-8 text-primary" />
+          </div>
           <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-balance text-sm text-muted-foreground">
             {t("subtitle")}
           </p>
+        </div>
+
+        {/* Summary of what was collected */}
+        <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">{t("summary.identifier")}</span>
+            <span className="font-medium">{state.data.identifier}</span>
+          </div>
+          {state.data.firstName && (
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{t("summary.name")}</span>
+              <span className="font-medium">
+                {state.data.firstName} {state.data.lastName}
+              </span>
+            </div>
+          )}
         </div>
 
         {error && (
@@ -269,57 +268,6 @@ export function StepPasswordOtp() {
             {error}
           </div>
         )}
-
-        <div className="grid gap-4">
-          {/* Password */}
-          <div className="grid gap-2">
-            <Label htmlFor="password">{t("password")}</Label>
-            <PasswordInput
-              id="password"
-              placeholder={t("passwordPlaceholder")}
-              autoComplete="new-password"
-              showLabel={t("showPassword")}
-              hideLabel={t("hidePassword")}
-              {...register("password")}
-              className={cn(
-                errors.password &&
-                  "border-destructive focus-visible:ring-destructive"
-              )}
-            />
-            <PasswordRulesDisplay
-              rules={passwordValidation.rules}
-              labels={{
-                minLength: t("passwordRules.minLength"),
-                uppercase: t("passwordRules.uppercase"),
-                specialChar: t("passwordRules.specialChar"),
-                number: t("passwordRules.number"),
-              }}
-              className="mt-1"
-            />
-          </div>
-
-          {/* Confirm Password */}
-          <div className="grid gap-2">
-            <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
-            <PasswordInput
-              id="confirmPassword"
-              placeholder={t("confirmPasswordPlaceholder")}
-              autoComplete="new-password"
-              showLabel={t("showPassword")}
-              hideLabel={t("hidePassword")}
-              {...register("confirmPassword")}
-              className={cn(
-                errors.confirmPassword &&
-                  "border-destructive focus-visible:ring-destructive"
-              )}
-            />
-            {errors.confirmPassword && (
-              <p className="text-xs text-destructive">
-                {t(`errors.${errors.confirmPassword.message}`)}
-              </p>
-            )}
-          </div>
-        </div>
 
         <div className="flex gap-3">
           <Button
@@ -332,24 +280,25 @@ export function StepPasswordOtp() {
             {tCommon("back")}
           </Button>
           <Button
-            type="submit"
+            type="button"
+            onClick={handleFinalize}
+            disabled={state.isLoading}
             className="flex-1"
-            disabled={!isValid || state.isLoading}
           >
             {state.isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {t("creating")}
+                {t("finalizing")}
               </>
             ) : (
               <>
-                {tCommon("continue")}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <CheckCircle2 className="mr-2 h-4 w-4" />
+                {t("finalize")}
               </>
             )}
           </Button>
         </div>
-      </form>
+      </div>
     </StepContainer>
   );
 }

@@ -27,7 +27,7 @@ import { POSITIONS } from "@/lib/constants/positions";
 import { RequiredLabel } from "@/components/ui";
 
 export function StepPersonalInfo() {
-  const t = useTranslations("onboarding.step3");
+  const t = useTranslations("onboarding.step4");
   const tCommon = useTranslations("onboarding.common");
   const tDepartments = useTranslations("departments");
   const tPositions = useTranslations("positions");

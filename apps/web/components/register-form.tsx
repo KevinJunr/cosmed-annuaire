@@ -173,28 +173,27 @@ export function RegisterForm({
         )}
 
         <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="otpCode">{t("otp.code")}</Label>
-            <div className="flex justify-center">
-              <InputOTP
-                maxLength={6}
-                value={otpCode}
-                onChange={(value) => setOtpCode(value)}
-                autoFocus
-              >
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                </InputOTPGroup>
-                <InputOTPSeparator />
-                <InputOTPGroup>
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-            </div>
+          <div className="flex flex-col items-center gap-3">
+            <Label htmlFor="otpCode" className="text-center">
+              {t("otp.code")}
+            </Label>
+            <InputOTP
+              maxLength={6}
+              value={otpCode}
+              onChange={(value) => setOtpCode(value)}
+              autoFocus
+            >
+              <InputOTPGroup>
+                <InputOTPSlot index={0} />
+                <InputOTPSlot index={1} />
+                <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPGroup>
+                <InputOTPSlot index={3} />
+                <InputOTPSlot index={4} />
+                <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP>
           </div>
 
           <Button
