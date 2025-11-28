@@ -6,6 +6,7 @@ import {
   useReducer,
   useCallback,
   useEffect,
+  useRef,
   type ReactNode,
 } from "react";
 import {
@@ -16,8 +17,12 @@ import {
   type CompanyFormData,
   INITIAL_ONBOARDING_STATE,
   TOTAL_STEPS,
-  STORAGE_KEY,
 } from "@/types";
+import {
+  loadOnboardingProgressAction,
+  saveOnboardingProgressAction,
+  completeOnboardingAction,
+} from "@/lib/actions/onboarding";
 
 // Reducer
 function onboardingReducer(
@@ -108,13 +113,14 @@ interface OnboardingContextValue {
   setCompanyData: (data: CompanyFormData) => void;
   // Utils
   setLoading: (loading: boolean) => void;
-  complete: () => void;
+  complete: (overrideData?: Partial<OnboardingData>, locale?: string) => Promise<boolean>;
   reset: () => void;
   // Computed
   isFirstStep: boolean;
   isLastStep: boolean;
   progress: number;
   canGoNext: boolean;
+  isInitialized: boolean;
 }
 
 // Context
@@ -133,28 +139,59 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     onboardingReducer,
     INITIAL_ONBOARDING_STATE
   );
+  const isInitializedRef = useRef(false);
+  const isSavingRef = useRef(false);
 
-  // Restore state from localStorage on mount
+  // Load state from database on mount
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved) as OnboardingState;
-        dispatch({ type: "RESTORE_STATE", payload: parsed });
+    async function loadProgress() {
+      try {
+        // Load from database only (no localStorage)
+        const result = await loadOnboardingProgressAction();
+        if (result.success && result.data) {
+          const dbState: OnboardingState = {
+            ...INITIAL_ONBOARDING_STATE,
+            currentStep: result.data.currentStep,
+            data: {
+              ...INITIAL_ONBOARDING_STATE.data,
+              ...result.data.data,
+            },
+            path: result.data.data.purpose
+              ? (result.data.data.purpose.toLowerCase() as OnboardingPath)
+              : null,
+          };
+          dispatch({ type: "RESTORE_STATE", payload: dbState });
+        }
+        // If no DB state, user starts fresh at step 1
+      } catch {
+        // Ignore errors, use initial state (step 1)
+      } finally {
+        isInitializedRef.current = true;
       }
-    } catch {
-      // Ignore parse errors, start fresh
     }
+
+    loadProgress();
   }, []);
 
-  // Persist state to localStorage on change
+  // Save to database when step changes (debounced)
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch {
-      // Ignore storage errors
+    if (!isInitializedRef.current || isSavingRef.current) return;
+
+    async function saveToDb() {
+      isSavingRef.current = true;
+      try {
+        await saveOnboardingProgressAction(state.currentStep, state.data);
+      } catch {
+        // Ignore errors, localStorage is the fallback
+      } finally {
+        isSavingRef.current = false;
+      }
     }
-  }, [state]);
+
+    // Debounce save
+    const timeout = setTimeout(saveToDb, 500);
+    return () => clearTimeout(timeout);
+  }, [state.currentStep, state.data]);
 
   // Navigation actions
   const nextStep = useCallback(() => {
@@ -187,17 +224,35 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     dispatch({ type: "SET_LOADING", payload: loading });
   }, []);
 
-  const complete = useCallback(() => {
-    dispatch({ type: "COMPLETE" });
-  }, []);
+  const complete = useCallback(async (overrideData?: Partial<OnboardingData>, locale?: string): Promise<boolean> => {
+    dispatch({ type: "SET_LOADING", payload: true });
+
+    try {
+      // Merge current state with override data
+      const finalData: OnboardingData = {
+        ...state.data,
+        ...overrideData,
+      };
+
+      const result = await completeOnboardingAction(finalData, locale);
+
+      if (result.success) {
+        dispatch({ type: "COMPLETE" });
+        return true;
+      }
+
+      console.error("Failed to complete onboarding:", result.error);
+      return false;
+    } catch (error) {
+      console.error("Error completing onboarding:", error);
+      return false;
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
+  }, [state.data]);
 
   const reset = useCallback(() => {
     dispatch({ type: "RESET" });
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      // Ignore
-    }
   }, []);
 
   // Computed values
@@ -221,6 +276,7 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     isLastStep,
     progress,
     canGoNext,
+    isInitialized: isInitializedRef.current,
   };
 
   return (

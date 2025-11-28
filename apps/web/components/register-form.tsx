@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Loader2, ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -22,6 +22,7 @@ import {
   formatPhoneForAuth,
 } from "@/lib/validations";
 import { PasswordInput, PasswordRulesDisplay } from "@/components/ui";
+import { updatePreferredLanguageAction } from "@/lib/actions/profiles";
 
 type Step = "form" | "otp" | "confirmation";
 
@@ -30,6 +31,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentProps<"form">) {
   const t = useTranslations("auth.register");
+  const locale = useLocale();
   const router = useRouter();
   const [step, setStep] = useState<Step>("form");
   const [identifier, setIdentifier] = useState("");
@@ -67,7 +69,8 @@ export function RegisterForm({
 
       if (type === "email") {
         // Always show confirmation screen to prevent email enumeration
-        const redirectUrl = `${window.location.origin}/auth/callback`;
+        // Include locale in redirect URL to set preferred_language after confirmation
+        const redirectUrl = `${window.location.origin}/auth/callback?locale=${locale}`;
         await supabase.auth.signUp({
           email: identifier.trim(),
           password,
@@ -118,6 +121,9 @@ export function RegisterForm({
         setError(error.message);
         return;
       }
+
+      // Set preferred_language based on current locale
+      await updatePreferredLanguageAction(locale);
 
       router.push("/onboarding");
       router.refresh();

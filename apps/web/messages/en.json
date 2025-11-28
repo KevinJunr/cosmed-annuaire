@@ -145,7 +145,7 @@
   "home": {
     "title": "COSMED Directory",
     "subtitle": "The cosmetics professionals directory",
-    "welcome": "Welcome {identifier}",
+    "welcome": "Welcome {name}",
     "welcomeSubtitle": "Welcome back"
   },
   "language": {
@@ -166,7 +166,8 @@
       "continue": "Continue",
       "back": "Back",
       "finish": "Finish",
-      "finishing": "Finishing..."
+      "finishing": "Finishing...",
+      "loading": "Loading..."
     },
     "step1": {
       "title": "What is your goal?",
@@ -237,7 +238,8 @@
         "errors": {
           "required": "This field is required",
           "tooShort": "Too short",
-          "tooLong": "Too long"
+          "tooLong": "Too long",
+          "alreadyExists": "This registration number is already registered"
         }
       }
     }

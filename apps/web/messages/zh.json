@@ -145,7 +145,7 @@
   "home": {
     "title": "COSMED 目录",
     "subtitle": "化妆品专业人士目录",
-    "welcome": "欢迎 {identifier}",
+    "welcome": "欢迎 {name}",
     "welcomeSubtitle": "欢迎回来"
   },
   "language": {
@@ -166,7 +166,8 @@
       "continue": "继续",
       "back": "返回",
       "finish": "完成",
-      "finishing": "正在完成..."
+      "finishing": "正在完成...",
+      "loading": "加载中..."
     },
     "step1": {
       "title": "您的目标是什么？",
@@ -237,7 +238,8 @@
         "errors": {
           "required": "此字段必填",
           "tooShort": "太短",
-          "tooLong": "太长"
+          "tooLong": "太长",
+          "alreadyExists": "此注册号已被注册"
         }
       }
     }

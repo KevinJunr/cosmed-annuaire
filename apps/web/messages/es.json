@@ -145,7 +145,7 @@
   "home": {
     "title": "Directorio COSMED",
     "subtitle": "El directorio de profesionales de la cosmética",
-    "welcome": "Bienvenido {identifier}",
+    "welcome": "Bienvenido {name}",
     "welcomeSubtitle": "Bienvenido de nuevo"
   },
   "language": {
@@ -166,7 +166,8 @@
       "continue": "Continuar",
       "back": "Volver",
       "finish": "Finalizar",
-      "finishing": "Finalizando..."
+      "finishing": "Finalizando...",
+      "loading": "Cargando..."
     },
     "step1": {
       "title": "¿Cuál es tu objetivo?",
@@ -237,7 +238,8 @@
         "errors": {
           "required": "Este campo es obligatorio",
           "tooShort": "Demasiado corto",
-          "tooLong": "Demasiado largo"
+          "tooLong": "Demasiado largo",
+          "alreadyExists": "Este número de registro ya está registrado"
         }
       }
     }

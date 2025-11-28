@@ -20,7 +20,7 @@ export const personalInfoSchema = z.object({
     .min(2, { message: "tooShort" })
     .max(50, { message: "tooLong" }),
   departmentId: z.string().min(1, { message: "required" }),
-  position: z.string().min(1, { message: "required" }),
+  positionId: z.string().min(1, { message: "required" }),
 });
 
 // Step 5 Path A: Company Selection
@@ -48,8 +48,12 @@ export const companyCreateSchema = z.object({
     .min(1, { message: "required" })
     .min(2, { message: "tooShort" })
     .max(100, { message: "tooLong" }),
-  rcs: z.string().optional(),
-  country: z.string().min(1, { message: "required" }),
+  rcs: z
+    .string()
+    .min(1, { message: "required" })
+    .min(3, { message: "tooShort" })
+    .max(50, { message: "tooLong" }),
+  countryId: z.string().min(1, { message: "required" }),
   address: z.string().optional(),
 });
 

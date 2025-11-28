@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useEffect, useState, useMemo } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,14 +25,46 @@ import {
   companyCreateSchema,
   type CompanyCreateFormData,
 } from "@/lib/validations/onboarding";
-import { COUNTRIES } from "@/lib/constants/countries";
+import { getCountriesAction } from "@/lib/actions/reference-data";
+import { checkRcsUniqueAction } from "@/lib/actions/companies";
+import type { Country } from "@/types";
 
 export function StepCompanyCreate() {
   const t = useTranslations("onboarding.step3.pathB");
   const tCommon = useTranslations("onboarding.common");
-  const tCountries = useTranslations("countries");
+  const locale = useLocale();
   const router = useRouter();
-  const { state, setCompanyData, prevStep, setLoading, complete } = useOnboarding();
+  const { state, prevStep, complete } = useOnboarding();
+
+  // Use Intl.DisplayNames for automatic country name translation
+  const countryDisplayNames = useMemo(
+    () => new Intl.DisplayNames([locale], { type: "region" }),
+    [locale]
+  );
+
+  // Countries from Supabase
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+  const [rcsError, setRcsError] = useState<string | null>(null);
+
+  // Load countries
+  useEffect(() => {
+    async function loadCountries() {
+      setIsLoadingData(true);
+      try {
+        const result = await getCountriesAction();
+        if (result.success && result.countries) {
+          setCountries(result.countries);
+        }
+      } catch (error) {
+        console.error("Error loading countries:", error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+
+    loadCountries();
+  }, []);
 
   const {
     register,
@@ -43,25 +76,51 @@ export function StepCompanyCreate() {
     resolver: zodResolver(companyCreateSchema),
     defaultValues: state.data.newCompanyData ?? {
       companyName: "",
-      country: "",
+      countryId: "",
       address: "",
       rcs: "",
     },
     mode: "onChange",
   });
 
-  const watchCountry = watch("country");
+  const watchCountry = watch("countryId");
 
   const onSubmit = async (data: CompanyCreateFormData) => {
-    setLoading(true);
-    setCompanyData(data);
+    // Reset RCS error
+    setRcsError(null);
 
-    // Simulate saving
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // Check RCS uniqueness first
+    const rcsCheck = await checkRcsUniqueAction(data.rcs);
+    if (!rcsCheck.success || !rcsCheck.isUnique) {
+      setRcsError("alreadyExists");
+      return;
+    }
 
-    setLoading(false);
-    complete();
-    router.push("/home");
+    // Pass all data directly to complete() to avoid async state issues
+    // Also pass locale to save preferred_language in profile
+    const success = await complete({
+      companyChoice: "new",
+      newCompanyData: {
+        companyName: data.companyName,
+        countryId: data.countryId,
+        address: data.address,
+        rcs: data.rcs,
+      },
+    }, locale);
+
+    if (success) {
+      router.push("/home");
+    }
+  };
+
+  // Helper to get translated country name using Intl.DisplayNames
+  const getCountryName = (country: Country) => {
+    // Use the ISO code directly for Intl.DisplayNames
+    try {
+      return countryDisplayNames.of(country.code) || country.code;
+    } catch {
+      return country.code;
+    }
   };
 
   return (
@@ -96,15 +155,30 @@ export function StepCompanyCreate() {
 
           {/* RCS */}
           <div className="grid gap-2">
-            <Label htmlFor="rcs">
-              {t("rcs")}{" "}
-              <span className="text-muted-foreground">({t("optional")})</span>
-            </Label>
+            <Label htmlFor="rcs">{t("rcs")}</Label>
             <Input
               id="rcs"
               placeholder={t("rcsPlaceholder")}
               {...register("rcs")}
+              className={cn(
+                (errors.rcs || rcsError) &&
+                  "border-destructive focus-visible:ring-destructive"
+              )}
+              onChange={(e) => {
+                register("rcs").onChange(e);
+                setRcsError(null);
+              }}
             />
+            {errors.rcs && (
+              <p className="text-xs text-destructive">
+                {t(`errors.${errors.rcs.message}`)}
+              </p>
+            )}
+            {rcsError && !errors.rcs && (
+              <p className="text-xs text-destructive">
+                {t(`errors.${rcsError}`)}
+              </p>
+            )}
           </div>
 
           {/* Country */}
@@ -113,29 +187,37 @@ export function StepCompanyCreate() {
             <Select
               value={watchCountry}
               onValueChange={(value) =>
-                setValue("country", value, { shouldValidate: true })
+                setValue("countryId", value, { shouldValidate: true })
               }
+              disabled={isLoadingData}
             >
               <SelectTrigger
                 className={cn(
                   "w-full",
-                  errors.country &&
+                  errors.countryId &&
                     "border-destructive focus-visible:ring-destructive"
                 )}
               >
-                <SelectValue placeholder={t("countryPlaceholder")} />
+                {isLoadingData ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="text-muted-foreground">{tCommon("loading")}</span>
+                  </div>
+                ) : (
+                  <SelectValue placeholder={t("countryPlaceholder")} />
+                )}
               </SelectTrigger>
-              <SelectContent>
-                {COUNTRIES.map((country) => (
-                  <SelectItem key={country.code} value={country.code}>
-                    {tCountries(country.nameKey)}
+              <SelectContent className="max-h-60">
+                {countries.map((country) => (
+                  <SelectItem key={country.id} value={country.id}>
+                    {getCountryName(country)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.country && (
+            {errors.countryId && (
               <p className="text-xs text-destructive">
-                {t(`errors.${errors.country.message}`)}
+                {t(`errors.${errors.countryId.message}`)}
               </p>
             )}
           </div>
@@ -167,7 +249,7 @@ export function StepCompanyCreate() {
           <Button
             type="submit"
             className="flex-1"
-            disabled={!isValid || state.isLoading}
+            disabled={!isValid || state.isLoading || isLoadingData}
           >
             {state.isLoading ? (
               <>

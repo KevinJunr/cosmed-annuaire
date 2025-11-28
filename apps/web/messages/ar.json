@@ -145,7 +145,7 @@
   "home": {
     "title": "دليل COSMED",
     "subtitle": "دليل محترفي مستحضرات التجميل",
-    "welcome": "مرحباً {identifier}",
+    "welcome": "مرحباً {name}",
     "welcomeSubtitle": "أهلاً بعودتك"
   },
   "language": {
@@ -166,7 +166,8 @@
       "continue": "متابعة",
       "back": "رجوع",
       "finish": "إنهاء",
-      "finishing": "جارٍ الإنهاء..."
+      "finishing": "جارٍ الإنهاء...",
+      "loading": "جارٍ التحميل..."
     },
     "step1": {
       "title": "ما هو هدفك؟",
@@ -237,7 +238,8 @@
         "errors": {
           "required": "هذا الحقل مطلوب",
           "tooShort": "قصير جداً",
-          "tooLong": "طويل جداً"
+          "tooLong": "طويل جداً",
+          "alreadyExists": "رقم التسجيل هذا مسجل بالفعل"
         }
       }
     }

@@ -5,39 +5,59 @@ import { useTranslations } from "next-intl"
 import { useRouter } from "next/navigation"
 
 import { useAuth } from "@/providers/auth-provider"
-import { STORAGE_KEY, type OnboardingState } from "@/types"
+import { checkNeedsOnboardingAction } from "@/lib/actions/onboarding"
+import { getProfileAction } from "@/lib/actions/profiles"
+
+interface ProfileData {
+  firstName: string | null
+  lastName: string | null
+}
 
 export default function AuthenticatedHomePage() {
   const t = useTranslations("home")
   const router = useRouter()
   const { user, isLoading: authLoading } = useAuth()
   const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(true)
+  const [profile, setProfile] = useState<ProfileData | null>(null)
 
-  // Check onboarding completion status on mount
+  // Check onboarding completion status and fetch profile
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved) {
-        const state = JSON.parse(saved) as OnboardingState
-        if (!state.isCompleted) {
+    async function checkOnboardingAndFetchProfile() {
+      try {
+        const result = await checkNeedsOnboardingAction()
+        if (result.success && result.needsOnboarding) {
           router.replace("/onboarding")
           return
         }
-      } else {
-        // No saved state means onboarding not completed
-        router.replace("/onboarding")
-        return
-      }
-    } catch {
-      // On error, redirect to onboarding to be safe
-      router.replace("/onboarding")
-      return
-    }
-    setIsCheckingOnboarding(false)
-  }, [router])
 
-  // Get display identifier (email or phone)
-  const getDisplayIdentifier = () => {
+        // Fetch profile data for welcome message
+        const profileResult = await getProfileAction()
+        if (profileResult.success && profileResult.profile) {
+          setProfile({
+            firstName: profileResult.profile.firstName,
+            lastName: profileResult.profile.lastName,
+          })
+        }
+      } catch {
+        // On error, stay on home page (don't redirect to avoid loops)
+        console.error("Error checking onboarding status")
+      }
+      setIsCheckingOnboarding(false)
+    }
+
+    if (!authLoading && user) {
+      checkOnboardingAndFetchProfile()
+    }
+  }, [router, authLoading, user])
+
+  // Get display name (firstName lastName or email/phone fallback)
+  const getDisplayName = () => {
+    if (profile?.firstName && profile?.lastName) {
+      return `${profile.firstName} ${profile.lastName}`
+    }
+    if (profile?.firstName) {
+      return profile.firstName
+    }
     if (!user) return ""
     return user.email || user.phone || ""
   }
@@ -61,7 +81,7 @@ export default function AuthenticatedHomePage() {
     >
       <div className="flex flex-col items-center justify-center gap-4 px-4">
         <h1 className="text-2xl font-bold text-center">
-          {t("welcome", { identifier: getDisplayIdentifier() })}
+          {t("welcome", { name: getDisplayName() })}
         </h1>
         <p className="text-muted-foreground">{t("welcomeSubtitle")}</p>
       </div>

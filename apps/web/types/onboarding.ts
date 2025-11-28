@@ -7,7 +7,7 @@ export type CompanyChoice = "existing" | "new" | "none" | null;
 export interface CompanyFormData {
   companyName: string;
   rcs?: string;
-  country: string;
+  countryId: string;
   address?: string;
 }
 
@@ -18,7 +18,7 @@ export interface OnboardingData {
   firstName: string;
   lastName: string;
   departmentId: string;
-  position: string;
+  positionId: string;
   // Step 3: Company
   companyChoice: CompanyChoice;
   selectedCompanyId: string | null;
@@ -51,7 +51,7 @@ export const INITIAL_ONBOARDING_DATA: OnboardingData = {
   firstName: "",
   lastName: "",
   departmentId: "",
-  position: "",
+  positionId: "",
   companyChoice: null,
   selectedCompanyId: null,
   newCompanyData: null,

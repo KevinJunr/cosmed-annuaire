@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -15,12 +15,14 @@ import {
   getIdentifierType,
   formatPhoneForAuth,
 } from "@/lib/validations";
+import { getProfileAction } from "@/lib/actions/profiles";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const t = useTranslations("auth.login");
+  const currentLocale = useLocale();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [identifier, setIdentifier] = useState("");
@@ -64,8 +66,17 @@ export function LoginForm({
         return;
       }
 
-      router.push("/home");
-      router.refresh();
+      // Check user's preferred language and redirect accordingly
+      const profileResult = await getProfileAction();
+      const preferredLanguage = profileResult.profile?.preferredLanguage;
+
+      if (preferredLanguage && preferredLanguage !== currentLocale) {
+        // Redirect to home in user's preferred language
+        window.location.href = `/${preferredLanguage}/home`;
+      } else {
+        router.push("/home");
+        router.refresh();
+      }
     } catch {
       setError(t("errors.generic"));
     } finally {

@@ -15,6 +15,8 @@ import { cn } from "@workspace/ui/lib/utils"
 import { usePathname, useRouter } from "@/i18n/navigation"
 import { locales, localeNames, type Locale } from "@/i18n/config"
 import { flags } from "@/components/flags"
+import { useAuth } from "@/providers/auth-provider"
+import { updatePreferredLanguageAction } from "@/lib/actions/profiles"
 
 interface LanguageSwitcherProps {
   variant?: "default" | "compact"
@@ -29,10 +31,17 @@ export function LanguageSwitcher({
   const router = useRouter()
   const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
+  const { user } = useAuth()
 
   const handleLocaleChange = (newLocale: Locale) => {
-    startTransition(() => {
+    startTransition(async () => {
+      // Update URL locale
       router.replace(pathname, { locale: newLocale })
+
+      // If user is authenticated, also update their preferred language in DB
+      if (user) {
+        await updatePreferredLanguageAction(newLocale)
+      }
     })
   }
 

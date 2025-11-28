@@ -1,11 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import type {
-  Company,
-  CompanyInsert,
-  CompanyUpdate,
-  UserCompany,
-  UserCompanyInsert,
-} from "@/types";
+import type { Company, CompanyInsert, CompanyUpdate } from "@/types";
 import {
   RepositoryResult,
   success,
@@ -57,6 +51,42 @@ export async function getCompanyByName(
   }
 
   return success(data);
+}
+
+/**
+ * Get company by RCS (for checking uniqueness)
+ */
+export async function getCompanyByRcs(
+  rcs: string
+): Promise<RepositoryResult<Company | null>> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select("*")
+    .eq("rcs", rcs)
+    .maybeSingle();
+
+  if (error) {
+    return failureFromPostgrest(error);
+  }
+
+  return success(data);
+}
+
+/**
+ * Check if RCS is unique (returns true if no company has this RCS)
+ */
+export async function isRcsUnique(
+  rcs: string
+): Promise<RepositoryResult<boolean>> {
+  const result = await getCompanyByRcs(rcs);
+
+  if (result.error) {
+    return failure(result.error);
+  }
+
+  return success(result.data === null);
 }
 
 /**
@@ -149,127 +179,6 @@ export async function deleteCompany(
 }
 
 /**
- * Get all companies for a user
- */
-export async function getUserCompanies(
-  userId: string
-): Promise<RepositoryResult<(UserCompany & { company: Company })[]>> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("user_companies")
-    .select(
-      `
-      *,
-      company:companies(*)
-    `
-    )
-    .eq("user_id", userId);
-
-  if (error) {
-    return failureFromPostgrest(error);
-  }
-
-  return success(data || []);
-}
-
-/**
- * Add user to company with a role
- */
-export async function addUserToCompany(
-  userCompany: UserCompanyInsert
-): Promise<RepositoryResult<UserCompany>> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("user_companies")
-    .insert(userCompany)
-    .select()
-    .single();
-
-  if (error) {
-    if (error.code === "23505") {
-      return failure(Errors.alreadyExists("User-Company relation"));
-    }
-    return failureFromPostgrest(error);
-  }
-
-  return success(data);
-}
-
-/**
- * Remove user from company
- */
-export async function removeUserFromCompany(
-  userId: string,
-  companyId: string
-): Promise<RepositoryResult<boolean>> {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from("user_companies")
-    .delete()
-    .eq("user_id", userId)
-    .eq("company_id", companyId);
-
-  if (error) {
-    return failureFromPostgrest(error);
-  }
-
-  return success(true);
-}
-
-/**
- * Update user role in company
- */
-export async function updateUserCompanyRole(
-  userId: string,
-  companyId: string,
-  role: "admin" | "profile_manager" | "payment_manager" | "user"
-): Promise<RepositoryResult<UserCompany>> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("user_companies")
-    .update({ role })
-    .eq("user_id", userId)
-    .eq("company_id", companyId)
-    .select()
-    .single();
-
-  if (error) {
-    if (error.code === "PGRST116") {
-      return failure(Errors.notFound("User-Company relation"));
-    }
-    return failureFromPostgrest(error);
-  }
-
-  return success(data);
-}
-
-/**
- * Get companies by sector
- */
-export async function getCompaniesBySector(
-  sectorId: string,
-  limit = 50
-): Promise<RepositoryResult<Company[]>> {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("companies")
-    .select("*")
-    .eq("sector_id", sectorId)
-    .limit(limit);
-
-  if (error) {
-    return failureFromPostgrest(error);
-  }
-
-  return success(data || []);
-}
-
-/**
  * Get premium companies
  */
 export async function getPremiumCompanies(
@@ -288,4 +197,53 @@ export async function getPremiumCompanies(
   }
 
   return success(data || []);
+}
+
+/**
+ * Get companies by country
+ */
+export async function getCompaniesByCountry(
+  countryId: string,
+  limit = 50
+): Promise<RepositoryResult<Company[]>> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select("*")
+    .eq("country_id", countryId)
+    .limit(limit);
+
+  if (error) {
+    return failureFromPostgrest(error);
+  }
+
+  return success(data || []);
+}
+
+/**
+ * Get company with country details
+ */
+export async function getCompanyWithCountry(
+  id: string
+): Promise<RepositoryResult<Company & { country: { id: string; code: string; name_key: string } | null }>> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select(`
+      *,
+      country:countries(id, code, name_key)
+    `)
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    if (error.code === "PGRST116") {
+      return failure(Errors.notFound("Company"));
+    }
+    return failureFromPostgrest(error);
+  }
+
+  return success(data);
 }

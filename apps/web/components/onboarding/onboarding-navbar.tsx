@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { UserMenu } from "@/components/user-menu";
 
 export function OnboardingNavbar() {
   return (
@@ -19,7 +20,10 @@ export function OnboardingNavbar() {
               priority
             />
           </Link>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <UserMenu />
+          </div>
         </nav>
       </div>
     </header>

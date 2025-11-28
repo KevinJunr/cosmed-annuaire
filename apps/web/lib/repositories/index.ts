@@ -2,5 +2,7 @@
 export * from "./base";
 
 // Repositories
-export * as usersRepository from "./users";
+export * as profilesRepository from "./profiles";
 export * as companiesRepository from "./companies";
+export * as referenceDataRepository from "./reference-data";
+export * as onboardingRepository from "./onboarding";

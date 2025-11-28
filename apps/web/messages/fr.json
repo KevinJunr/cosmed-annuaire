@@ -145,7 +145,7 @@
   "home": {
     "title": "COSMED Annuaire",
     "subtitle": "L'annuaire des professionnels de la cosmétique",
-    "welcome": "Bienvenue {identifier}",
+    "welcome": "Bienvenue {name}",
     "welcomeSubtitle": "Bon retour parmi nous"
   },
   "language": {
@@ -166,7 +166,8 @@
       "continue": "Continuer",
       "back": "Retour",
       "finish": "Terminer",
-      "finishing": "Finalisation..."
+      "finishing": "Finalisation...",
+      "loading": "Chargement..."
     },
     "step1": {
       "title": "Quel est votre objectif ?",
@@ -237,7 +238,8 @@
         "errors": {
           "required": "Ce champ est requis",
           "tooShort": "Trop court",
-          "tooLong": "Trop long"
+          "tooLong": "Trop long",
+          "alreadyExists": "Ce numéro RCS est déjà enregistré"
         }
       }
     }

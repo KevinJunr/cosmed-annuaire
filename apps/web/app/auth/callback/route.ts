@@ -1,16 +1,23 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
+import { profilesRepository } from "@/lib/repositories";
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/onboarding";
+  const locale = searchParams.get("locale") ?? "fr";
+  const next = searchParams.get("next") ?? `/${locale}/onboarding`;
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error, data } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
+    if (!error && data.user) {
+      // Set preferred_language based on locale from registration
+      await profilesRepository.updateProfile(data.user.id, {
+        preferred_language: locale,
+      });
+
       // Redirect to onboarding after successful email confirmation
       const forwardedHost = request.headers.get("x-forwarded-host");
       const isLocalEnv = process.env.NODE_ENV === "development";

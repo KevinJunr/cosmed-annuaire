@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, ArrowRight, Mail, Phone } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, Phone, Loader2 } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
@@ -23,9 +24,9 @@ import {
   personalInfoSchema,
   type PersonalInfoFormData,
 } from "@/lib/validations/onboarding";
-import { DEPARTMENTS } from "@/lib/constants/departments";
-import { POSITIONS } from "@/lib/constants/positions";
+import { getDepartmentsAction, getPositionsAction } from "@/lib/actions/reference-data";
 import { RequiredLabel } from "@/components/ui";
+import type { Department, Position } from "@/types";
 
 export function StepPersonalInfo() {
   const t = useTranslations("onboarding.step2");
@@ -34,6 +35,37 @@ export function StepPersonalInfo() {
   const tPositions = useTranslations("positions");
   const { state, updateData, nextStep, prevStep } = useOnboarding();
   const { user } = useAuth();
+
+  // Reference data from Supabase
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
+
+  // Load reference data
+  useEffect(() => {
+    async function loadData() {
+      setIsLoadingData(true);
+      try {
+        const [deptResult, posResult] = await Promise.all([
+          getDepartmentsAction(),
+          getPositionsAction(),
+        ]);
+
+        if (deptResult.success && deptResult.departments) {
+          setDepartments(deptResult.departments);
+        }
+        if (posResult.success && posResult.positions) {
+          setPositions(posResult.positions);
+        }
+      } catch (error) {
+        console.error("Error loading reference data:", error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+
+    loadData();
+  }, []);
 
   const {
     register,
@@ -47,13 +79,13 @@ export function StepPersonalInfo() {
       firstName: state.data.firstName,
       lastName: state.data.lastName,
       departmentId: state.data.departmentId,
-      position: state.data.position,
+      positionId: state.data.positionId,
     },
     mode: "onChange",
   });
 
   const watchDepartment = watch("departmentId");
-  const watchPosition = watch("position");
+  const watchPosition = watch("positionId");
 
   // Get user identifier from Supabase Auth
   const userEmail = user?.email;
@@ -66,9 +98,22 @@ export function StepPersonalInfo() {
       firstName: data.firstName,
       lastName: data.lastName,
       departmentId: data.departmentId,
-      position: data.position,
+      positionId: data.positionId,
     });
     nextStep();
+  };
+
+  // Helper to get translated name from name_key
+  const getDepartmentName = (dept: Department) => {
+    // name_key is like "departments.rd" -> we extract "rd"
+    const key = dept.name_key.replace("departments.", "");
+    return tDepartments(key);
+  };
+
+  const getPositionName = (pos: Position) => {
+    // name_key is like "positions.ceo" -> we extract "ceo"
+    const key = pos.name_key.replace("positions.", "");
+    return tPositions(key);
   };
 
   return (
@@ -148,6 +193,7 @@ export function StepPersonalInfo() {
               onValueChange={(value) =>
                 setValue("departmentId", value, { shouldValidate: true })
               }
+              disabled={isLoadingData}
             >
               <SelectTrigger
                 className={cn(
@@ -156,12 +202,19 @@ export function StepPersonalInfo() {
                     "border-destructive focus-visible:ring-destructive"
                 )}
               >
-                <SelectValue placeholder={t("departmentPlaceholder")} />
+                {isLoadingData ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="text-muted-foreground">{tCommon("loading")}</span>
+                  </div>
+                ) : (
+                  <SelectValue placeholder={t("departmentPlaceholder")} />
+                )}
               </SelectTrigger>
               <SelectContent>
-                {DEPARTMENTS.map((dept) => (
+                {departments.map((dept) => (
                   <SelectItem key={dept.id} value={dept.id}>
-                    {tDepartments(dept.nameKey.replace("departments.", ""))}
+                    {getDepartmentName(dept)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -181,29 +234,37 @@ export function StepPersonalInfo() {
             <Select
               value={watchPosition}
               onValueChange={(value) =>
-                setValue("position", value, { shouldValidate: true })
+                setValue("positionId", value, { shouldValidate: true })
               }
+              disabled={isLoadingData}
             >
               <SelectTrigger
                 className={cn(
                   "w-full",
-                  errors.position &&
+                  errors.positionId &&
                     "border-destructive focus-visible:ring-destructive"
                 )}
               >
-                <SelectValue placeholder={t("positionPlaceholder")} />
+                {isLoadingData ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="text-muted-foreground">{tCommon("loading")}</span>
+                  </div>
+                ) : (
+                  <SelectValue placeholder={t("positionPlaceholder")} />
+                )}
               </SelectTrigger>
               <SelectContent>
-                {POSITIONS.map((pos) => (
+                {positions.map((pos) => (
                   <SelectItem key={pos.id} value={pos.id}>
-                    {tPositions(pos.nameKey.replace("positions.", ""))}
+                    {getPositionName(pos)}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.position && (
+            {errors.positionId && (
               <p className="text-xs text-destructive">
-                {t(`errors.${errors.position.message}`)}
+                {t(`errors.${errors.positionId.message}`)}
               </p>
             )}
           </div>
@@ -219,7 +280,7 @@ export function StepPersonalInfo() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             {tCommon("back")}
           </Button>
-          <Button type="submit" className="flex-1" disabled={!isValid}>
+          <Button type="submit" className="flex-1" disabled={!isValid || isLoadingData}>
             {tCommon("continue")}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

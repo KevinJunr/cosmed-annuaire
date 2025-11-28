@@ -1,16 +1,4 @@
-// Types for reference data (departments, positions, sectors, companies)
-
-export interface Department {
-  id: string;
-  code: string;
-  nameKey: string;
-}
-
-export interface Position {
-  id: string;
-  code: string;
-  nameKey: string;
-}
+// Types for mock/legacy data (sectors not yet migrated to Supabase)
 
 export interface Sector {
   id: string;
@@ -25,9 +13,4 @@ export interface MockCompany {
   country: string;
   address?: string;
   isPremium: boolean;
-}
-
-export interface Country {
-  code: string;
-  nameKey: string;
 }

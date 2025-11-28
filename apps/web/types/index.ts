@@ -1,27 +1,46 @@
 // Re-export all types
-export * from "./constants";
 export * from "./onboarding";
 export * from "./auth";
 
-// Database types - explicit exports to avoid conflicts with constants
+// Database types (from Supabase)
 export type {
   Database,
   Json,
   Tables,
-  InsertTables,
-  UpdateTables,
-  Enums,
-  DbUser,
-  DbCompany,
-  DbUserCompany,
-  DbDepartment,
-  DbSector,
-  User,
+  TablesInsert,
+  TablesUpdate,
+} from "./database.generated";
+
+export type {
+  // Aliases
+  Profile,
   Company,
-  UserCompany,
-  UserInsert,
+  Country,
+  Department,
+  Position,
+  Onboarding,
+  // Insert types
+  ProfileInsert,
   CompanyInsert,
-  UserCompanyInsert,
-  UserUpdate,
+  CountryInsert,
+  DepartmentInsert,
+  PositionInsert,
+  OnboardingInsert,
+  // Update types
+  ProfileUpdate,
   CompanyUpdate,
+  CountryUpdate,
+  DepartmentUpdate,
+  PositionUpdate,
+  OnboardingUpdate,
+  // Enums
+  OnboardingPurpose,
+  CompanyRole,
+  // Backwards compatibility
+  User,
+  UserInsert,
+  UserUpdate,
 } from "./database";
+
+// Legacy types from constants (keep for backwards compatibility)
+export type { MockCompany, Sector } from "./constants";

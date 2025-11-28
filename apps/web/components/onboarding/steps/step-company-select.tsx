@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -21,16 +21,15 @@ import { cn } from "@workspace/ui/lib/utils";
 
 import { StepContainer } from "../step-container";
 import { useOnboarding } from "@/providers/onboarding-provider";
-import { searchCompanies } from "@/lib/constants/companies";
-import { getSectorById } from "@/lib/constants/sectors";
-import type { MockCompany } from "@/types";
+import { searchCompaniesAction } from "@/lib/actions/companies";
+import type { Company } from "@/types";
 
 type CompanyChoice = "existing" | "new" | "none";
 
 export function StepCompanySelect() {
   const t = useTranslations("onboarding.step3.pathA");
   const tCommon = useTranslations("onboarding.common");
-  const tSectors = useTranslations("sectors");
+  const locale = useLocale();
   const router = useRouter();
   const { state, updateData, prevStep, setPath, complete } = useOnboarding();
 
@@ -38,23 +37,33 @@ export function StepCompanySelect() {
     state.data.companyChoice
   );
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<MockCompany[]>([]);
-  const [selectedCompany, setSelectedCompany] = useState<MockCompany | null>(
-    null
-  );
+  const [searchResults, setSearchResults] = useState<Company[]>([]);
+  const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = async (query: string) => {
     setSearchQuery(query);
     if (query.length >= 2) {
-      const results = searchCompanies(query);
-      setSearchResults(results);
+      setIsSearching(true);
+      try {
+        const result = await searchCompaniesAction(query);
+        if (result.success && result.companies) {
+          setSearchResults(result.companies);
+        } else {
+          setSearchResults([]);
+        }
+      } catch {
+        setSearchResults([]);
+      } finally {
+        setIsSearching(false);
+      }
     } else {
       setSearchResults([]);
     }
   };
 
-  const handleSelectCompany = (company: MockCompany) => {
+  const handleSelectCompany = (company: Company) => {
     setSelectedCompany(company);
     setSearchResults([]);
     setSearchQuery(company.name);
@@ -74,23 +83,27 @@ export function StepCompanySelect() {
 
     setIsSubmitting(true);
 
-    updateData({
-      companyChoice: choice,
-      selectedCompanyId: choice === "existing" ? selectedCompany?.id ?? null : null,
-    });
-
     // If user wants to create a new company, redirect to company creation path
     if (choice === "new") {
+      updateData({ companyChoice: choice });
       setPath("register");
       // The wizard will re-render with StepCompanyCreate
       setIsSubmitting(false);
       return;
     }
 
-    // Mark onboarding as completed and redirect to home
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    complete();
-    router.push("/home");
+    // Complete onboarding with data passed directly
+    // Also pass locale to save preferred_language in profile
+    const success = await complete({
+      companyChoice: choice,
+      selectedCompanyId: choice === "existing" ? selectedCompany?.id ?? null : null,
+    }, locale);
+
+    if (success) {
+      router.push("/home");
+    } else {
+      setIsSubmitting(false);
+    }
   };
 
   const canSubmit =
@@ -154,35 +167,39 @@ export function StepCompanySelect() {
                         <X className="h-4 w-4" />
                       </button>
                     )}
+                    {isSearching && (
+                      <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Search results */}
                   {searchResults.length > 0 && !selectedCompany && (
                     <div className="border rounded-md max-h-40 overflow-auto">
-                      {searchResults.map((company) => {
-                        const sector = getSectorById(company.sectorId);
-                        return (
-                          <button
-                            key={company.id}
-                            type="button"
-                            onClick={() => handleSelectCompany(company)}
-                            className="w-full px-3 py-2 text-left hover:bg-muted/50 flex items-center gap-2"
-                          >
-                            <Building2 className="h-4 w-4 text-muted-foreground shrink-0" />
-                            <div className="flex-1 min-w-0">
-                              <p className="font-medium truncate">{company.name}</p>
+                      {searchResults.map((company) => (
+                        <button
+                          key={company.id}
+                          type="button"
+                          onClick={() => handleSelectCompany(company)}
+                          className="w-full px-3 py-2 text-left hover:bg-muted/50 flex items-center gap-2"
+                        >
+                          <Building2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium truncate">{company.name}</p>
+                            {company.address && (
                               <p className="text-xs text-muted-foreground truncate">
-                                {sector ? tSectors(sector.nameKey.replace("sectors.", "")) : ""} - {company.country}
+                                {company.address}
                               </p>
-                            </div>
-                            {company.isPremium && (
-                              <span className="text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
-                                Premium
-                              </span>
                             )}
-                          </button>
-                        );
-                      })}
+                          </div>
+                          {company.is_premium && (
+                            <span className="text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded">
+                              Premium
+                            </span>
+                          )}
+                        </button>
+                      ))}
                     </div>
                   )}
 
@@ -199,7 +216,8 @@ export function StepCompanySelect() {
                   {/* No results */}
                   {searchQuery.length >= 2 &&
                     searchResults.length === 0 &&
-                    !selectedCompany && (
+                    !selectedCompany &&
+                    !isSearching && (
                       <p className="text-sm text-muted-foreground text-center py-2">
                         {t("noResults")}
                       </p>

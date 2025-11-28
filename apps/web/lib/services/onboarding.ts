@@ -1,60 +1,43 @@
-import { usersRepository, companiesRepository } from "@/lib/repositories";
+import {
+  profilesRepository,
+  companiesRepository,
+  onboardingRepository,
+} from "@/lib/repositories";
 import {
   RepositoryResult,
   success,
   failure,
 } from "@/lib/repositories/base";
-import type { User, Company, CompanyInsert } from "@/types";
+import type { Profile, Company, CompanyInsert } from "@/types";
 import type { OnboardingData, OnboardingPurpose } from "@/types/onboarding";
 
 /**
  * Complete onboarding result
  */
 export interface CompleteOnboardingResult {
-  user: User;
+  profile: Profile;
   company: Company | null;
 }
 
 /**
  * Complete the onboarding process for a user
  * This handles all the business logic for finalizing onboarding:
- * 1. Update user profile information
- * 2. Set onboarding purpose
- * 3. Handle company association (existing, new, or none)
- * 4. Mark onboarding as completed
+ * 1. Create company if needed
+ * 2. Update profile with all info
+ * 3. Delete temporary onboarding state
  */
 export async function completeOnboarding(
-  userId: string,
-  data: OnboardingData
+  profileId: string,
+  data: OnboardingData,
+  locale?: string
 ): Promise<RepositoryResult<CompleteOnboardingResult>> {
-  // 1. Update user profile
-  const profileResult = await usersRepository.updateUserProfile(userId, {
-    firstName: data.firstName,
-    lastName: data.lastName,
-    departmentId: data.departmentId,
-    position: data.position,
-  });
-
-  if (profileResult.error) {
-    return failure(profileResult.error);
-  }
-
-  // 2. Set onboarding purpose
-  if (data.purpose) {
-    const purposeResult = await usersRepository.setOnboardingPurpose(
-      userId,
-      data.purpose
-    );
-    if (purposeResult.error) {
-      return failure(purposeResult.error);
-    }
-  }
-
-  // 3. Handle company
   let company: Company | null = null;
+  let companyId: string | null = null;
+  let companyRole: "admin" | "user" = "user";
 
+  // 1. Handle company creation/selection first
   if (data.companyChoice === "existing" && data.selectedCompanyId) {
-    // Link user to existing company
+    // Link to existing company as regular user
     const companyResult = await companiesRepository.getCompanyById(
       data.selectedCompanyId
     );
@@ -62,24 +45,16 @@ export async function completeOnboarding(
       return failure(companyResult.error);
     }
     company = companyResult.data;
-
-    // Add user to company as regular user
-    const linkResult = await companiesRepository.addUserToCompany({
-      user_id: userId,
-      company_id: data.selectedCompanyId,
-      role: "user",
-    });
-    if (linkResult.error && linkResult.error.code !== "ALREADY_EXISTS") {
-      return failure(linkResult.error);
-    }
+    companyId = data.selectedCompanyId;
+    companyRole = "user";
   } else if (data.companyChoice === "new" && data.newCompanyData) {
     // Create new company
     const companyInsert: CompanyInsert = {
       name: data.newCompanyData.companyName,
       rcs: data.newCompanyData.rcs || null,
-      country_id: data.newCompanyData.country || null, // country code for now, will be FK later
+      country_id: data.newCompanyData.countryId || null,
       address: data.newCompanyData.address || null,
-      created_by: userId,
+      created_by: profileId,
     };
 
     const createResult = await companiesRepository.createCompany(companyInsert);
@@ -87,27 +62,32 @@ export async function completeOnboarding(
       return failure(createResult.error);
     }
     company = createResult.data;
-
-    // Add user to company as admin (they created it)
-    const linkResult = await companiesRepository.addUserToCompany({
-      user_id: userId,
-      company_id: company.id,
-      role: "admin",
-    });
-    if (linkResult.error) {
-      return failure(linkResult.error);
-    }
+    companyId = company.id;
+    companyRole = "admin"; // Creator is admin
   }
   // If companyChoice === "none", no company association needed
 
-  // 4. Mark onboarding as completed
-  const completeResult = await usersRepository.completeOnboarding(userId);
+  // 2. Complete onboarding on profile (updates all fields at once)
+  const completeResult = await profilesRepository.completeOnboarding(profileId, {
+    firstName: data.firstName,
+    lastName: data.lastName,
+    departmentId: data.departmentId,
+    positionId: data.positionId,
+    companyId: companyId,
+    companyRole: companyRole,
+    onboardingPurpose: data.purpose!,
+    preferredLanguage: locale,
+  });
+
   if (completeResult.error) {
     return failure(completeResult.error);
   }
 
+  // 3. Delete temporary onboarding state
+  await onboardingRepository.deleteOnboardingState(profileId);
+
   return success({
-    user: completeResult.data,
+    profile: completeResult.data,
     company,
   });
 }
@@ -116,12 +96,12 @@ export async function completeOnboarding(
  * Check if a user needs onboarding
  */
 export async function needsOnboarding(
-  userId: string
+  profileId: string
 ): Promise<RepositoryResult<boolean>> {
-  const result = await usersRepository.hasCompletedOnboarding(userId);
+  const result = await profilesRepository.hasCompletedOnboarding(profileId);
 
   if (result.error) {
-    // If user not found, they need onboarding (new user)
+    // If profile not found, they need onboarding (trigger might not have run yet)
     if (result.error.code === "NOT_FOUND") {
       return success(true);
     }
@@ -134,26 +114,25 @@ export async function needsOnboarding(
 /**
  * Get user onboarding status and data
  */
-export async function getOnboardingStatus(userId: string): Promise<
+export async function getOnboardingStatus(profileId: string): Promise<
   RepositoryResult<{
     isCompleted: boolean;
     purpose: OnboardingPurpose | null;
     hasCompany: boolean;
   }>
 > {
-  const userResult = await usersRepository.getUserById(userId);
+  const profileResult = await profilesRepository.getProfileById(profileId);
 
-  if (userResult.error) {
-    return failure(userResult.error);
+  if (profileResult.error) {
+    return failure(profileResult.error);
   }
 
-  const user = userResult.data;
-  const companiesResult = await companiesRepository.getUserCompanies(userId);
+  const profile = profileResult.data;
 
   return success({
-    isCompleted: user.onboarding_completed,
-    purpose: user.onboarding_purpose,
-    hasCompany: companiesResult.data ? companiesResult.data.length > 0 : false,
+    isCompleted: profile.onboarding_completed ?? false,
+    purpose: profile.onboarding_purpose as OnboardingPurpose | null,
+    hasCompany: profile.company_id !== null,
   });
 }
 
@@ -161,14 +140,63 @@ export async function getOnboardingStatus(userId: string): Promise<
  * Reset user onboarding (for testing/admin purposes)
  */
 export async function resetOnboarding(
-  userId: string
-): Promise<RepositoryResult<User>> {
-  return usersRepository.updateUser(userId, {
+  profileId: string
+): Promise<RepositoryResult<Profile>> {
+  // Delete any existing onboarding state
+  await onboardingRepository.deleteOnboardingState(profileId);
+
+  // Reset profile
+  return profilesRepository.updateProfile(profileId, {
     onboarding_completed: false,
     onboarding_purpose: null,
     first_name: null,
     last_name: null,
     department_id: null,
-    position: null,
+    position_id: null,
+    company_id: null,
+    company_role: "user",
+  });
+}
+
+/**
+ * Save onboarding progress (called at each step)
+ */
+export async function saveOnboardingProgress(
+  profileId: string,
+  currentStep: number,
+  data: Partial<OnboardingData>
+): Promise<RepositoryResult<boolean>> {
+  const result = await onboardingRepository.saveOnboardingState(
+    profileId,
+    currentStep,
+    data as onboardingRepository.OnboardingData
+  );
+
+  if (result.error) {
+    return failure(result.error);
+  }
+
+  return success(true);
+}
+
+/**
+ * Load onboarding progress
+ */
+export async function loadOnboardingProgress(
+  profileId: string
+): Promise<RepositoryResult<{ currentStep: number; data: Partial<OnboardingData> } | null>> {
+  const result = await onboardingRepository.getOnboardingState(profileId);
+
+  if (result.error) {
+    return failure(result.error);
+  }
+
+  if (!result.data) {
+    return success(null);
+  }
+
+  return success({
+    currentStep: result.data.current_step ?? 1,
+    data: (result.data.data as Partial<OnboardingData>) || {},
   });
 }
