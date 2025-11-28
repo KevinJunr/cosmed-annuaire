@@ -2,43 +2,75 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Loader2, ArrowLeft, Mail } from "lucide-react";
+import { Loader2, ArrowLeft, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { CountryCode } from "libphonenumber-js";
 
 import { Button } from "@workspace/ui/components/button";
-import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
 } from "@workspace/ui/components/input-otp";
-import { Label } from "@workspace/ui/components/label";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@workspace/ui/components/tabs";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@workspace/ui/components/input-group";
 import { cn } from "@workspace/ui/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   validatePassword,
-  getIdentifierType,
+  isValidEmail,
+  isValidPhone,
   formatPhoneForAuth,
 } from "@/lib/validations";
-import { PasswordInput, PasswordRulesDisplay } from "@/components/ui";
+import { PasswordInput, PasswordRulesDisplay, PhoneInput } from "@/components/ui";
 import { updatePreferredLanguageAction } from "@/lib/actions/profiles";
 
 type Step = "form" | "otp" | "confirmation";
+type AuthMethod = "email" | "phone";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const t = useTranslations("auth.register");
+  const tCountry = useTranslations("countrySelector");
   const locale = useLocale();
   const router = useRouter();
+
+  // Step state
   const [step, setStep] = useState<Step>("form");
-  const [identifier, setIdentifier] = useState("");
+
+  // Auth method state
+  const [authMethod, setAuthMethod] = useState<AuthMethod>("email");
+
+  // Email state
+  const [email, setEmail] = useState("");
+
+  // Phone state
+  const [phone, setPhone] = useState("");
+  const [phoneE164, setPhoneE164] = useState("");
+  const [countryCode, setCountryCode] = useState<CountryCode>("FR");
+
+  // Password state
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // OTP state
   const [otpCode, setOtpCode] = useState("");
   const [phoneForOtp, setPhoneForOtp] = useState("");
+
+  // Form state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,15 +78,25 @@ export function RegisterForm({
 
   // Validation states
   const passwordValidation = validatePassword(password);
-  const identifierType = identifier ? getIdentifierType(identifier) : null;
+  const isEmailValid = email ? isValidEmail(email) : null;
+  const isPhoneValidState = phone ? isValidPhone(phone, countryCode) : null;
   const passwordsMatch = password === confirmPassword && confirmPassword !== "";
 
   const canSubmit =
-    identifier &&
-    identifierType !== "invalid" &&
+    (authMethod === "email" ? isEmailValid : isPhoneValidState) &&
     passwordValidation.isValid &&
     passwordsMatch &&
     !isLoading;
+
+  const handlePhoneChange = (
+    e164: string,
+    national: string,
+    country: CountryCode
+  ) => {
+    setPhone(national);
+    setPhoneE164(e164);
+    setCountryCode(country);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,14 +107,12 @@ export function RegisterForm({
     setIsLoading(true);
 
     try {
-      const type = getIdentifierType(identifier);
-
-      if (type === "email") {
+      if (authMethod === "email") {
         // Always show confirmation screen to prevent email enumeration
         // Include locale in redirect URL to set preferred_language after confirmation
         const redirectUrl = `${window.location.origin}/auth/callback?locale=${locale}`;
         await supabase.auth.signUp({
-          email: identifier.trim(),
+          email: email.trim(),
           password,
           options: {
             emailRedirectTo: redirectUrl,
@@ -80,8 +120,9 @@ export function RegisterForm({
         });
         // Don't check for errors - always show generic confirmation
         setStep("confirmation");
-      } else if (type === "phone") {
-        const formattedPhone = formatPhoneForAuth(identifier);
+      } else {
+        // Phone registration
+        const formattedPhone = phoneE164 || formatPhoneForAuth(phone, countryCode);
         // Always show OTP screen to prevent phone enumeration
         await supabase.auth.signUp({
           phone: formattedPhone,
@@ -93,11 +134,11 @@ export function RegisterForm({
       }
     } catch {
       // Even on error, show generic message to prevent enumeration
-      const type = getIdentifierType(identifier);
-      if (type === "email") {
+      if (authMethod === "email") {
         setStep("confirmation");
-      } else if (type === "phone") {
-        setPhoneForOtp(formatPhoneForAuth(identifier));
+      } else {
+        const formattedPhone = phoneE164 || formatPhoneForAuth(phone, countryCode);
+        setPhoneForOtp(formattedPhone);
         setStep("otp");
       }
     } finally {
@@ -293,34 +334,86 @@ export function RegisterForm({
       )}
 
       <div className="grid gap-5">
-        {/* Identifier (Email or Phone) */}
-        <div className="grid gap-2">
-          <Label htmlFor="identifier">{t("identifier")}</Label>
-          <Input
-            id="identifier"
-            type="text"
-            placeholder={t("identifierPlaceholder")}
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            required
-            autoComplete="username"
-            className={cn(
-              identifier &&
-                identifierType === "invalid" &&
-                "border-destructive focus-visible:ring-destructive"
-            )}
-          />
-          {identifier && identifierType === "invalid" && (
-            <p className="text-xs text-destructive">
-              {t("errors.invalidIdentifier")}
-            </p>
-          )}
-          {identifier && identifierType !== "invalid" && (
-            <p className="text-xs text-muted-foreground">
-              {identifierType === "email" ? t("usingEmail") : t("usingPhone")}
-            </p>
-          )}
-        </div>
+        {/* Email/Phone Tabs */}
+        <Tabs
+          defaultValue="email"
+          value={authMethod}
+          onValueChange={(value: string) => setAuthMethod(value as AuthMethod)}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="email" className="gap-2">
+              <Mail className="h-4 w-4" />
+              {t("tabs.email")}
+            </TabsTrigger>
+            <TabsTrigger value="phone" className="gap-2">
+              <Phone className="h-4 w-4" />
+              {t("tabs.phone")}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="email" className="mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">{t("email")}</Label>
+              <InputGroup
+                className={cn(
+                  isEmailValid === false && "border-destructive"
+                )}
+              >
+                <InputGroupAddon>
+                  <Mail className="h-4 w-4" />
+                </InputGroupAddon>
+                <InputGroupInput
+                  id="email"
+                  type="email"
+                  placeholder={t("emailPlaceholder")}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required={authMethod === "email"}
+                  autoComplete="email"
+                />
+              </InputGroup>
+              {isEmailValid === false && (
+                <p className="text-xs text-destructive">
+                  {t("errors.invalidEmail")}
+                </p>
+              )}
+              {isEmailValid === true && (
+                <p className="text-xs text-muted-foreground">
+                  {t("usingEmail")}
+                </p>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="phone" className="mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="phone">{t("phone")}</Label>
+              <PhoneInput
+                id="phone"
+                value={phone}
+                onChange={handlePhoneChange}
+                defaultCountry="FR"
+                error={isPhoneValidState === false}
+                countrySelectorLabels={{
+                  placeholder: tCountry("placeholder"),
+                  searchPlaceholder: tCountry("searchPlaceholder"),
+                  noResultsText: tCountry("noResults"),
+                }}
+              />
+              {isPhoneValidState === false && (
+                <p className="text-xs text-destructive">
+                  {t("errors.invalidPhone")}
+                </p>
+              )}
+              {isPhoneValidState === true && (
+                <p className="text-xs text-muted-foreground">
+                  {t("usingPhone")}
+                </p>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
 
         {/* Password */}
         <div className="grid gap-2">

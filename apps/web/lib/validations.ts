@@ -2,12 +2,15 @@
  * Validation utilities for forms
  */
 
+import {
+  parsePhoneNumber,
+  isValidPhoneNumber,
+  AsYouType,
+  type CountryCode,
+} from "libphonenumber-js";
+
 // Email regex - RFC 5322 compliant (simplified)
 export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-// Phone regex - International format with optional country code
-// Supports: +33612345678, 0612345678, +1-555-555-5555, etc.
-export const PHONE_REGEX = /^(\+?[1-9]\d{0,2}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 
 // Password validation rules
 export const PASSWORD_RULES = {
@@ -25,29 +28,44 @@ export function isValidEmail(email: string): boolean {
 }
 
 /**
- * Validate phone format
+ * Validate phone format using libphonenumber-js
+ * @param phone - Phone number to validate
+ * @param countryCode - Optional country code for validation (e.g., "FR", "US")
  */
-export function isValidPhone(phone: string): boolean {
-  // Remove all whitespace and common separators for validation
-  const cleanPhone = phone.replace(/[\s.-]/g, '');
-  return PHONE_REGEX.test(phone) && cleanPhone.length >= 8 && cleanPhone.length <= 15;
+export function isValidPhone(phone: string, countryCode?: CountryCode): boolean {
+  try {
+    // If country code provided, validate against that country
+    if (countryCode) {
+      return isValidPhoneNumber(phone, countryCode);
+    }
+
+    // Try to parse without country code (works if phone has country prefix like +33)
+    const phoneNumber = parsePhoneNumber(phone);
+    return phoneNumber?.isValid() ?? false;
+  } catch {
+    return false;
+  }
 }
 
 /**
  * Determine if input is email or phone
+ * Note: For phone, this only works reliably with international format (+33...)
+ * For national format, use isValidPhone with countryCode instead
  */
-export function getIdentifierType(identifier: string): 'email' | 'phone' | 'invalid' {
+export function getIdentifierType(identifier: string): "email" | "phone" | "invalid" {
   const trimmed = identifier.trim();
 
   if (isValidEmail(trimmed)) {
-    return 'email';
+    return "email";
   }
 
-  if (isValidPhone(trimmed)) {
-    return 'phone';
+  // Check if it looks like a phone number (starts with + or contains mostly digits)
+  const cleanPhone = trimmed.replace(/[\s.\-()]/g, "");
+  if (/^\+?\d{8,15}$/.test(cleanPhone)) {
+    return "phone";
   }
 
-  return 'invalid';
+  return "invalid";
 }
 
 /**
@@ -76,22 +94,45 @@ export function validatePassword(password: string): {
 }
 
 /**
- * Format phone number for Supabase (E.164 format)
- * Assumes French number if no country code provided
+ * Format phone number for Supabase Auth (E.164 format)
+ * @param phone - Phone number to format
+ * @param countryCode - Country code (e.g., "FR", "US"). Defaults to "FR"
  */
-export function formatPhoneForAuth(phone: string): string {
-  // Remove all non-digit characters except leading +
-  let cleaned = phone.replace(/[^\d+]/g, '');
-
-  // If starts with 0 (French format), replace with +33
-  if (cleaned.startsWith('0')) {
-    cleaned = '+33' + cleaned.slice(1);
+export function formatPhoneForAuth(phone: string, countryCode: CountryCode = "FR"): string {
+  try {
+    const phoneNumber = parsePhoneNumber(phone, countryCode);
+    if (phoneNumber) {
+      return phoneNumber.format("E.164");
+    }
+  } catch {
+    // Fallback: clean and format manually
   }
 
-  // If no + prefix, assume it needs one
-  if (!cleaned.startsWith('+')) {
-    cleaned = '+' + cleaned;
+  // Fallback: basic cleaning
+  let cleaned = phone.replace(/[^\d+]/g, "");
+
+  // If starts with 0 (national format), replace with country code
+  if (cleaned.startsWith("0") && countryCode === "FR") {
+    cleaned = "+33" + cleaned.slice(1);
+  }
+
+  // If no + prefix, add it
+  if (!cleaned.startsWith("+")) {
+    cleaned = "+" + cleaned;
   }
 
   return cleaned;
 }
+
+/**
+ * Format phone number as user types (national format)
+ * @param phone - Raw phone input
+ * @param countryCode - Country code for formatting
+ */
+export function formatPhoneNational(phone: string, countryCode: CountryCode): string {
+  const formatter = new AsYouType(countryCode);
+  return formatter.input(phone);
+}
+
+// Re-export CountryCode type for convenience
+export type { CountryCode };

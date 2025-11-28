@@ -24,6 +24,14 @@
     "login": {
       "title": "登录",
       "subtitle": "输入您的凭据以访问您的帐户",
+      "tabs": {
+        "email": "邮箱",
+        "phone": "电话"
+      },
+      "email": "邮箱地址",
+      "emailPlaceholder": "example@email.com",
+      "phone": "电话号码",
+      "phonePlaceholder": "123 4567 8901",
       "identifier": "邮箱或电话",
       "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
       "password": "密码",
@@ -38,12 +46,22 @@
       "errors": {
         "invalidCredentials": "邮箱/电话或密码无效",
         "invalidIdentifier": "邮箱或电话格式无效",
+        "invalidEmail": "邮箱格式无效",
+        "invalidPhone": "电话号码无效",
         "generic": "发生错误，请重试。"
       }
     },
     "register": {
       "title": "创建帐户",
       "subtitle": "加入化妆品专业人士目录",
+      "tabs": {
+        "email": "邮箱",
+        "phone": "电话"
+      },
+      "email": "邮箱地址",
+      "emailPlaceholder": "example@email.com",
+      "phone": "电话号码",
+      "phonePlaceholder": "123 4567 8901",
       "identifier": "邮箱或电话",
       "identifierPlaceholder": "example@email.com 或 +86 123 4567 8901",
       "password": "密码",
@@ -66,6 +84,8 @@
       },
       "errors": {
         "invalidIdentifier": "邮箱或电话格式无效",
+        "invalidEmail": "邮箱格式无效",
+        "invalidPhone": "电话号码无效",
         "passwordMismatch": "密码不匹配",
         "generic": "发生错误，请重试。"
       },
@@ -296,5 +316,10 @@
     "japan": "日本",
     "southKorea": "韩国",
     "other": "其他"
+  },
+  "countrySelector": {
+    "placeholder": "选择国家",
+    "searchPlaceholder": "搜索国家...",
+    "noResults": "未找到国家"
   }
 }

@@ -24,6 +24,14 @@
     "login": {
       "title": "Login",
       "subtitle": "Enter your credentials to access your account",
+      "tabs": {
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "email": "Email address",
+      "emailPlaceholder": "example@email.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "(555) 123-4567",
       "identifier": "Email or phone",
       "identifierPlaceholder": "example@email.com or +1 234 567 890",
       "password": "Password",
@@ -38,12 +46,22 @@
       "errors": {
         "invalidCredentials": "Invalid email/phone or password",
         "invalidIdentifier": "Invalid email or phone format",
+        "invalidEmail": "Invalid email format",
+        "invalidPhone": "Invalid phone number",
         "generic": "An error occurred. Please try again."
       }
     },
     "register": {
       "title": "Create an account",
       "subtitle": "Join the cosmetics professionals directory",
+      "tabs": {
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "email": "Email address",
+      "emailPlaceholder": "example@email.com",
+      "phone": "Phone number",
+      "phonePlaceholder": "(555) 123-4567",
       "identifier": "Email or phone",
       "identifierPlaceholder": "example@email.com or +1 234 567 890",
       "password": "Password",
@@ -66,6 +84,8 @@
       },
       "errors": {
         "invalidIdentifier": "Invalid email or phone format",
+        "invalidEmail": "Invalid email format",
+        "invalidPhone": "Invalid phone number",
         "passwordMismatch": "Passwords do not match",
         "generic": "An error occurred. Please try again."
       },
@@ -296,5 +316,10 @@
     "japan": "Japan",
     "southKorea": "South Korea",
     "other": "Other"
+  },
+  "countrySelector": {
+    "placeholder": "Select country",
+    "searchPlaceholder": "Search country...",
+    "noResults": "No country found"
   }
 }

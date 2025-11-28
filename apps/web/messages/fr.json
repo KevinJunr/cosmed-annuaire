@@ -24,6 +24,14 @@
     "login": {
       "title": "Connexion",
       "subtitle": "Entrez vos identifiants pour accéder à votre compte",
+      "tabs": {
+        "email": "Email",
+        "phone": "Téléphone"
+      },
+      "email": "Adresse email",
+      "emailPlaceholder": "exemple@email.com",
+      "phone": "Numéro de téléphone",
+      "phonePlaceholder": "6 12 34 56 78",
       "identifier": "Email ou téléphone",
       "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
       "password": "Mot de passe",
@@ -38,12 +46,22 @@
       "errors": {
         "invalidCredentials": "Email/téléphone ou mot de passe incorrect",
         "invalidIdentifier": "Format d'email ou de téléphone invalide",
+        "invalidEmail": "Format d'email invalide",
+        "invalidPhone": "Numéro de téléphone invalide",
         "generic": "Une erreur est survenue. Veuillez réessayer."
       }
     },
     "register": {
       "title": "Créer un compte",
       "subtitle": "Rejoignez l'annuaire des professionnels de la cosmétique",
+      "tabs": {
+        "email": "Email",
+        "phone": "Téléphone"
+      },
+      "email": "Adresse email",
+      "emailPlaceholder": "exemple@email.com",
+      "phone": "Numéro de téléphone",
+      "phonePlaceholder": "6 12 34 56 78",
       "identifier": "Email ou téléphone",
       "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
       "password": "Mot de passe",
@@ -66,6 +84,8 @@
       },
       "errors": {
         "invalidIdentifier": "Format d'email ou de téléphone invalide",
+        "invalidEmail": "Format d'email invalide",
+        "invalidPhone": "Numéro de téléphone invalide",
         "passwordMismatch": "Les mots de passe ne correspondent pas",
         "generic": "Une erreur est survenue. Veuillez réessayer."
       },
@@ -296,5 +316,10 @@
     "japan": "Japon",
     "southKorea": "Corée du Sud",
     "other": "Autre"
+  },
+  "countrySelector": {
+    "placeholder": "Sélectionner un pays",
+    "searchPlaceholder": "Rechercher un pays...",
+    "noResults": "Aucun pays trouvé"
   }
 }

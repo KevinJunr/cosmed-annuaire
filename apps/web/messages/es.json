@@ -24,6 +24,14 @@
     "login": {
       "title": "Iniciar sesión",
       "subtitle": "Ingrese sus credenciales para acceder a su cuenta",
+      "tabs": {
+        "email": "Email",
+        "phone": "Teléfono"
+      },
+      "email": "Correo electrónico",
+      "emailPlaceholder": "ejemplo@email.com",
+      "phone": "Número de teléfono",
+      "phonePlaceholder": "612 345 678",
       "identifier": "Email o teléfono",
       "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
       "password": "Contraseña",
@@ -38,12 +46,22 @@
       "errors": {
         "invalidCredentials": "Email/teléfono o contraseña inválidos",
         "invalidIdentifier": "Formato de email o teléfono inválido",
+        "invalidEmail": "Formato de email inválido",
+        "invalidPhone": "Número de teléfono inválido",
         "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       }
     },
     "register": {
       "title": "Crear una cuenta",
       "subtitle": "Únete al directorio de profesionales de la cosmética",
+      "tabs": {
+        "email": "Email",
+        "phone": "Teléfono"
+      },
+      "email": "Correo electrónico",
+      "emailPlaceholder": "ejemplo@email.com",
+      "phone": "Número de teléfono",
+      "phonePlaceholder": "612 345 678",
       "identifier": "Email o teléfono",
       "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
       "password": "Contraseña",
@@ -66,6 +84,8 @@
       },
       "errors": {
         "invalidIdentifier": "Formato de email o teléfono inválido",
+        "invalidEmail": "Formato de email inválido",
+        "invalidPhone": "Número de teléfono inválido",
         "passwordMismatch": "Las contraseñas no coinciden",
         "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo."
       },
@@ -296,5 +316,10 @@
     "japan": "Japón",
     "southKorea": "Corea del Sur",
     "other": "Otro"
+  },
+  "countrySelector": {
+    "placeholder": "Seleccionar país",
+    "searchPlaceholder": "Buscar país...",
+    "noResults": "No se encontró ningún país"
   }
 }

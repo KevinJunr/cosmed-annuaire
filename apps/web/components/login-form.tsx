@@ -2,35 +2,71 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, Mail, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { CountryCode } from "libphonenumber-js";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@workspace/ui/components/tabs";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@workspace/ui/components/input-group";
 import { cn } from "@workspace/ui/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
-import {
-  getIdentifierType,
-  formatPhoneForAuth,
-} from "@/lib/validations";
+import { isValidEmail, formatPhoneForAuth, isValidPhone } from "@/lib/validations";
 import { getProfileAction } from "@/lib/actions/profiles";
+import { PhoneInput } from "@/components/ui";
+
+type AuthMethod = "email" | "phone";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const t = useTranslations("auth.login");
+  const tCountry = useTranslations("countrySelector");
   const currentLocale = useLocale();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const [identifier, setIdentifier] = useState("");
+
+  // Auth method state
+  const [authMethod, setAuthMethod] = useState<AuthMethod>("email");
+
+  // Email state
+  const [email, setEmail] = useState("");
+
+  // Phone state
+  const [phone, setPhone] = useState("");
+  const [phoneE164, setPhoneE164] = useState("");
+  const [countryCode, setCountryCode] = useState<CountryCode>("FR");
+
+  // Password state
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Form state
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const supabase = createClient();
+
+  // Validation
+  const isEmailValid = email ? isValidEmail(email) : null;
+  const isPhoneValidState = phone ? isValidPhone(phone, countryCode) : null;
+
+  const canSubmit =
+    (authMethod === "email" ? isEmailValid : isPhoneValidState) &&
+    password.length > 0 &&
+    !isLoading;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,11 +74,14 @@ export function LoginForm({
     setIsLoading(true);
 
     try {
-      const type = getIdentifierType(identifier);
+      if (authMethod === "email") {
+        if (!isValidEmail(email)) {
+          setError(t("errors.invalidEmail"));
+          return;
+        }
 
-      if (type === "email") {
         const { error } = await supabase.auth.signInWithPassword({
-          email: identifier.trim(),
+          email: email.trim(),
           password,
         });
 
@@ -50,8 +89,14 @@ export function LoginForm({
           setError(t("errors.invalidCredentials"));
           return;
         }
-      } else if (type === "phone") {
-        const formattedPhone = formatPhoneForAuth(identifier);
+      } else {
+        // Phone login
+        if (!phoneE164) {
+          setError(t("errors.invalidPhone"));
+          return;
+        }
+
+        const formattedPhone = phoneE164 || formatPhoneForAuth(phone, countryCode);
         const { error } = await supabase.auth.signInWithPassword({
           phone: formattedPhone,
           password,
@@ -61,9 +106,6 @@ export function LoginForm({
           setError(t("errors.invalidCredentials"));
           return;
         }
-      } else {
-        setError(t("errors.invalidIdentifier"));
-        return;
       }
 
       // Check user's preferred language and redirect accordingly
@@ -82,6 +124,16 @@ export function LoginForm({
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handlePhoneChange = (
+    e164: string,
+    national: string,
+    country: CountryCode
+  ) => {
+    setPhone(national);
+    setPhoneE164(e164);
+    setCountryCode(country);
   };
 
   return (
@@ -104,18 +156,78 @@ export function LoginForm({
       )}
 
       <div className="grid gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="identifier">{t("identifier")}</Label>
-          <Input
-            id="identifier"
-            type="text"
-            placeholder={t("identifierPlaceholder")}
-            value={identifier}
-            onChange={(e) => setIdentifier(e.target.value)}
-            required
-            autoComplete="username"
-          />
-        </div>
+        {/* Email/Phone Tabs */}
+        <Tabs
+          defaultValue="email"
+          value={authMethod}
+          onValueChange={(value: string) => setAuthMethod(value as AuthMethod)}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="email" className="gap-2">
+              <Mail className="h-4 w-4" />
+              {t("tabs.email")}
+            </TabsTrigger>
+            <TabsTrigger value="phone" className="gap-2">
+              <Phone className="h-4 w-4" />
+              {t("tabs.phone")}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="email" className="mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">{t("email")}</Label>
+              <InputGroup
+                className={cn(
+                  isEmailValid === false && "border-destructive"
+                )}
+              >
+                <InputGroupAddon>
+                  <Mail className="h-4 w-4" />
+                </InputGroupAddon>
+                <InputGroupInput
+                  id="email"
+                  type="email"
+                  placeholder={t("emailPlaceholder")}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required={authMethod === "email"}
+                  autoComplete="email"
+                />
+              </InputGroup>
+              {isEmailValid === false && (
+                <p className="text-xs text-destructive">
+                  {t("errors.invalidEmail")}
+                </p>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="phone" className="mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="phone">{t("phone")}</Label>
+              <PhoneInput
+                id="phone"
+                value={phone}
+                onChange={handlePhoneChange}
+                defaultCountry="FR"
+                error={isPhoneValidState === false}
+                countrySelectorLabels={{
+                  placeholder: tCountry("placeholder"),
+                  searchPlaceholder: tCountry("searchPlaceholder"),
+                  noResultsText: tCountry("noResults"),
+                }}
+              />
+              {isPhoneValidState === false && (
+                <p className="text-xs text-destructive">
+                  {t("errors.invalidPhone")}
+                </p>
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {/* Password */}
         <div className="grid gap-2">
           <div className="flex items-center">
             <Label htmlFor="password">{t("password")}</Label>
@@ -151,7 +263,8 @@ export function LoginForm({
             </button>
           </div>
         </div>
-        <Button type="submit" className="w-full" disabled={isLoading}>
+
+        <Button type="submit" className="w-full" disabled={!canSubmit}>
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -162,12 +275,16 @@ export function LoginForm({
           )}
         </Button>
       </div>
+
       <div className="text-center text-sm">
         {t("noAccount")}{" "}
-        <Link href="/register" className="text-primary underline-offset-4 hover:underline font-medium">
+        <Link
+          href="/register"
+          className="text-primary underline-offset-4 hover:underline font-medium"
+        >
           {t("createAccount")}
         </Link>
       </div>
     </form>
-  )
+  );
 }
