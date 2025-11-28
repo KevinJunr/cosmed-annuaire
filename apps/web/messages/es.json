@@ -39,7 +39,7 @@
       "identifier": "Email o teléfono",
       "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
       "password": "Contraseña",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "submit": "Iniciar sesión",
       "submitting": "Iniciando sesión...",
@@ -87,9 +87,9 @@
       "identifier": "Email o teléfono",
       "identifierPlaceholder": "ejemplo@email.com o +34 612 345 678",
       "password": "Contraseña",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "submit": "Crear mi cuenta",
       "submitting": "Creando cuenta...",
       "alreadyHaveAccount": "¿Ya tienes una cuenta?",
@@ -156,9 +156,9 @@
       "title": "Nueva contraseña",
       "subtitle": "Crea tu nueva contraseña",
       "password": "Nueva contraseña",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirmar contraseña",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "showPassword": "Mostrar contraseña",
       "hidePassword": "Ocultar contraseña",
       "submit": "Restablecer contraseña",
@@ -202,7 +202,8 @@
     "stepper": {
       "step1": "Objetivo",
       "step2": "Información",
-      "step3": "Empresa"
+      "step3": "Empresa",
+      "step4": "Creación"
     },
     "common": {
       "continue": "Continuar",
@@ -252,6 +253,7 @@
         "subtitle": "Únete a una empresa existente o crea la tuya",
         "searchPlaceholder": "Buscar una empresa...",
         "noResults": "No se encontraron empresas",
+        "searchHint": "Escribe al menos 2 caracteres para buscar",
         "options": {
           "existing": {
             "title": "Unirse a una empresa existente",
@@ -268,16 +270,22 @@
       "pathB": {
         "title": "Crea tu empresa",
         "subtitle": "Completa la información de tu empresa",
-        "companyName": "Nombre de la empresa",
-        "companyNamePlaceholder": "Mi Empresa",
-        "rcs": "Número de registro",
-        "rcsPlaceholder": "B-12345678",
-        "rcsTooltip": "El número de registro mercantil es el identificador único de tu empresa asignado durante su constitución. Lo puedes encontrar en tu escritura de constitución o certificado del Registro Mercantil.",
-        "rcsTooltipLabel": "¿Qué es el número de registro?",
         "country": "País",
         "countryPlaceholder": "Selecciona un país",
         "countrySearchPlaceholder": "Buscar un país...",
         "countryNotFound": "No se encontró ningún país",
+        "companyName": "Nombre de la empresa",
+        "companyNamePlaceholder": "Mi Empresa",
+        "legalId": "Identificador legal",
+        "legalIdPlaceholder": {
+          "DUNS": "123456789",
+          "SIREN": "123456789"
+        },
+        "legalIdTooltip": {
+          "DUNS": "El número DUNS (Data Universal Numbering System) es un identificador único de 9 dígitos asignado por Dun & Bradstreet para identificar empresas en todo el mundo. <link>Más información</link>",
+          "SIREN": "El número SIREN es un identificador único de 9 dígitos asignado por el INSEE a cada empresa francesa en el momento de su registro."
+        },
+        "legalIdTooltipLabel": "¿Qué es este identificador?",
         "address": "Dirección",
         "addressPlaceholder": "Calle Belleza 123, 28001 Madrid",
         "optional": "opcional",
@@ -285,7 +293,15 @@
           "required": "Este campo es obligatorio",
           "tooShort": "Demasiado corto",
           "tooLong": "Demasiado largo",
-          "alreadyExists": "Este número de registro ya está registrado"
+          "invalidFormat": "El identificador debe contener exactamente 9 dígitos",
+          "alreadyExists": "Este identificador ya está registrado"
+        },
+        "existingCompanyDialog": {
+          "title": "Empresa ya registrada",
+          "description": "Ya existe una empresa con este identificador. ¿Desea unirse a esta empresa?",
+          "cancel": "Editar identificador",
+          "join": "Unirse a esta empresa",
+          "joining": "Uniéndose..."
         }
       }
     }

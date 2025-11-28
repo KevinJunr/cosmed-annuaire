@@ -39,7 +39,7 @@
       "identifier": "البريد الإلكتروني أو الهاتف",
       "identifierPlaceholder": "example@email.com أو +966 12 345 6789",
       "password": "كلمة المرور",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "forgotPassword": "نسيت كلمة المرور؟",
       "submit": "تسجيل الدخول",
       "submitting": "جاري تسجيل الدخول...",
@@ -87,9 +87,9 @@
       "identifier": "البريد الإلكتروني أو الهاتف",
       "identifierPlaceholder": "example@email.com أو +966 12 345 6789",
       "password": "كلمة المرور",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "تأكيد كلمة المرور",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "submit": "إنشاء حسابي",
       "submitting": "جاري إنشاء الحساب...",
       "alreadyHaveAccount": "لديك حساب بالفعل؟",
@@ -156,9 +156,9 @@
       "title": "كلمة مرور جديدة",
       "subtitle": "قم بإنشاء كلمة المرور الجديدة",
       "password": "كلمة المرور الجديدة",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "تأكيد كلمة المرور",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "showPassword": "إظهار كلمة المرور",
       "hidePassword": "إخفاء كلمة المرور",
       "submit": "إعادة تعيين كلمة المرور",
@@ -202,7 +202,8 @@
     "stepper": {
       "step1": "الهدف",
       "step2": "المعلومات",
-      "step3": "الشركة"
+      "step3": "الشركة",
+      "step4": "الإنشاء"
     },
     "common": {
       "continue": "متابعة",
@@ -252,6 +253,7 @@
         "subtitle": "انضم إلى شركة موجودة أو أنشئ شركتك الخاصة",
         "searchPlaceholder": "البحث عن شركة...",
         "noResults": "لم يتم العثور على شركات",
+        "searchHint": "اكتب حرفين على الأقل للبحث",
         "options": {
           "existing": {
             "title": "الانضمام إلى شركة موجودة",
@@ -268,16 +270,22 @@
       "pathB": {
         "title": "أنشئ شركتك",
         "subtitle": "أدخل معلومات شركتك",
-        "companyName": "اسم الشركة",
-        "companyNamePlaceholder": "شركتي",
-        "rcs": "رقم التسجيل",
-        "rcsPlaceholder": "1010123456",
-        "rcsTooltip": "رقم التسجيل التجاري هو المعرف الفريد لشركتك الذي يُمنح عند التأسيس. يمكنك العثور عليه في السجل التجاري الخاص بك.",
-        "rcsTooltipLabel": "ما هو رقم التسجيل؟",
         "country": "البلد",
         "countryPlaceholder": "اختر بلداً",
         "countrySearchPlaceholder": "ابحث عن بلد...",
         "countryNotFound": "لم يتم العثور على بلد",
+        "companyName": "اسم الشركة",
+        "companyNamePlaceholder": "شركتي",
+        "legalId": "المعرف القانوني",
+        "legalIdPlaceholder": {
+          "DUNS": "123456789",
+          "SIREN": "123456789"
+        },
+        "legalIdTooltip": {
+          "DUNS": "رقم DUNS (نظام الترقيم العالمي للبيانات) هو معرف فريد من 9 أرقام تمنحه Dun & Bradstreet لتحديد الشركات في جميع أنحاء العالم. <link>معرفة المزيد</link>",
+          "SIREN": "رقم SIREN هو معرف فريد من 9 أرقام يمنحه المعهد الوطني للإحصاء والدراسات الاقتصادية (INSEE) لكل شركة فرنسية عند تسجيلها."
+        },
+        "legalIdTooltipLabel": "ما هو هذا المعرف؟",
         "address": "العنوان",
         "addressPlaceholder": "شارع الجمال 123، الرياض",
         "optional": "اختياري",
@@ -285,7 +293,15 @@
           "required": "هذا الحقل مطلوب",
           "tooShort": "قصير جداً",
           "tooLong": "طويل جداً",
-          "alreadyExists": "رقم التسجيل هذا مسجل بالفعل"
+          "invalidFormat": "يجب أن يحتوي المعرف على 9 أرقام بالضبط",
+          "alreadyExists": "هذا المعرف مسجل بالفعل"
+        },
+        "existingCompanyDialog": {
+          "title": "الشركة مسجلة بالفعل",
+          "description": "توجد شركة بهذا المعرف بالفعل. هل ترغب في الانضمام إلى هذه الشركة؟",
+          "cancel": "تعديل المعرف",
+          "join": "الانضمام إلى هذه الشركة",
+          "joining": "جارٍ الانضمام..."
         }
       }
     }

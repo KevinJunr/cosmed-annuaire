@@ -39,7 +39,7 @@
       "identifier": "Email or phone",
       "identifierPlaceholder": "example@email.com or +1 234 567 890",
       "password": "Password",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "forgotPassword": "Forgot password?",
       "submit": "Log in",
       "submitting": "Logging in...",
@@ -87,9 +87,9 @@
       "identifier": "Email or phone",
       "identifierPlaceholder": "example@email.com or +1 234 567 890",
       "password": "Password",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirm password",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "submit": "Create my account",
       "submitting": "Creating account...",
       "alreadyHaveAccount": "Already have an account?",
@@ -156,9 +156,9 @@
       "title": "New password",
       "subtitle": "Create your new password",
       "password": "New password",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirm password",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "showPassword": "Show password",
       "hidePassword": "Hide password",
       "submit": "Reset password",
@@ -202,7 +202,8 @@
     "stepper": {
       "step1": "Purpose",
       "step2": "Information",
-      "step3": "Company"
+      "step3": "Company",
+      "step4": "Creation"
     },
     "common": {
       "continue": "Continue",
@@ -252,6 +253,7 @@
         "subtitle": "Join an existing company or create your own",
         "searchPlaceholder": "Search for a company...",
         "noResults": "No companies found",
+        "searchHint": "Type at least 2 characters to search",
         "options": {
           "existing": {
             "title": "Join an existing company",
@@ -268,16 +270,22 @@
       "pathB": {
         "title": "Create your company",
         "subtitle": "Fill in your company information",
-        "companyName": "Company name",
-        "companyNamePlaceholder": "My Company",
-        "rcs": "Registration number",
-        "rcsPlaceholder": "12-3456789",
-        "rcsTooltip": "The registration number (RCS in France, Companies House in UK, etc.) is your company's unique identifier assigned during incorporation. You can find it on your certificate of incorporation.",
-        "rcsTooltipLabel": "What is the registration number?",
         "country": "Country",
         "countryPlaceholder": "Select a country",
         "countrySearchPlaceholder": "Search a country...",
         "countryNotFound": "No country found",
+        "companyName": "Company name",
+        "companyNamePlaceholder": "My Company",
+        "legalId": "Legal identifier",
+        "legalIdPlaceholder": {
+          "DUNS": "123456789",
+          "SIREN": "123456789"
+        },
+        "legalIdTooltip": {
+          "DUNS": "The DUNS (Data Universal Numbering System) number is a unique 9-digit identifier assigned by Dun & Bradstreet to identify businesses worldwide. <link>Learn more</link>",
+          "SIREN": "The SIREN number is a unique 9-digit identifier assigned by INSEE to each French company upon registration."
+        },
+        "legalIdTooltipLabel": "What is this identifier?",
         "address": "Address",
         "addressPlaceholder": "123 Beauty Street, New York, NY 10001",
         "optional": "optional",
@@ -285,7 +293,15 @@
           "required": "This field is required",
           "tooShort": "Too short",
           "tooLong": "Too long",
-          "alreadyExists": "This registration number is already registered"
+          "invalidFormat": "The identifier must contain exactly 9 digits",
+          "alreadyExists": "This identifier is already registered"
+        },
+        "existingCompanyDialog": {
+          "title": "Company already registered",
+          "description": "A company with this identifier already exists. Would you like to join this company?",
+          "cancel": "Edit identifier",
+          "join": "Join this company",
+          "joining": "Joining..."
         }
       }
     }

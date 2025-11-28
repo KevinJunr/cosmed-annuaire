@@ -39,7 +39,7 @@
       "identifier": "Email ou téléphone",
       "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
       "password": "Mot de passe",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "forgotPassword": "Mot de passe oublié ?",
       "submit": "Se connecter",
       "submitting": "Connexion...",
@@ -87,9 +87,9 @@
       "identifier": "Email ou téléphone",
       "identifierPlaceholder": "exemple@email.com ou 06 12 34 56 78",
       "password": "Mot de passe",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirmer le mot de passe",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "submit": "Créer mon compte",
       "submitting": "Création en cours...",
       "alreadyHaveAccount": "Déjà un compte ?",
@@ -156,9 +156,9 @@
       "title": "Nouveau mot de passe",
       "subtitle": "Créez votre nouveau mot de passe",
       "password": "Nouveau mot de passe",
-      "passwordPlaceholder": "••••••••",
+      "passwordPlaceholder": "",
       "confirmPassword": "Confirmer le mot de passe",
-      "confirmPasswordPlaceholder": "••••••••",
+      "confirmPasswordPlaceholder": "",
       "showPassword": "Afficher le mot de passe",
       "hidePassword": "Masquer le mot de passe",
       "submit": "Réinitialiser le mot de passe",
@@ -202,7 +202,8 @@
     "stepper": {
       "step1": "Objectif",
       "step2": "Informations",
-      "step3": "Entreprise"
+      "step3": "Entreprise",
+      "step4": "Création"
     },
     "common": {
       "continue": "Continuer",
@@ -252,6 +253,7 @@
         "subtitle": "Associez-vous à une entreprise existante ou créez la vôtre",
         "searchPlaceholder": "Rechercher une entreprise...",
         "noResults": "Aucune entreprise trouvée",
+        "searchHint": "Tapez au moins 2 caractères pour rechercher",
         "options": {
           "existing": {
             "title": "Rejoindre une entreprise existante",
@@ -268,16 +270,22 @@
       "pathB": {
         "title": "Créer votre entreprise",
         "subtitle": "Renseignez les informations de votre entreprise",
-        "companyName": "Nom de l'entreprise",
-        "companyNamePlaceholder": "Ma Société",
-        "rcs": "Numéro RCS",
-        "rcsPlaceholder": "Paris B 123 456 789",
-        "rcsTooltip": "Le numéro RCS (Registre du Commerce et des Sociétés) est l'identifiant unique de votre entreprise attribué lors de son immatriculation. Il figure sur votre extrait Kbis.",
-        "rcsTooltipLabel": "Qu'est-ce que le numéro RCS ?",
         "country": "Pays",
         "countryPlaceholder": "Sélectionnez un pays",
         "countrySearchPlaceholder": "Rechercher un pays...",
         "countryNotFound": "Aucun pays trouvé",
+        "companyName": "Nom de l'entreprise",
+        "companyNamePlaceholder": "Ma Société",
+        "legalId": "Identifiant légal",
+        "legalIdPlaceholder": {
+          "DUNS": "123456789",
+          "SIREN": "123456789"
+        },
+        "legalIdTooltip": {
+          "DUNS": "Le numéro DUNS (Data Universal Numbering System) est un identifiant unique à 9 chiffres attribué par Dun & Bradstreet pour identifier les entreprises dans le monde entier. <link>En savoir plus</link>",
+          "SIREN": "Le numéro SIREN est un identifiant unique à 9 chiffres attribué par l'INSEE à chaque entreprise française lors de son immatriculation."
+        },
+        "legalIdTooltipLabel": "Qu'est-ce que cet identifiant ?",
         "address": "Adresse",
         "addressPlaceholder": "123 Rue de la Beauté, 75008 Paris",
         "optional": "optionnel",
@@ -285,7 +293,15 @@
           "required": "Ce champ est requis",
           "tooShort": "Trop court",
           "tooLong": "Trop long",
-          "alreadyExists": "Ce numéro RCS est déjà enregistré"
+          "invalidFormat": "L'identifiant doit contenir exactement 9 chiffres",
+          "alreadyExists": "Cet identifiant est déjà enregistré"
+        },
+        "existingCompanyDialog": {
+          "title": "Entreprise déjà enregistrée",
+          "description": "Une entreprise avec cet identifiant existe déjà. Souhaitez-vous rejoindre cette entreprise ?",
+          "cancel": "Modifier l'identifiant",
+          "join": "Rejoindre cette entreprise",
+          "joining": "Inscription en cours..."
         }
       }
     }

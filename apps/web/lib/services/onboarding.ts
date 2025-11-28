@@ -51,7 +51,8 @@ export async function completeOnboarding(
     // Create new company
     const companyInsert: CompanyInsert = {
       name: data.newCompanyData.companyName,
-      rcs: data.newCompanyData.rcs || null,
+      legal_id: data.newCompanyData.legalId || null,
+      legal_id_type: data.newCompanyData.legalIdType || null,
       country_id: data.newCompanyData.countryId || null,
       address: data.newCompanyData.address || null,
       created_by: profileId,

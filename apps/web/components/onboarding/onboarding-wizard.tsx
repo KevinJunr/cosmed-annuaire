@@ -43,11 +43,14 @@ export function OnboardingWizard() {
       case 2:
         return <StepPersonalInfo />;
       case 3:
-        // Path "search" shows company selection (optional)
-        // Path "register/both" shows company creation
+        // Path "search" shows company selection
+        // Path "register/both" shows company creation directly
         if (path === "search") {
           return <StepCompanySelect />;
         }
+        return <StepCompanyCreate />;
+      case 4:
+        // Only reached when user chose "new" from company select
         return <StepCompanyCreate />;
       default:
         return <StepPurpose />;

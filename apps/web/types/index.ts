@@ -42,5 +42,3 @@ export type {
   UserUpdate,
 } from "./database";
 
-// Legacy types from constants (keep for backwards compatibility)
-export type { MockCompany, Sector } from "./constants";

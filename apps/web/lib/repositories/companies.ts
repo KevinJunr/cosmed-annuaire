@@ -54,17 +54,17 @@ export async function getCompanyByName(
 }
 
 /**
- * Get company by RCS (for checking uniqueness)
+ * Get company by legal ID (DUNS or SIREN)
  */
-export async function getCompanyByRcs(
-  rcs: string
+export async function getCompanyByLegalId(
+  legalId: string
 ): Promise<RepositoryResult<Company | null>> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("companies")
     .select("*")
-    .eq("rcs", rcs)
+    .eq("legal_id", legalId)
     .maybeSingle();
 
   if (error) {
@@ -75,12 +75,36 @@ export async function getCompanyByRcs(
 }
 
 /**
- * Check if RCS is unique (returns true if no company has this RCS)
+ * Get company by legal ID with country details
  */
-export async function isRcsUnique(
-  rcs: string
+export async function getCompanyByLegalIdWithCountry(
+  legalId: string
+): Promise<RepositoryResult<CompanyWithCountry | null>> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select(`
+      *,
+      country:countries(id, code, name_key)
+    `)
+    .eq("legal_id", legalId)
+    .maybeSingle();
+
+  if (error) {
+    return failureFromPostgrest(error);
+  }
+
+  return success(data);
+}
+
+/**
+ * Check if legal ID is unique (returns true if no company has this ID)
+ */
+export async function isLegalIdUnique(
+  legalId: string
 ): Promise<RepositoryResult<boolean>> {
-  const result = await getCompanyByRcs(rcs);
+  const result = await getCompanyByLegalId(legalId);
 
   if (result.error) {
     return failure(result.error);
@@ -101,6 +125,38 @@ export async function searchCompanies(
   const { data, error } = await supabase
     .from("companies")
     .select("*")
+    .ilike("name", `%${query}%`)
+    .limit(limit);
+
+  if (error) {
+    return failureFromPostgrest(error);
+  }
+
+  return success(data || []);
+}
+
+/**
+ * Company with country details type
+ */
+export type CompanyWithCountry = Company & {
+  country: { id: string; code: string; name_key: string } | null;
+};
+
+/**
+ * Search companies by name with country details
+ */
+export async function searchCompaniesWithCountry(
+  query: string,
+  limit = 10
+): Promise<RepositoryResult<CompanyWithCountry[]>> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("companies")
+    .select(`
+      *,
+      country:countries(id, code, name_key)
+    `)
     .ilike("name", `%${query}%`)
     .limit(limit);
 

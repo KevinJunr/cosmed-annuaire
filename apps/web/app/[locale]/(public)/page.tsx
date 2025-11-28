@@ -1,4 +1,3 @@
-import { LogoLoader } from "@workspace/ui/components/logo-loader"
 import { useTranslations } from "next-intl"
 import { setRequestLocale } from "next-intl/server"
 
@@ -24,7 +23,6 @@ function LandingPageContent() {
       <div className="flex flex-col items-center justify-center gap-4 px-4">
         <h1 className="text-2xl font-bold text-center">{t("title")}</h1>
         <p className="text-muted-foreground">{t("subtitle")}</p>
-        <LogoLoader></LogoLoader>
       </div>
     </main>
   )

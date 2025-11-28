@@ -16,7 +16,8 @@ import {
   type OnboardingPath,
   type CompanyFormData,
   INITIAL_ONBOARDING_STATE,
-  TOTAL_STEPS,
+  getTotalSteps,
+  STEPS_WITH_COMPANY_CREATE,
 } from "@/types";
 import {
   loadOnboardingProgressAction,
@@ -29,16 +30,20 @@ function onboardingReducer(
   state: OnboardingState,
   action: OnboardingAction
 ): OnboardingState {
+  // Calculate total steps based on current state
+  const totalSteps = getTotalSteps(state.path, state.data.companyChoice);
+
   switch (action.type) {
     case "SET_STEP":
+      // Use max possible steps for flexibility, actual display uses calculated total
       return {
         ...state,
         direction: action.payload > state.currentStep ? 1 : -1,
-        currentStep: Math.max(1, Math.min(action.payload, TOTAL_STEPS)),
+        currentStep: Math.max(1, Math.min(action.payload, STEPS_WITH_COMPANY_CREATE)),
       };
 
     case "NEXT_STEP":
-      if (state.currentStep >= TOTAL_STEPS) return state;
+      if (state.currentStep >= STEPS_WITH_COMPANY_CREATE) return state;
       return {
         ...state,
         direction: 1,
@@ -116,6 +121,7 @@ interface OnboardingContextValue {
   complete: (overrideData?: Partial<OnboardingData>, locale?: string) => Promise<boolean>;
   reset: () => void;
   // Computed
+  totalSteps: number;
   isFirstStep: boolean;
   isLastStep: boolean;
   progress: number;
@@ -256,10 +262,11 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
   }, []);
 
   // Computed values
+  const totalSteps = getTotalSteps(state.path, state.data.companyChoice);
   const isFirstStep = state.currentStep === 1;
-  const isLastStep = state.currentStep === TOTAL_STEPS;
-  const progress = (state.currentStep / TOTAL_STEPS) * 100;
-  const canGoNext = !state.isLoading && state.currentStep < TOTAL_STEPS;
+  const isLastStep = state.currentStep === totalSteps;
+  const progress = (state.currentStep / totalSteps) * 100;
+  const canGoNext = !state.isLoading && state.currentStep < totalSteps;
 
   const value: OnboardingContextValue = {
     state,
@@ -272,6 +279,7 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     setLoading,
     complete,
     reset,
+    totalSteps,
     isFirstStep,
     isLastStep,
     progress,

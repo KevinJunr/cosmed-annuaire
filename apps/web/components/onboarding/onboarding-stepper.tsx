@@ -4,17 +4,16 @@ import { useTranslations } from "next-intl";
 import { Check } from "lucide-react";
 import { cn } from "@workspace/ui/lib/utils";
 import { useOnboarding } from "@/providers/onboarding-provider";
-import { TOTAL_STEPS } from "@/types";
 
 export function OnboardingStepper() {
   const t = useTranslations("onboarding.stepper");
-  const { state } = useOnboarding();
+  const { state, totalSteps } = useOnboarding();
   const currentStep = state.currentStep;
 
   return (
     <div className="w-full flex flex-col items-center gap-3">
       <div className="flex items-center justify-center w-full max-w-xs">
-        {Array.from({ length: TOTAL_STEPS }, (_, i) => {
+        {Array.from({ length: totalSteps }, (_, i) => {
           const step = i + 1;
           const isCompleted = step < currentStep;
           const isActive = step === currentStep;
@@ -38,7 +37,7 @@ export function OnboardingStepper() {
               </div>
 
               {/* Separator line */}
-              {step < TOTAL_STEPS && (
+              {step < totalSteps && (
                 <div
                   className={cn(
                     "h-0.5 flex-1 mx-2 transition-colors",

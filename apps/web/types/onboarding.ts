@@ -4,10 +4,13 @@ export type OnboardingPurpose = "SEARCH" | "REGISTER" | "BOTH";
 export type OnboardingPath = "search" | "register" | "both" | null;
 export type CompanyChoice = "existing" | "new" | "none" | null;
 
+export type LegalIdType = "DUNS" | "SIREN";
+
 export interface CompanyFormData {
-  companyName: string;
-  rcs?: string;
   countryId: string;
+  companyName: string;
+  legalIdType: LegalIdType;
+  legalId: string;
   address?: string;
 }
 
@@ -66,5 +69,22 @@ export const INITIAL_ONBOARDING_STATE: OnboardingState = {
   isCompleted: false,
 };
 
-export const TOTAL_STEPS = 3;
+// Base steps: 1. Purpose, 2. Personal Info, 3. Company Select
+// When creating a new company, add step 4: Company Create
+export const BASE_STEPS = 3;
+export const STEPS_WITH_COMPANY_CREATE = 4;
+
+/**
+ * Get total steps based on the current path and company choice
+ */
+export function getTotalSteps(path: OnboardingPath, companyChoice: CompanyChoice): number {
+  // If user chose to create a new company, there's an extra step
+  if (path === "register" && companyChoice === "new") {
+    return STEPS_WITH_COMPANY_CREATE;
+  }
+  return BASE_STEPS;
+}
+
+// Keep for backwards compatibility
+export const TOTAL_STEPS = BASE_STEPS;
 export const STORAGE_KEY = "cosmed_onboarding_state";

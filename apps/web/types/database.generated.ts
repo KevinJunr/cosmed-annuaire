@@ -22,8 +22,9 @@ export type Database = {
           created_by: string | null
           id: string
           is_premium: boolean | null
+          legal_id: string | null
+          legal_id_type: string | null
           name: string
-          rcs: string | null
           updated_at: string | null
         }
         Insert: {
@@ -33,8 +34,9 @@ export type Database = {
           created_by?: string | null
           id?: string
           is_premium?: boolean | null
+          legal_id?: string | null
+          legal_id_type?: string | null
           name: string
-          rcs?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -44,8 +46,9 @@ export type Database = {
           created_by?: string | null
           id?: string
           is_premium?: boolean | null
+          legal_id?: string | null
+          legal_id_type?: string | null
           name?: string
-          rcs?: string | null
           updated_at?: string | null
         }
         Relationships: [

@@ -41,19 +41,26 @@ export const companySelectSchema = z
     { message: "selectCompany", path: ["selectedCompanyId"] }
   );
 
+// Legal ID types
+export const LEGAL_ID_TYPES = ["DUNS", "SIREN"] as const;
+export type LegalIdType = (typeof LEGAL_ID_TYPES)[number];
+
+// Validation: DUNS and SIREN are both 9 digits
+const legalIdRegex = /^\d{9}$/;
+
 // Step 3 Path B: Company Creation (simplified for onboarding)
 export const companyCreateSchema = z.object({
+  countryId: z.string().min(1, { message: "required" }),
   companyName: z
     .string()
     .min(1, { message: "required" })
     .min(2, { message: "tooShort" })
     .max(100, { message: "tooLong" }),
-  rcs: z
+  legalIdType: z.enum(LEGAL_ID_TYPES, { required_error: "required" }),
+  legalId: z
     .string()
     .min(1, { message: "required" })
-    .min(3, { message: "tooShort" })
-    .max(50, { message: "tooLong" }),
-  countryId: z.string().min(1, { message: "required" }),
+    .regex(legalIdRegex, { message: "invalidFormat" }),
   address: z.string().optional(),
 });
 
