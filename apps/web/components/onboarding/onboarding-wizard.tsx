@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
 
+import { LogoLoader } from "@workspace/ui/components/logo-loader";
 import { useOnboarding } from "@/providers/onboarding-provider";
 import { checkNeedsOnboardingAction } from "@/lib/actions/onboarding";
 import { OnboardingStepper } from "./onboarding-stepper";
@@ -58,7 +58,7 @@ export function OnboardingWizard() {
   if (isChecking) {
     return (
       <div className="w-full max-w-lg flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <LogoLoader size="md" />
       </div>
     );
   }

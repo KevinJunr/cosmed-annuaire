@@ -5,19 +5,37 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Info, Check, ChevronsUpDown } from "lucide-react";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
-import { Label } from "@workspace/ui/components/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@workspace/ui/components/input-group";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@workspace/ui/components/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@workspace/ui/components/command";
 import { cn } from "@workspace/ui/lib/utils";
+import { RequiredLabel, FlagIcon } from "@/components/ui";
 
 import { StepContainer } from "../step-container";
 import { useOnboarding } from "@/providers/onboarding-provider";
@@ -46,6 +64,7 @@ export function StepCompanyCreate() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [rcsError, setRcsError] = useState<string | null>(null);
+  const [countryPopoverOpen, setCountryPopoverOpen] = useState(false);
 
   // Load countries
   useEffect(() => {
@@ -136,7 +155,9 @@ export function StepCompanyCreate() {
         <div className="grid gap-4">
           {/* Company Name */}
           <div className="grid gap-2">
-            <Label htmlFor="companyName">{t("companyName")}</Label>
+            <RequiredLabel htmlFor="companyName" required>
+              {t("companyName")}
+            </RequiredLabel>
             <Input
               id="companyName"
               placeholder={t("companyNamePlaceholder")}
@@ -153,22 +174,45 @@ export function StepCompanyCreate() {
             )}
           </div>
 
-          {/* RCS */}
+          {/* RCS with tooltip */}
           <div className="grid gap-2">
-            <Label htmlFor="rcs">{t("rcs")}</Label>
-            <Input
-              id="rcs"
-              placeholder={t("rcsPlaceholder")}
-              {...register("rcs")}
-              className={cn(
-                (errors.rcs || rcsError) &&
-                  "border-destructive focus-visible:ring-destructive"
-              )}
-              onChange={(e) => {
-                register("rcs").onChange(e);
-                setRcsError(null);
-              }}
-            />
+            <RequiredLabel htmlFor="rcs" required>
+              {t("rcs")}
+            </RequiredLabel>
+            <TooltipProvider>
+              <InputGroup
+                className={cn(
+                  (errors.rcs || rcsError) &&
+                    "border-destructive focus-visible:ring-destructive"
+                )}
+              >
+                <InputGroupInput
+                  id="rcs"
+                  placeholder={t("rcsPlaceholder")}
+                  {...register("rcs")}
+                  onChange={(e) => {
+                    register("rcs").onChange(e);
+                    setRcsError(null);
+                  }}
+                />
+                <InputGroupAddon align="inline-end">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <InputGroupButton
+                        className="rounded-full"
+                        size="icon-xs"
+                        aria-label={t("rcsTooltipLabel")}
+                      >
+                        <Info className="h-3.5 w-3.5" />
+                      </InputGroupButton>
+                    </TooltipTrigger>
+                    <TooltipContent side="left" className="max-w-xs">
+                      <p className="text-sm">{t("rcsTooltip")}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </InputGroupAddon>
+              </InputGroup>
+            </TooltipProvider>
             {errors.rcs && (
               <p className="text-xs text-destructive">
                 {t(`errors.${errors.rcs.message}`)}
@@ -181,40 +225,80 @@ export function StepCompanyCreate() {
             )}
           </div>
 
-          {/* Country */}
+          {/* Country with searchable selector */}
           <div className="grid gap-2">
-            <Label htmlFor="country">{t("country")}</Label>
-            <Select
-              value={watchCountry}
-              onValueChange={(value) =>
-                setValue("countryId", value, { shouldValidate: true })
-              }
-              disabled={isLoadingData}
-            >
-              <SelectTrigger
-                className={cn(
-                  "w-full",
-                  errors.countryId &&
-                    "border-destructive focus-visible:ring-destructive"
-                )}
-              >
-                {isLoadingData ? (
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    <span className="text-muted-foreground">{tCommon("loading")}</span>
-                  </div>
-                ) : (
-                  <SelectValue placeholder={t("countryPlaceholder")} />
-                )}
-              </SelectTrigger>
-              <SelectContent className="max-h-60">
-                {countries.map((country) => (
-                  <SelectItem key={country.id} value={country.id}>
-                    {getCountryName(country)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <RequiredLabel htmlFor="country" required>
+              {t("country")}
+            </RequiredLabel>
+            <Popover open={countryPopoverOpen} onOpenChange={setCountryPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={countryPopoverOpen}
+                  className={cn(
+                    "w-full justify-between font-normal",
+                    !watchCountry && "text-muted-foreground",
+                    errors.countryId && "border-destructive focus-visible:ring-destructive"
+                  )}
+                  disabled={isLoadingData}
+                >
+                  {isLoadingData ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>{tCommon("loading")}</span>
+                    </div>
+                  ) : watchCountry ? (
+                    <div className="flex items-center gap-2">
+                      <FlagIcon
+                        countryCode={countries.find((c) => c.id === watchCountry)?.code || ""}
+                        className="h-4 w-5 rounded-sm object-cover"
+                      />
+                      <span>
+                        {getCountryName(
+                          countries.find((c) => c.id === watchCountry) as Country
+                        )}
+                      </span>
+                    </div>
+                  ) : (
+                    t("countryPlaceholder")
+                  )}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0" align="start">
+                <Command>
+                  <CommandInput placeholder={t("countrySearchPlaceholder")} />
+                  <CommandList>
+                    <CommandEmpty>{t("countryNotFound")}</CommandEmpty>
+                    <CommandGroup>
+                      {countries.map((country) => (
+                        <CommandItem
+                          key={country.id}
+                          value={getCountryName(country)}
+                          onSelect={() => {
+                            setValue("countryId", country.id, { shouldValidate: true });
+                            setCountryPopoverOpen(false);
+                          }}
+                        >
+                          <FlagIcon
+                            countryCode={country.code}
+                            className="mr-2 h-4 w-5 rounded-sm object-cover"
+                          />
+                          {getCountryName(country)}
+                          <Check
+                            className={cn(
+                              "ml-auto h-4 w-4",
+                              watchCountry === country.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
             {errors.countryId && (
               <p className="text-xs text-destructive">
                 {t(`errors.${errors.countryId.message}`)}
@@ -222,12 +306,11 @@ export function StepCompanyCreate() {
             )}
           </div>
 
-          {/* Address */}
+          {/* Address (optional) */}
           <div className="grid gap-2">
-            <Label htmlFor="address">
-              {t("address")}{" "}
-              <span className="text-muted-foreground">({t("optional")})</span>
-            </Label>
+            <RequiredLabel htmlFor="address" optional optionalText={t("optional")}>
+              {t("address")}
+            </RequiredLabel>
             <Input
               id="address"
               placeholder={t("addressPlaceholder")}

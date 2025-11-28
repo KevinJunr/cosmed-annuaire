@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Loader2, ArrowLeft, Mail, Phone } from "lucide-react";
+import { Loader2, ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CountryCode } from "libphonenumber-js";
 
 import { Button } from "@workspace/ui/components/button";
 import { Label } from "@workspace/ui/components/label";
@@ -13,17 +12,6 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@workspace/ui/components/input-otp";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/tabs";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@workspace/ui/components/input-group";
 import { cn } from "@workspace/ui/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -33,11 +21,17 @@ import {
   isValidPhone,
   formatPhoneForAuth,
 } from "@/lib/validations";
-import { PasswordInput, PasswordRulesDisplay, PhoneInput } from "@/components/ui";
+import { usePhoneState } from "@/hooks";
+import {
+  PasswordInput,
+  PasswordRulesDisplay,
+  FormError,
+  AuthMethodTabs,
+  type AuthMethod,
+} from "@/components/ui";
 import { updatePreferredLanguageAction } from "@/lib/actions/profiles";
 
 type Step = "form" | "otp" | "confirmation";
-type AuthMethod = "email" | "phone";
 
 export function RegisterForm({
   className,
@@ -57,10 +51,8 @@ export function RegisterForm({
   // Email state
   const [email, setEmail] = useState("");
 
-  // Phone state
-  const [phone, setPhone] = useState("");
-  const [phoneE164, setPhoneE164] = useState("");
-  const [countryCode, setCountryCode] = useState<CountryCode>("FR");
+  // Phone state (using custom hook)
+  const { phone, phoneE164, countryCode, handlePhoneChange } = usePhoneState();
 
   // Password state
   const [password, setPassword] = useState("");
@@ -87,16 +79,6 @@ export function RegisterForm({
     passwordValidation.isValid &&
     passwordsMatch &&
     !isLoading;
-
-  const handlePhoneChange = (
-    e164: string,
-    national: string,
-    country: CountryCode
-  ) => {
-    setPhone(national);
-    setPhoneE164(e164);
-    setCountryCode(country);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,11 +198,7 @@ export function RegisterForm({
           </p>
         </div>
 
-        {error && (
-          <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-md">
-            {error}
-          </div>
-        )}
+        <FormError message={error} />
 
         <div className="grid gap-4">
           <div className="flex flex-col items-center gap-3">
@@ -327,93 +305,43 @@ export function RegisterForm({
         </p>
       </div>
 
-      {error && (
-        <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-md">
-          {error}
-        </div>
-      )}
+      <FormError message={error} />
 
       <div className="grid gap-5">
-        {/* Email/Phone Tabs */}
-        <Tabs
-          defaultValue="email"
-          value={authMethod}
-          onValueChange={(value: string) => setAuthMethod(value as AuthMethod)}
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="email" className="gap-2">
-              <Mail className="h-4 w-4" />
-              {t("tabs.email")}
-            </TabsTrigger>
-            <TabsTrigger value="phone" className="gap-2">
-              <Phone className="h-4 w-4" />
-              {t("tabs.phone")}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="email" className="mt-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">{t("email")}</Label>
-              <InputGroup
-                className={cn(
-                  isEmailValid === false && "border-destructive"
-                )}
-              >
-                <InputGroupAddon>
-                  <Mail className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupInput
-                  id="email"
-                  type="email"
-                  placeholder={t("emailPlaceholder")}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required={authMethod === "email"}
-                  autoComplete="email"
-                />
-              </InputGroup>
-              {isEmailValid === false && (
-                <p className="text-xs text-destructive">
-                  {t("errors.invalidEmail")}
-                </p>
-              )}
-              {isEmailValid === true && (
-                <p className="text-xs text-muted-foreground">
-                  {t("usingEmail")}
-                </p>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="phone" className="mt-4">
-            <div className="grid gap-2">
-              <Label htmlFor="phone">{t("phone")}</Label>
-              <PhoneInput
-                id="phone"
-                value={phone}
-                onChange={handlePhoneChange}
-                defaultCountry="FR"
-                error={isPhoneValidState === false}
-                countrySelectorLabels={{
-                  placeholder: tCountry("placeholder"),
-                  searchPlaceholder: tCountry("searchPlaceholder"),
-                  noResultsText: tCountry("noResults"),
-                }}
-              />
-              {isPhoneValidState === false && (
-                <p className="text-xs text-destructive">
-                  {t("errors.invalidPhone")}
-                </p>
-              )}
-              {isPhoneValidState === true && (
-                <p className="text-xs text-muted-foreground">
-                  {t("usingPhone")}
-                </p>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+        <AuthMethodTabs
+          authMethod={authMethod}
+          onAuthMethodChange={setAuthMethod}
+          email={email}
+          onEmailChange={setEmail}
+          isEmailValid={isEmailValid}
+          phone={phone}
+          onPhoneChange={handlePhoneChange}
+          isPhoneValid={isPhoneValidState}
+          disabled={isLoading}
+          showValidMessage
+          labels={{
+            tabs: {
+              email: t("tabs.email"),
+              phone: t("tabs.phone"),
+            },
+            email: {
+              label: t("email"),
+              placeholder: t("emailPlaceholder"),
+              invalidError: t("errors.invalidEmail"),
+              validMessage: t("usingEmail"),
+            },
+            phone: {
+              label: t("phone"),
+              invalidError: t("errors.invalidPhone"),
+              validMessage: t("usingPhone"),
+            },
+            countrySelector: {
+              placeholder: tCountry("placeholder"),
+              searchPlaceholder: tCountry("searchPlaceholder"),
+              noResultsText: tCountry("noResults"),
+            },
+          }}
+        />
 
         {/* Password */}
         <div className="grid gap-2">

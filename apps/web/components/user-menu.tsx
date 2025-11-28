@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { LogOut, Settings, User as UserIcon } from "lucide-react";
+import { LogOut, User as UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar";
@@ -111,10 +111,6 @@ export function UserMenu() {
         <DropdownMenuItem className="cursor-pointer hover:bg-muted/50 focus:bg-muted/50">
           <UserIcon className="mr-2 h-4 w-4" />
           <span>{t("profile")}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer hover:bg-muted/50 focus:bg-muted/50">
-          <Settings className="mr-2 h-4 w-4" />
-          <span>{t("settings")}</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

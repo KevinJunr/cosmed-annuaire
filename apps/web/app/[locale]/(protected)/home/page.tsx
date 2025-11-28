@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { useRouter } from "next/navigation"
 
+import { LogoLoader } from "@workspace/ui/components/logo-loader"
 import { useAuth } from "@/providers/auth-provider"
 import { checkNeedsOnboardingAction } from "@/lib/actions/onboarding"
 import { getProfileAction } from "@/lib/actions/profiles"
@@ -69,7 +70,7 @@ export default function AuthenticatedHomePage() {
         className="flex items-center justify-center"
         style={{ minHeight: "calc(100svh - 3.5rem)" }}
       >
-        <div className="h-8 w-48 bg-muted animate-pulse rounded" />
+        <LogoLoader size="lg" />
       </main>
     )
   }

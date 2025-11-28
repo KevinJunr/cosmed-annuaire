@@ -24,6 +24,10 @@
     "login": {
       "title": "Connexion",
       "subtitle": "Entrez vos identifiants pour accéder à votre compte",
+      "hero": {
+        "title": "Heureux de vous retrouver",
+        "subtitle": "Connectez-vous pour accéder à votre espace et retrouver toutes vos informations."
+      },
       "tabs": {
         "email": "Email",
         "phone": "Téléphone"
@@ -54,6 +58,24 @@
     "register": {
       "title": "Créer un compte",
       "subtitle": "Rejoignez l'annuaire des professionnels de la cosmétique",
+      "hero": {
+        "title": "Rejoignez l'annuaire des professionnels de la cosmétique",
+        "subtitle": "Créez votre compte et accédez à toutes les fonctionnalités",
+        "features": {
+          "search": {
+            "title": "Recherche avancée",
+            "description": "Trouvez facilement des entreprises et professionnels du secteur cosmétique"
+          },
+          "company": {
+            "title": "Fiche entreprise",
+            "description": "Créez et gérez votre profil entreprise pour gagner en visibilité"
+          },
+          "analytics": {
+            "title": "Statistiques détaillées",
+            "description": "Suivez les performances et l'engagement de votre fiche entreprise"
+          }
+        }
+      },
       "tabs": {
         "email": "Email",
         "phone": "Téléphone"
@@ -250,8 +272,12 @@
         "companyNamePlaceholder": "Ma Société",
         "rcs": "Numéro RCS",
         "rcsPlaceholder": "Paris B 123 456 789",
+        "rcsTooltip": "Le numéro RCS (Registre du Commerce et des Sociétés) est l'identifiant unique de votre entreprise attribué lors de son immatriculation. Il figure sur votre extrait Kbis.",
+        "rcsTooltipLabel": "Qu'est-ce que le numéro RCS ?",
         "country": "Pays",
         "countryPlaceholder": "Sélectionnez un pays",
+        "countrySearchPlaceholder": "Rechercher un pays...",
+        "countryNotFound": "Aucun pays trouvé",
         "address": "Adresse",
         "addressPlaceholder": "123 Rue de la Beauté, 75008 Paris",
         "optional": "optionnel",

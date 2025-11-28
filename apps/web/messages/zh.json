@@ -24,6 +24,10 @@
     "login": {
       "title": "登录",
       "subtitle": "输入您的凭据以访问您的帐户",
+      "hero": {
+        "title": "欢迎回来",
+        "subtitle": "登录以访问您的空间并查找所有信息。"
+      },
       "tabs": {
         "email": "邮箱",
         "phone": "电话"
@@ -54,6 +58,24 @@
     "register": {
       "title": "创建帐户",
       "subtitle": "加入化妆品专业人士目录",
+      "hero": {
+        "title": "加入化妆品专业人士目录",
+        "subtitle": "创建帐户并访问所有功能",
+        "features": {
+          "search": {
+            "title": "高级搜索",
+            "description": "轻松查找化妆品行业的企业和专业人士"
+          },
+          "company": {
+            "title": "企业档案",
+            "description": "创建和管理您的企业资料以提高知名度"
+          },
+          "analytics": {
+            "title": "详细统计",
+            "description": "跟踪您企业档案的表现和参与度"
+          }
+        }
+      },
       "tabs": {
         "email": "邮箱",
         "phone": "电话"
@@ -250,8 +272,12 @@
         "companyNamePlaceholder": "我的公司",
         "rcs": "注册号",
         "rcsPlaceholder": "91110000XXXXXXXXXX",
+        "rcsTooltip": "公司注册号是您企业在工商登记时获得的唯一标识符。您可以在营业执照上找到它。",
+        "rcsTooltipLabel": "什么是注册号？",
         "country": "国家",
         "countryPlaceholder": "选择国家",
+        "countrySearchPlaceholder": "搜索国家...",
+        "countryNotFound": "未找到国家",
         "address": "地址",
         "addressPlaceholder": "北京市朝阳区美丽街123号",
         "optional": "可选",

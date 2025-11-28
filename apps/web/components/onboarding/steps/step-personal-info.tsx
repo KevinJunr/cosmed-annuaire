@@ -1,13 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, ArrowRight, Mail, Phone, Loader2 } from "lucide-react";
+import { parsePhoneNumber } from "libphonenumber-js";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@workspace/ui/components/input-group";
 import {
   Select,
   SelectContent,
@@ -93,6 +99,25 @@ export function StepPersonalInfo() {
   const identifierType = userEmail ? "email" : "phone";
   const identifier = userEmail || userPhone || "";
 
+  // Parse phone number to extract prefix and national number
+  const parsedPhone = useMemo(() => {
+    if (!userPhone) return null;
+    try {
+      // Add "+" prefix if not present (Supabase may store without it)
+      const phoneWithPlus = userPhone.startsWith("+") ? userPhone : `+${userPhone}`;
+      const phoneNumber = parsePhoneNumber(phoneWithPlus);
+      if (phoneNumber) {
+        return {
+          countryCode: phoneNumber.countryCallingCode,
+          nationalNumber: phoneNumber.formatNational(),
+        };
+      }
+    } catch {
+      // If parsing fails, return null
+    }
+    return null;
+  }, [userPhone]);
+
   const onSubmit = (data: PersonalInfoFormData) => {
     updateData({
       firstName: data.firstName,
@@ -127,16 +152,35 @@ export function StepPersonalInfo() {
         </div>
 
         <div className="grid gap-4">
-          {/* Display user identifier from Supabase Auth */}
+          {/* Display user identifier from Supabase Auth (read-only) */}
           {identifier && (
-            <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md">
+            <>
               {identifierType === "email" ? (
-                <Mail className="h-4 w-4 text-muted-foreground" />
+                <div className="flex items-center gap-2 p-3 bg-muted rounded-md border border-input opacity-60 cursor-not-allowed">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{identifier}</span>
+                </div>
+              ) : parsedPhone ? (
+                <InputGroup className="bg-muted opacity-60 cursor-not-allowed" data-disabled>
+                  <InputGroupAddon className="bg-transparent border-0">
+                    <Phone className="h-4 w-4 text-muted-foreground" />
+                  </InputGroupAddon>
+                  <InputGroupAddon className="bg-transparent border-0 text-sm text-muted-foreground">
+                    +{parsedPhone.countryCode}
+                  </InputGroupAddon>
+                  <InputGroupInput
+                    value={parsedPhone.nationalNumber}
+                    disabled
+                    className="bg-transparent border-0 text-sm text-muted-foreground disabled:opacity-100 disabled:cursor-not-allowed"
+                  />
+                </InputGroup>
               ) : (
-                <Phone className="h-4 w-4 text-muted-foreground" />
+                <div className="flex items-center gap-2 p-3 bg-muted rounded-md border border-input opacity-60 cursor-not-allowed">
+                  <Phone className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{identifier}</span>
+                </div>
               )}
-              <span className="text-sm font-medium">{identifier}</span>
-            </div>
+            </>
           )}
 
           {/* Name fields */}

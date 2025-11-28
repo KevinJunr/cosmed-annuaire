@@ -24,6 +24,10 @@
     "login": {
       "title": "Login",
       "subtitle": "Enter your credentials to access your account",
+      "hero": {
+        "title": "Welcome back",
+        "subtitle": "Log in to access your space and find all your information."
+      },
       "tabs": {
         "email": "Email",
         "phone": "Phone"
@@ -54,6 +58,24 @@
     "register": {
       "title": "Create an account",
       "subtitle": "Join the cosmetics professionals directory",
+      "hero": {
+        "title": "Join the cosmetics professionals directory",
+        "subtitle": "Create your account and access all features",
+        "features": {
+          "search": {
+            "title": "Advanced Search",
+            "description": "Easily find companies and professionals in the cosmetics industry"
+          },
+          "company": {
+            "title": "Company Profile",
+            "description": "Create and manage your company profile for more visibility"
+          },
+          "analytics": {
+            "title": "Detailed Analytics",
+            "description": "Track the performance and engagement of your company profile"
+          }
+        }
+      },
       "tabs": {
         "email": "Email",
         "phone": "Phone"
@@ -250,8 +272,12 @@
         "companyNamePlaceholder": "My Company",
         "rcs": "Registration number",
         "rcsPlaceholder": "12-3456789",
+        "rcsTooltip": "The registration number (RCS in France, Companies House in UK, etc.) is your company's unique identifier assigned during incorporation. You can find it on your certificate of incorporation.",
+        "rcsTooltipLabel": "What is the registration number?",
         "country": "Country",
         "countryPlaceholder": "Select a country",
+        "countrySearchPlaceholder": "Search a country...",
+        "countryNotFound": "No country found",
         "address": "Address",
         "addressPlaceholder": "123 Beauty Street, New York, NY 10001",
         "optional": "optional",

@@ -2,32 +2,19 @@
 
 import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Eye, EyeOff, Loader2, Mail, Phone } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CountryCode } from "libphonenumber-js";
 
 import { Button } from "@workspace/ui/components/button";
 import { Input } from "@workspace/ui/components/input";
 import { Label } from "@workspace/ui/components/label";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@workspace/ui/components/tabs";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@workspace/ui/components/input-group";
 import { cn } from "@workspace/ui/lib/utils";
 import { Link } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { isValidEmail, formatPhoneForAuth, isValidPhone } from "@/lib/validations";
 import { getProfileAction } from "@/lib/actions/profiles";
-import { PhoneInput } from "@/components/ui";
-
-type AuthMethod = "email" | "phone";
+import { usePhoneState } from "@/hooks";
+import { FormError, AuthMethodTabs, type AuthMethod } from "@/components/ui";
 
 export function LoginForm({
   className,
@@ -44,10 +31,8 @@ export function LoginForm({
   // Email state
   const [email, setEmail] = useState("");
 
-  // Phone state
-  const [phone, setPhone] = useState("");
-  const [phoneE164, setPhoneE164] = useState("");
-  const [countryCode, setCountryCode] = useState<CountryCode>("FR");
+  // Phone state (using custom hook)
+  const { phone, phoneE164, countryCode, handlePhoneChange } = usePhoneState();
 
   // Password state
   const [password, setPassword] = useState("");
@@ -126,16 +111,6 @@ export function LoginForm({
     }
   };
 
-  const handlePhoneChange = (
-    e164: string,
-    national: string,
-    country: CountryCode
-  ) => {
-    setPhone(national);
-    setPhoneE164(e164);
-    setCountryCode(country);
-  };
-
   return (
     <form
       className={cn("flex flex-col gap-6", className)}
@@ -149,83 +124,40 @@ export function LoginForm({
         </p>
       </div>
 
-      {error && (
-        <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-md">
-          {error}
-        </div>
-      )}
+      <FormError message={error} />
 
       <div className="grid gap-6">
-        {/* Email/Phone Tabs */}
-        <Tabs
-          defaultValue="email"
-          value={authMethod}
-          onValueChange={(value: string) => setAuthMethod(value as AuthMethod)}
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="email" className="gap-2">
-              <Mail className="h-4 w-4" />
-              {t("tabs.email")}
-            </TabsTrigger>
-            <TabsTrigger value="phone" className="gap-2">
-              <Phone className="h-4 w-4" />
-              {t("tabs.phone")}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="email" className="mt-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">{t("email")}</Label>
-              <InputGroup
-                className={cn(
-                  isEmailValid === false && "border-destructive"
-                )}
-              >
-                <InputGroupAddon>
-                  <Mail className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupInput
-                  id="email"
-                  type="email"
-                  placeholder={t("emailPlaceholder")}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required={authMethod === "email"}
-                  autoComplete="email"
-                />
-              </InputGroup>
-              {isEmailValid === false && (
-                <p className="text-xs text-destructive">
-                  {t("errors.invalidEmail")}
-                </p>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="phone" className="mt-4">
-            <div className="grid gap-2">
-              <Label htmlFor="phone">{t("phone")}</Label>
-              <PhoneInput
-                id="phone"
-                value={phone}
-                onChange={handlePhoneChange}
-                defaultCountry="FR"
-                error={isPhoneValidState === false}
-                countrySelectorLabels={{
-                  placeholder: tCountry("placeholder"),
-                  searchPlaceholder: tCountry("searchPlaceholder"),
-                  noResultsText: tCountry("noResults"),
-                }}
-              />
-              {isPhoneValidState === false && (
-                <p className="text-xs text-destructive">
-                  {t("errors.invalidPhone")}
-                </p>
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+        <AuthMethodTabs
+          authMethod={authMethod}
+          onAuthMethodChange={setAuthMethod}
+          email={email}
+          onEmailChange={setEmail}
+          isEmailValid={isEmailValid}
+          phone={phone}
+          onPhoneChange={handlePhoneChange}
+          isPhoneValid={isPhoneValidState}
+          disabled={isLoading}
+          labels={{
+            tabs: {
+              email: t("tabs.email"),
+              phone: t("tabs.phone"),
+            },
+            email: {
+              label: t("email"),
+              placeholder: t("emailPlaceholder"),
+              invalidError: t("errors.invalidEmail"),
+            },
+            phone: {
+              label: t("phone"),
+              invalidError: t("errors.invalidPhone"),
+            },
+            countrySelector: {
+              placeholder: tCountry("placeholder"),
+              searchPlaceholder: tCountry("searchPlaceholder"),
+              noResultsText: tCountry("noResults"),
+            },
+          }}
+        />
 
         {/* Password */}
         <div className="grid gap-2">
