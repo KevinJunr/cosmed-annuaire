@@ -188,7 +188,8 @@
     "title": "COSMED 目录",
     "subtitle": "化妆品专业人士目录",
     "welcome": "欢迎 {name}",
-    "welcomeSubtitle": "欢迎回来"
+    "welcomeSubtitle": "欢迎回来",
+    "searchHint": "使用自然语言搜索或使用筛选器精确搜索"
   },
   "language": {
     "select": "语言",
@@ -363,5 +364,132 @@
     "placeholder": "选择国家",
     "searchPlaceholder": "搜索国家...",
     "noResults": "未找到国家"
+  },
+  "search": {
+    "placeholder": "搜索公司、服务、专业领域...",
+    "search": "搜索",
+    "filters": "筛选",
+    "clear": "清除",
+    "clearAll": "清除全部",
+    "filtersTitle": "优化搜索",
+    "reset": "重置",
+    "activeFilters": "{count, plural, =1 {# 个活跃筛选} other {# 个活跃筛选}}",
+    "showResults": "查看结果",
+    "selectCategory": "选择类别",
+    "selectSubcategory": "选择子类别",
+    "tabs": {
+      "categories": "类别",
+      "certifications": "认证"
+    },
+    "categories": {
+      "brands": {
+        "label": "品牌",
+        "subcategories": {
+          "haircare": "护发",
+          "skincare": "护肤",
+          "makeup": "彩妆",
+          "fragrance": "香水",
+          "bodycare": "身体护理"
+        }
+      },
+      "manufacturers": {
+        "label": "制造商",
+        "subcategories": {
+          "formulation": "配方",
+          "packaging": "包装",
+          "filling": "灌装"
+        }
+      },
+      "ingredients": {
+        "label": "原料",
+        "subcategories": {
+          "actives": "活性成分",
+          "naturals": "天然成分",
+          "preservatives": "防腐剂"
+        }
+      },
+      "services": {
+        "label": "服务",
+        "subcategories": {
+          "consulting": "咨询",
+          "testing": "检测",
+          "training": "培训"
+        }
+      }
+    },
+    "children": {
+      "dryHair": "干性发质",
+      "curlyHair": "卷发",
+      "coloredHair": "染发",
+      "oilyHair": "油性发质",
+      "dandruff": "去屑",
+      "antiAging": "抗衰老",
+      "acne": "祛痘",
+      "sensitive": "敏感肌",
+      "hydration": "保湿",
+      "brightening": "美白",
+      "face": "面部",
+      "eyes": "眼部",
+      "lips": "唇部",
+      "nails": "指甲",
+      "women": "女士",
+      "men": "男士",
+      "unisex": "中性",
+      "niche": "小众",
+      "moisturizers": "保湿霜",
+      "scrubs": "磨砂膏",
+      "suncare": "防晒",
+      "deodorants": "止汗剂",
+      "natural": "天然",
+      "organic": "有机",
+      "synthetic": "合成",
+      "hybrid": "混合",
+      "glass": "玻璃",
+      "plastic": "塑料",
+      "aluminum": "铝",
+      "sustainable": "可持续",
+      "liquid": "液体",
+      "cream": "膏霜",
+      "powder": "粉末",
+      "solid": "固体",
+      "vitamins": "维生素",
+      "peptides": "肽",
+      "acids": "酸",
+      "antioxidants": "抗氧化剂",
+      "retinoids": "维A酸类",
+      "plantExtracts": "植物提取物",
+      "essentialOils": "精油",
+      "butters": "油脂",
+      "waxes": "蜡",
+      "parabens": "对羟基苯甲酸酯",
+      "parabenfree": "无对羟基苯甲酸酯",
+      "naturalPreservatives": "天然防腐剂",
+      "regulatory": "法规",
+      "marketing": "营销",
+      "formulation": "配方",
+      "sustainability": "可持续性",
+      "stability": "稳定性",
+      "efficacy": "功效",
+      "safety": "安全性",
+      "microbiological": "微生物",
+      "cosmetics": "化妆品",
+      "regulations": "法规",
+      "quality": "质量",
+      "production": "生产"
+    },
+    "certifications": {
+      "iso22716": "ISO 22716",
+      "iso9001": "ISO 9001",
+      "ecocert": "ECOCERT",
+      "cosmos": "COSMOS",
+      "natrue": "NATRUE",
+      "bdih": "BDIH",
+      "vegan": "纯素",
+      "crueltyFree": "零残忍",
+      "halal": "清真",
+      "fda": "FDA",
+      "gmp": "GMP",
+      "organic": "有机"
+    }
   }
 }

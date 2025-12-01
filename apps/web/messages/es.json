@@ -188,7 +188,8 @@
     "title": "Directorio COSMED",
     "subtitle": "El directorio de profesionales de la cosmética",
     "welcome": "Bienvenido {name}",
-    "welcomeSubtitle": "Bienvenido de nuevo"
+    "welcomeSubtitle": "Bienvenido de nuevo",
+    "searchHint": "Usa la búsqueda en lenguaje natural o refina con filtros"
   },
   "language": {
     "select": "Idioma",
@@ -363,5 +364,132 @@
     "placeholder": "Seleccionar país",
     "searchPlaceholder": "Buscar país...",
     "noResults": "No se encontró ningún país"
+  },
+  "search": {
+    "placeholder": "Busca una empresa, servicio, experiencia...",
+    "search": "Buscar",
+    "filters": "Filtros",
+    "clear": "Borrar",
+    "clearAll": "Borrar todo",
+    "filtersTitle": "Refinar búsqueda",
+    "reset": "Restablecer",
+    "activeFilters": "{count, plural, =1 {# filtro activo} other {# filtros activos}}",
+    "showResults": "Ver resultados",
+    "selectCategory": "Selecciona una categoría",
+    "selectSubcategory": "Selecciona una subcategoría",
+    "tabs": {
+      "categories": "Categorías",
+      "certifications": "Certificaciones"
+    },
+    "categories": {
+      "brands": {
+        "label": "Marcas",
+        "subcategories": {
+          "haircare": "Cuidado capilar",
+          "skincare": "Cuidado de la piel",
+          "makeup": "Maquillaje",
+          "fragrance": "Perfumería",
+          "bodycare": "Cuidado corporal"
+        }
+      },
+      "manufacturers": {
+        "label": "Fabricantes",
+        "subcategories": {
+          "formulation": "Formulación",
+          "packaging": "Embalaje",
+          "filling": "Llenado"
+        }
+      },
+      "ingredients": {
+        "label": "Ingredientes",
+        "subcategories": {
+          "actives": "Activos",
+          "naturals": "Naturales",
+          "preservatives": "Conservantes"
+        }
+      },
+      "services": {
+        "label": "Servicios",
+        "subcategories": {
+          "consulting": "Consultoría",
+          "testing": "Pruebas",
+          "training": "Formación"
+        }
+      }
+    },
+    "children": {
+      "dryHair": "Cabello seco",
+      "curlyHair": "Cabello rizado",
+      "coloredHair": "Cabello teñido",
+      "oilyHair": "Cabello graso",
+      "dandruff": "Caspa",
+      "antiAging": "Antiedad",
+      "acne": "Acné",
+      "sensitive": "Piel sensible",
+      "hydration": "Hidratación",
+      "brightening": "Luminosidad",
+      "face": "Rostro",
+      "eyes": "Ojos",
+      "lips": "Labios",
+      "nails": "Uñas",
+      "women": "Mujer",
+      "men": "Hombre",
+      "unisex": "Unisex",
+      "niche": "Nicho",
+      "moisturizers": "Hidratantes",
+      "scrubs": "Exfoliantes",
+      "suncare": "Solar",
+      "deodorants": "Desodorantes",
+      "natural": "Natural",
+      "organic": "Orgánico",
+      "synthetic": "Sintético",
+      "hybrid": "Híbrido",
+      "glass": "Vidrio",
+      "plastic": "Plástico",
+      "aluminum": "Aluminio",
+      "sustainable": "Sostenible",
+      "liquid": "Líquido",
+      "cream": "Crema",
+      "powder": "Polvo",
+      "solid": "Sólido",
+      "vitamins": "Vitaminas",
+      "peptides": "Péptidos",
+      "acids": "Ácidos",
+      "antioxidants": "Antioxidantes",
+      "retinoids": "Retinoides",
+      "plantExtracts": "Extractos vegetales",
+      "essentialOils": "Aceites esenciales",
+      "butters": "Mantecas",
+      "waxes": "Ceras",
+      "parabens": "Parabenos",
+      "parabenfree": "Sin parabenos",
+      "naturalPreservatives": "Conservantes naturales",
+      "regulatory": "Regulatorio",
+      "marketing": "Marketing",
+      "formulation": "Formulación",
+      "sustainability": "Sostenibilidad",
+      "stability": "Estabilidad",
+      "efficacy": "Eficacia",
+      "safety": "Seguridad",
+      "microbiological": "Microbiológico",
+      "cosmetics": "Cosmética",
+      "regulations": "Regulaciones",
+      "quality": "Calidad",
+      "production": "Producción"
+    },
+    "certifications": {
+      "iso22716": "ISO 22716",
+      "iso9001": "ISO 9001",
+      "ecocert": "ECOCERT",
+      "cosmos": "COSMOS",
+      "natrue": "NATRUE",
+      "bdih": "BDIH",
+      "vegan": "Vegano",
+      "crueltyFree": "Cruelty Free",
+      "halal": "Halal",
+      "fda": "FDA",
+      "gmp": "GMP / BPF",
+      "organic": "Orgánico"
+    }
   }
 }

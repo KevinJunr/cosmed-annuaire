@@ -188,7 +188,8 @@
     "title": "دليل COSMED",
     "subtitle": "دليل محترفي مستحضرات التجميل",
     "welcome": "مرحباً {name}",
-    "welcomeSubtitle": "أهلاً بعودتك"
+    "welcomeSubtitle": "أهلاً بعودتك",
+    "searchHint": "استخدم البحث باللغة الطبيعية أو صقل بالفلاتر"
   },
   "language": {
     "select": "اللغة",
@@ -363,5 +364,132 @@
     "placeholder": "اختر البلد",
     "searchPlaceholder": "البحث عن بلد...",
     "noResults": "لم يتم العثور على بلد"
+  },
+  "search": {
+    "placeholder": "ابحث عن شركة، خدمة، خبرة...",
+    "search": "بحث",
+    "filters": "الفلاتر",
+    "clear": "مسح",
+    "clearAll": "مسح الكل",
+    "filtersTitle": "تحسين البحث",
+    "reset": "إعادة تعيين",
+    "activeFilters": "{count, plural, =1 {فلتر نشط واحد} other {# فلاتر نشطة}}",
+    "showResults": "عرض النتائج",
+    "selectCategory": "اختر فئة",
+    "selectSubcategory": "اختر فئة فرعية",
+    "tabs": {
+      "categories": "الفئات",
+      "certifications": "الشهادات"
+    },
+    "categories": {
+      "brands": {
+        "label": "العلامات التجارية",
+        "subcategories": {
+          "haircare": "العناية بالشعر",
+          "skincare": "العناية بالبشرة",
+          "makeup": "المكياج",
+          "fragrance": "العطور",
+          "bodycare": "العناية بالجسم"
+        }
+      },
+      "manufacturers": {
+        "label": "المصنعون",
+        "subcategories": {
+          "formulation": "التركيب",
+          "packaging": "التعبئة",
+          "filling": "التعبئة"
+        }
+      },
+      "ingredients": {
+        "label": "المكونات",
+        "subcategories": {
+          "actives": "المواد الفعالة",
+          "naturals": "الطبيعية",
+          "preservatives": "المواد الحافظة"
+        }
+      },
+      "services": {
+        "label": "الخدمات",
+        "subcategories": {
+          "consulting": "الاستشارات",
+          "testing": "الاختبارات",
+          "training": "التدريب"
+        }
+      }
+    },
+    "children": {
+      "dryHair": "الشعر الجاف",
+      "curlyHair": "الشعر المجعد",
+      "coloredHair": "الشعر المصبوغ",
+      "oilyHair": "الشعر الدهني",
+      "dandruff": "القشرة",
+      "antiAging": "مكافحة الشيخوخة",
+      "acne": "حب الشباب",
+      "sensitive": "البشرة الحساسة",
+      "hydration": "الترطيب",
+      "brightening": "التفتيح",
+      "face": "الوجه",
+      "eyes": "العيون",
+      "lips": "الشفاه",
+      "nails": "الأظافر",
+      "women": "نسائي",
+      "men": "رجالي",
+      "unisex": "للجنسين",
+      "niche": "فاخر",
+      "moisturizers": "مرطبات",
+      "scrubs": "مقشرات",
+      "suncare": "واقي الشمس",
+      "deodorants": "مزيلات العرق",
+      "natural": "طبيعي",
+      "organic": "عضوي",
+      "synthetic": "اصطناعي",
+      "hybrid": "هجين",
+      "glass": "زجاج",
+      "plastic": "بلاستيك",
+      "aluminum": "ألومنيوم",
+      "sustainable": "مستدام",
+      "liquid": "سائل",
+      "cream": "كريم",
+      "powder": "بودرة",
+      "solid": "صلب",
+      "vitamins": "فيتامينات",
+      "peptides": "الببتيدات",
+      "acids": "الأحماض",
+      "antioxidants": "مضادات الأكسدة",
+      "retinoids": "الريتينويدات",
+      "plantExtracts": "مستخلصات نباتية",
+      "essentialOils": "الزيوت العطرية",
+      "butters": "الزبدات",
+      "waxes": "الشموع",
+      "parabens": "البارابين",
+      "parabenfree": "خالي من البارابين",
+      "naturalPreservatives": "مواد حافظة طبيعية",
+      "regulatory": "تنظيمي",
+      "marketing": "تسويق",
+      "formulation": "تركيب",
+      "sustainability": "الاستدامة",
+      "stability": "الاستقرار",
+      "efficacy": "الفعالية",
+      "safety": "السلامة",
+      "microbiological": "ميكروبيولوجي",
+      "cosmetics": "التجميل",
+      "regulations": "اللوائح",
+      "quality": "الجودة",
+      "production": "الإنتاج"
+    },
+    "certifications": {
+      "iso22716": "ISO 22716",
+      "iso9001": "ISO 9001",
+      "ecocert": "ECOCERT",
+      "cosmos": "COSMOS",
+      "natrue": "NATRUE",
+      "bdih": "BDIH",
+      "vegan": "نباتي",
+      "crueltyFree": "خالي من القسوة",
+      "halal": "حلال",
+      "fda": "FDA",
+      "gmp": "GMP",
+      "organic": "عضوي"
+    }
   }
 }

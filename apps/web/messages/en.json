@@ -188,7 +188,8 @@
     "title": "COSMED Directory",
     "subtitle": "The cosmetics professionals directory",
     "welcome": "Welcome {name}",
-    "welcomeSubtitle": "Welcome back"
+    "welcomeSubtitle": "Welcome back",
+    "searchHint": "Use natural language search or refine with filters"
   },
   "language": {
     "select": "Language",
@@ -363,5 +364,132 @@
     "placeholder": "Select country",
     "searchPlaceholder": "Search country...",
     "noResults": "No country found"
+  },
+  "search": {
+    "placeholder": "Search for a company, service, expertise...",
+    "search": "Search",
+    "filters": "Filters",
+    "clear": "Clear",
+    "clearAll": "Clear all",
+    "filtersTitle": "Refine your search",
+    "reset": "Reset",
+    "activeFilters": "{count, plural, =1 {# active filter} other {# active filters}}",
+    "showResults": "Show results",
+    "selectCategory": "Select a category",
+    "selectSubcategory": "Select a subcategory",
+    "tabs": {
+      "categories": "Categories",
+      "certifications": "Certifications"
+    },
+    "categories": {
+      "brands": {
+        "label": "Brands",
+        "subcategories": {
+          "haircare": "Hair Care",
+          "skincare": "Skin Care",
+          "makeup": "Makeup",
+          "fragrance": "Fragrance",
+          "bodycare": "Body Care"
+        }
+      },
+      "manufacturers": {
+        "label": "Manufacturers",
+        "subcategories": {
+          "formulation": "Formulation",
+          "packaging": "Packaging",
+          "filling": "Filling"
+        }
+      },
+      "ingredients": {
+        "label": "Ingredients",
+        "subcategories": {
+          "actives": "Actives",
+          "naturals": "Naturals",
+          "preservatives": "Preservatives"
+        }
+      },
+      "services": {
+        "label": "Services",
+        "subcategories": {
+          "consulting": "Consulting",
+          "testing": "Testing",
+          "training": "Training"
+        }
+      }
+    },
+    "children": {
+      "dryHair": "Dry Hair",
+      "curlyHair": "Curly Hair",
+      "coloredHair": "Colored Hair",
+      "oilyHair": "Oily Hair",
+      "dandruff": "Dandruff",
+      "antiAging": "Anti-Aging",
+      "acne": "Acne",
+      "sensitive": "Sensitive Skin",
+      "hydration": "Hydration",
+      "brightening": "Brightening",
+      "face": "Face",
+      "eyes": "Eyes",
+      "lips": "Lips",
+      "nails": "Nails",
+      "women": "Women",
+      "men": "Men",
+      "unisex": "Unisex",
+      "niche": "Niche",
+      "moisturizers": "Moisturizers",
+      "scrubs": "Scrubs",
+      "suncare": "Sun Care",
+      "deodorants": "Deodorants",
+      "natural": "Natural",
+      "organic": "Organic",
+      "synthetic": "Synthetic",
+      "hybrid": "Hybrid",
+      "glass": "Glass",
+      "plastic": "Plastic",
+      "aluminum": "Aluminum",
+      "sustainable": "Sustainable",
+      "liquid": "Liquid",
+      "cream": "Cream",
+      "powder": "Powder",
+      "solid": "Solid",
+      "vitamins": "Vitamins",
+      "peptides": "Peptides",
+      "acids": "Acids",
+      "antioxidants": "Antioxidants",
+      "retinoids": "Retinoids",
+      "plantExtracts": "Plant Extracts",
+      "essentialOils": "Essential Oils",
+      "butters": "Butters",
+      "waxes": "Waxes",
+      "parabens": "Parabens",
+      "parabenfree": "Paraben-Free",
+      "naturalPreservatives": "Natural Preservatives",
+      "regulatory": "Regulatory",
+      "marketing": "Marketing",
+      "formulation": "Formulation",
+      "sustainability": "Sustainability",
+      "stability": "Stability",
+      "efficacy": "Efficacy",
+      "safety": "Safety",
+      "microbiological": "Microbiological",
+      "cosmetics": "Cosmetics",
+      "regulations": "Regulations",
+      "quality": "Quality",
+      "production": "Production"
+    },
+    "certifications": {
+      "iso22716": "ISO 22716",
+      "iso9001": "ISO 9001",
+      "ecocert": "ECOCERT",
+      "cosmos": "COSMOS",
+      "natrue": "NATRUE",
+      "bdih": "BDIH",
+      "vegan": "Vegan",
+      "crueltyFree": "Cruelty Free",
+      "halal": "Halal",
+      "fda": "FDA",
+      "gmp": "GMP",
+      "organic": "Organic"
+    }
   }
 }
